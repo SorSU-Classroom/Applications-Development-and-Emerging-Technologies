@@ -17,10 +17,10 @@ import Note from '@/components/markdown/note';
 import { Stepper, StepperItem } from '@/components/markdown/stepper';
 import Image from '@/components/markdown/image';
 import Link from '@/components/markdown/link';
-import Outlet from '@/components/markdown/outlet';
+import { OutletLesson } from '@/components/markdown/outlet-lesson';
 
-// add custom components
-const components = {
+// add custom lessonComponents
+const lessonComponents = {
 	Tabs,
 	TabsContent,
 	TabsList,
@@ -31,7 +31,7 @@ const components = {
 	StepperItem,
 	img: Image,
 	a: Link,
-	Outlet,
+	OutletLesson,
 };
 
 // can be used for other pages like announcements, Guides etc
@@ -52,7 +52,7 @@ async function parseMdx<Frontmatter>(rawMdx: string) {
 				remarkPlugins: [remarkGfm],
 			},
 		},
-		components,
+		components: lessonComponents,
 	});
 }
 
@@ -114,7 +114,7 @@ function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter {
 	return matter(rawMd).data as Frontmatter;
 }
 
-export async function getAllChilds(pathString: string) {
+export async function getAllLessonChilds(pathString: string) {
 	const items = pathString.split('/').filter((it) => it != '');
 	let page_routes_copy = ROUTES;
 
