@@ -21,7 +21,6 @@ const monoFont = Space_Mono({
 
 export const metadata: Metadata = {
 	title: 'CS 321 Applications Development and Emerging Technologies',
-	// metadataBase: new URL('https://ariadocs.vercel.app/'),
 	description:
 		'This course provides an overview of the technologies, methodologies, and principles involved in developing applications using emerging technologies. The course covers fundamental concepts, techniques, and tools for developing modern applications that are scalable, secure, and responsive.',
 };

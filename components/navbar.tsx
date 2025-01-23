@@ -12,11 +12,11 @@ import { buttonVariants } from './ui/button';
 export const NAVLINKS = [
 	{
 		title: 'Announcements',
-		href: '/blog',
+		href: '/announcements',
 	},
 	{
 		title: 'Lessons',
-		href: `/docs${page_routes[0].href}`,
+		href: `/lessons${page_routes[0].href}`,
 	},
 ];
 
