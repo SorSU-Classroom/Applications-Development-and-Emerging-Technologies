@@ -47,7 +47,7 @@ export type EachRoute = {
 export const ROUTES: EachRoute[] = [
 	{
 		title: 'Introduction to AppDev and EmTech',
-		href: '/introduction-to-applications-development-and-emerging-technologies',
+		href: '/intro-to-app-dev-and-em-tech',
 		noLink: true,
 		items: [
 			{ title: 'Introduction', href: '/introduction' },
