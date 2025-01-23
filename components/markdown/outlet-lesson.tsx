@@ -1,9 +1,9 @@
-import { BaseMdxFrontmatter, getAllLessonChilds } from '@/lib/markdown';
+import { BaseMdxFrontmatter, getAllLessonChild } from '@/lib/markdown';
 import Link from 'next/link';
 
 export async function OutletLesson({ path }: { path: string }) {
 	if (!path) throw new Error('path not provided');
-	const output = await getAllLessonChilds(path);
+	const output = await getAllLessonChild(path);
 
 	return (
 		<div className='grid md:grid-cols-2 gap-5'>

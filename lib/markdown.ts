@@ -31,7 +31,37 @@ const lessonComponents = {
 	StepperItem,
 	img: Image,
 	a: Link,
-	OutletLesson,
+	Outlet: OutletLesson,
+};
+
+function sluggify(text: string) {
+	const slug = text.toLowerCase().replace(/\s+/g, '-');
+	return slug.replace(/[^a-z0-9-]/g, '');
+}
+
+function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter {
+	return matter(rawMd).data as Frontmatter;
+}
+
+// for copying the code in pre
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const preProcess = () => (tree: any) => {
+	visit(tree, (node) => {
+		if (node?.type === 'element' && node?.tagName === 'pre') {
+			const [codeEl] = node.children;
+			if (codeEl.tagName !== 'code') return;
+			node.raw = codeEl.children?.[0].value;
+		}
+	});
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const postProcess = () => (tree: any) => {
+	visit(tree, 'element', (node) => {
+		if (node?.type === 'element' && node?.tagName === 'pre') {
+			node.properties['raw'] = node.raw;
+		}
+	});
 };
 
 // can be used for other pages like announcements, Guides etc
@@ -101,20 +131,11 @@ export function getPreviousNext(path: string) {
 	};
 }
 
-function sluggify(text: string) {
-	const slug = text.toLowerCase().replace(/\s+/g, '-');
-	return slug.replace(/[^a-z0-9-]/g, '');
-}
-
 function getLessonsContentPath(slug: string) {
 	return path.join(process.cwd(), '/contents/lessons/', `${slug}/index.mdx`);
 }
 
-function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter {
-	return matter(rawMd).data as Frontmatter;
-}
-
-export async function getAllLessonChilds(pathString: string) {
+export async function getAllLessonChild(pathString: string) {
 	const items = pathString.split('/').filter((it) => it != '');
 	let page_routes_copy = ROUTES;
 
@@ -138,27 +159,6 @@ export async function getAllLessonChilds(pathString: string) {
 		})
 	);
 }
-
-// for copying the code in pre
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const preProcess = () => (tree: any) => {
-	visit(tree, (node) => {
-		if (node?.type === 'element' && node?.tagName === 'pre') {
-			const [codeEl] = node.children;
-			if (codeEl.tagName !== 'code') return;
-			node.raw = codeEl.children?.[0].value;
-		}
-	});
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const postProcess = () => (tree: any) => {
-	visit(tree, 'element', (node) => {
-		if (node?.type === 'element' && node?.tagName === 'pre') {
-			node.properties['raw'] = node.raw;
-		}
-	});
-};
 
 export type Author = {
 	avatar?: string;
