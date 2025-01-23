@@ -1,3 +1,5 @@
+'use client';
+
 import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTrigger } from '@/components/ui/sheet';
 import { Logo, NavMenu } from './navbar';
 import { Button } from './ui/button';
@@ -6,13 +8,36 @@ import { FooterButtons } from './footer';
 import { DialogTitle } from './ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import LessonsMenu from './lessons-menu';
+import { usePathname } from 'next/navigation';
+import DocsMenu from './docs-menu';
+
+const menuPaths = [
+	{
+		path: '/docs',
+		menu: DocsMenu,
+	},
+	{
+		path: '/lessons',
+		menu: LessonsMenu,
+	},
+];
 
 export function Leftbar() {
+	const pathname = usePathname();
+
+	const renderMenu = () => {
+		for (const { path, menu } of menuPaths) {
+			if (pathname.startsWith(path)) {
+				const Menu = menu;
+
+				return <Menu />;
+			}
+		}
+	};
+
 	return (
 		<aside className='md:flex hidden flex-[1.5] min-w-[238px] sticky top-16 flex-col h-[93.75vh] overflow-y-auto'>
-			<ScrollArea className='py-4'>
-				<LessonsMenu />
-			</ScrollArea>
+			<ScrollArea className='py-4'>{renderMenu()}</ScrollArea>
 		</aside>
 	);
 }
