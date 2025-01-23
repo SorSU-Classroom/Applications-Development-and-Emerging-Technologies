@@ -20,10 +20,10 @@ const monoFont = Space_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'AriaDocs - Template',
-	metadataBase: new URL('https://ariadocs.vercel.app/'),
+	title: 'CS 321 Applications Development and Emerging Technologies',
+	// metadataBase: new URL('https://ariadocs.vercel.app/'),
 	description:
-		'This comprehensive documentation template, crafted with Next.js and available as open-source, delivers a sleek and responsive design, tailored to meet all your project documentation requirements.',
+		'This course provides an overview of the technologies, methodologies, and principles involved in developing applications using emerging technologies. The course covers fundamental concepts, techniques, and tools for developing modern applications that are scalable, secure, and responsive.',
 };
 
 export default function RootLayout({
