@@ -5,6 +5,7 @@ import { page_routes } from '@/lib/routes-config';
 import { notFound } from 'next/navigation';
 import { getLessonsForSlug } from '@/lib/markdown';
 import { Typography } from '@/components/typography';
+import LessonWindow from '@/components/lessons/lesson-window';
 
 type PageProps = {
 	params: Promise<{ slug: string[] }>;
@@ -19,9 +20,10 @@ export default async function LessonPage(props: PageProps) {
 	const res = await getLessonsForSlug(pathName);
 
 	if (!res) notFound();
+
 	return (
 		<div className='flex items-start gap-10'>
-			<div className='flex-[4.5] pt-10'>
+			<LessonWindow className='flex-[4.5] pt-4'>
 				<LessonsBreadcrumb paths={slug} />
 				<Typography>
 					<h1 className='text-3xl !-mt-0.5'>{res.frontmatter.title}</h1>
@@ -29,7 +31,7 @@ export default async function LessonPage(props: PageProps) {
 					<div>{res.content}</div>
 					<LessonsPagination pathname={pathName} />
 				</Typography>
-			</div>
+			</LessonWindow>
 			<Toc path={pathName} />
 		</div>
 	);
