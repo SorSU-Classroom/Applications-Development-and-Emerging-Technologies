@@ -29,7 +29,6 @@ function justGetFrontmatterFromMD<Frontmatter>(rawMd: string): Frontmatter {
 }
 
 // for copying the code in pre
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const preProcess = () => (tree: any) => {
 	visit(tree, (node) => {
 		if (node?.type === 'element' && node?.tagName === 'pre') {
@@ -40,7 +39,6 @@ const preProcess = () => (tree: any) => {
 	});
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const postProcess = () => (tree: any) => {
 	visit(tree, 'element', (node) => {
 		if (node?.type === 'element' && node?.tagName === 'pre') {
@@ -68,6 +66,7 @@ const lessonComponents = {
 	Stepper,
 	StepperItem,
 	img: Image,
+	Image: Image,
 	a: Link,
 	Outlet: OutletLesson,
 };

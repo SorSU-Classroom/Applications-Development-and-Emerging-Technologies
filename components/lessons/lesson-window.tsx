@@ -19,6 +19,15 @@ const LessonWindow = ({ children, ...props }: LessonWindowProps) => {
 
 	return (
 		<div {...props}>
+			{/* <div className='mb-2'>
+				<Button
+					size='sm'
+					onClick={handleDownloadPDF}
+				>
+					<FileTextIcon className='mr-2 h-4 w-4' />
+					Download PDF
+				</Button>
+			</div> */}
 			<div
 				id='lesson-content'
 				ref={contentRef}
