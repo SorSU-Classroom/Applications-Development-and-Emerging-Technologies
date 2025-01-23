@@ -69,6 +69,7 @@ const lessonComponents = {
 	Image: Image,
 	a: Link,
 	Outlet: OutletLesson,
+	div: (props: any) => <div {...props} />,
 };
 
 // can be used for other pages like announcements, Guides etc

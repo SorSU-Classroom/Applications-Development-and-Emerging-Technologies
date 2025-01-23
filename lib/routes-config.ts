@@ -54,6 +54,13 @@ export const ROUTES: EachRoute[] = [
 			{
 				title: 'Different Types of Application Development',
 				href: '/different-types-of-application-development',
+				items: [
+					{ title: 'Web Development', href: '/web-development' },
+					{ title: 'Mobile Application Development', href: '/mobile-application-development' },
+					{ title: 'Desktop Application Development', href: '/desktop-application-development' },
+					{ title: 'Game Development', href: '/game-development' },
+					{ title: 'Cloud Development', href: '/cloud-development' },
+				],
 			},
 		],
 	},

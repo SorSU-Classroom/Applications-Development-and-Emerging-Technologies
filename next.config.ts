@@ -36,6 +36,14 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 't2informatik.de/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'media.geeksforgeeks.org/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'upload.wikimedia.org/**',
+			},
 		],
 	},
 	// if used turbopack
