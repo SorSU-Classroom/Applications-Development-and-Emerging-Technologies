@@ -26,7 +26,7 @@ export default function Home() {
 					href={`/lessons${page_routes[0].href}`}
 					className={buttonVariants({ className: 'px-6', size: 'lg' })}
 				>
-					Get Started
+					Start Learning
 				</Link>
 				<Link
 					href='/announcements'
