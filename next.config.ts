@@ -44,6 +44,22 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'upload.wikimedia.org/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'en.m.wikipedia.org/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'developer.apple.com/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'wallpapers.com/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'www.androiddeveloper.co.in/**',
+			},
 		],
 	},
 	// if used turbopack
