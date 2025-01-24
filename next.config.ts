@@ -76,6 +76,10 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'techniciansnow.com/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'radiocrafts.com/**',
+			},
 		],
 	},
 	// if used turbopack
