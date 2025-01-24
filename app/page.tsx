@@ -1,6 +1,8 @@
-import { buttonVariants } from '@/components/ui/button';
+'use client';
+
+import { Button, buttonVariants } from '@/components/ui/button';
 import { page_routes } from '@/lib/routes-config';
-import { MoveUpRightIcon } from 'lucide-react';
+import { MoveUpRightIcon, DownloadIcon, FileTextIcon } from 'lucide-react'; // Import DownloadIcon
 import Link from 'next/link';
 
 export default function Home() {
@@ -21,19 +23,36 @@ export default function Home() {
 				developing applications using emerging technologies. The course covers fundamental concepts, techniques,
 				and tools for developing modern applications that are scalable, secure, and responsive.
 			</p>
+			<div className='mb-2'>
+				<Link
+					target='_blank'
+					href={
+						'https://github.com/SorSU-Classroom/CS-321-Applications-Development-and-Emerging-Technologies/blob/42eb06ed634f9944bde5d7dec20ef3ee83be6878/Module/Applications%20Development%20and%20Emerging%20Technologies.pdf'
+					}
+				>
+					<Button size='lg'>
+						<FileTextIcon className='mr-2 h-4 w-4' /> Download Module{' '}
+						<DownloadIcon className='w-4 h-4 ml-2' />
+					</Button>
+				</Link>
+			</div>
 			<div className='flex flex-row items-center gap-5'>
 				<Link
 					href={`/lessons${page_routes[0].href}`}
-					className={buttonVariants({ className: 'px-6', size: 'lg' })}
+					className={buttonVariants({
+						className:
+							'px-6 bg-transparent border-primary border !text-primary hover:!text-primary-foreground',
+						size: 'lg',
+					})}
 				>
 					Start Learning
 				</Link>
 				<Link
 					href='/announcements'
 					className={buttonVariants({
-						variant: 'secondary',
 						className: 'px-6',
 						size: 'lg',
+						variant: 'outline',
 					})}
 				>
 					Read Announcements
