@@ -60,6 +60,18 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'www.androiddeveloper.co.in/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'spundan.com/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'www.cudura.com/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'miro.medium.com/**',
+			},
 		],
 	},
 	// if used turbopack
