@@ -80,6 +80,18 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'radiocrafts.com/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'content-management-files.canva.com/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'www.racksolutions.com/**',
+			},
+			{
+				protocol: 'https',
+				hostname: 'substackcdn.com/**',
+			},
 		],
 	},
 	// if used turbopack
