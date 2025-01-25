@@ -16,7 +16,10 @@ export function Footer() {
 					/>
 					<p className='text-center'>
 						Built by{' '}
-						<Link href='https://github.com/godkingjay'>
+						<Link
+							href='https://github.com/godkingjay'
+							target='_blank'
+						>
 							<Button variant={'link'}>Jarrian Gojar</Button>
 						</Link>
 					</p>
