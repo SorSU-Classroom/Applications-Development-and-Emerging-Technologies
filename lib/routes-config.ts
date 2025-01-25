@@ -220,6 +220,10 @@ export const ROUTES: EachRoute[] = [
 								title: 'The Box Model',
 								href: '/box-model',
 							},
+							{
+								title: 'Units',
+								href: '/units',
+							},
 						],
 					},
 					{
