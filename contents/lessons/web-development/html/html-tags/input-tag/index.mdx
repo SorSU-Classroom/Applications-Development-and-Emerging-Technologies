@@ -1,0 +1,88 @@
+---
+title: Input Tag - <input>
+description: This lesson discusses the Input <input> tag and its usage in web development.
+---
+
+This tag is used to create an input field in a form.
+It is a self-closing tag that requires the `type`
+attribute to specify the type of input field.
+
+```html showLineNumbers
+<form style="display: flex; flex-direction: column; gap: 8px;">
+  <div>
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" />
+  </div>
+
+  <div>
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" min="09" max="100" />
+  </div>
+
+  <div>
+    <label for="civil-status">Civil Status:</label>
+    <input type="radio" id="single" name="civil-status" value="single" /> Single
+    <input type="radio" id="married" name="civil-status" value="married" /> Married
+    <input type="radio" id="divorced" name="civil-status" value="divorced" /> Divorced
+  </div>
+
+  <div>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" />
+  </div>
+
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" />
+  </div>
+
+  <div>
+    <label for="color">Favorite Color:</label>
+    <input type="color" id="color" name="color" />
+  </div>
+
+  <div>
+    <label for="date">Date of Birth:</label>
+    <input type="date" id="date" name="date" />
+  </div>
+
+  <div>
+    <label for="time">Time of Birth:</label>
+    <input type="time" id="time" name="time" />
+  </div>
+
+  <div>
+    <label for="file">Upload File:</label>
+    <input type="file" id="file" name="file" />
+  </div>
+
+  <div>
+    <label for="message">Message:</label>
+    <textarea id="message" name="message"></textarea>
+  </div>
+
+  <div>
+    <label for="agree">I agree to the terms and conditions:</label>
+    <input type="checkbox" id="agree" name="agree" value="yes" />
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
+```
+
+The code above shows an example of the `<input>` tag.
+This tag is used to create an input field in a form, which allows users
+to enter data. The `type` attribute specifies the type of input
+field, such as text, number, email, or password.
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - C 2.28"
+    src="https://codepen.io/godkingjay/embed/YPKReBZ?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
