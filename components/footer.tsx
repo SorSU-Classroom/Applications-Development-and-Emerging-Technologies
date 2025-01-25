@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { HeartIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
 export function Footer() {
@@ -18,7 +17,7 @@ export function Footer() {
 					<p className='text-center'>
 						Built by{' '}
 						<Link href='https://github.com/godkingjay'>
-							<Button variant={'link'}>godkingjay</Button>
+							<Button variant={'link'}>Jarrian Gojar</Button>
 						</Link>
 					</p>
 				</div>
