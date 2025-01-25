@@ -44,152 +44,152 @@ export const ROUTES: EachRoute[] = [
 							{
 								// HTML
 								title: 'HTML <html>',
-								href: '/html',
+								href: '/html-tag',
 							},
 							{
 								// Head
 								title: 'Head <head>',
-								href: '/head',
+								href: '/head-tag',
 							},
 							{
 								// title
 								title: 'Title <title>',
-								href: '/title',
+								href: '/title-tag',
 							},
 							{
 								// body
 								title: 'Body <body>',
-								href: '/body',
+								href: '/body-tag',
 							},
 							{
 								// h1-h6
 								title: 'Headings <h1> to <h6>',
-								href: '/headings',
+								href: '/headings-tag',
 							},
 							{
 								// p
 								title: 'Paragraph <p>',
-								href: '/paragraph',
+								href: '/paragraph-tag',
 							},
 							{
 								// div
 								title: 'Division <div>',
-								href: '/division',
+								href: '/division-tag',
 							},
 							{
 								// section
 								title: 'Section <section>',
-								href: '/section',
+								href: '/section-tag',
 							},
 							{
 								// span
 								title: 'Span <span>',
-								href: '/span',
+								href: '/span-tag',
 							},
 							{
 								// br
 								title: 'Line Break <br>',
-								href: '/line-break',
+								href: '/line-break-tag',
 							},
 							{
 								// hr
 								title: 'Horizontal Rule <hr>',
-								href: '/horizontal-rule',
+								href: '/horizontal-rule-tag',
 							},
 							{
 								// img
 								title: 'Image <img>',
-								href: '/image',
+								href: '/image-tag',
 							},
 							{
 								// a
 								title: 'Anchor <a>',
-								href: '/anchor',
+								href: '/anchor-tag',
 							},
 							{
 								// ul
 								title: 'Unordered List <ul>',
-								href: '/unordered-list',
+								href: '/unordered-list-tag',
 							},
 							{
 								// ol
 								title: 'Ordered List <ol>',
-								href: '/ordered-list',
+								href: '/ordered-list-tag',
 							},
 							{
 								// li
 								title: 'List Item <li>',
-								href: '/list-item',
+								href: '/list-item-tag',
 							},
 							{
 								// strong
 								title: 'Strong <strong>',
-								href: '/strong',
+								href: '/strong-tag',
 							},
 							{
 								// b
 								title: 'Bold <b>',
-								href: '/bold',
+								href: '/bold-tag',
 							},
 							{
 								// em
 								title: 'Emphasis <em>',
-								href: '/emphasis',
+								href: '/emphasis-tag',
 							},
 							{
 								// i
 								title: 'Italic <i>',
-								href: '/italic',
+								href: '/italic-tag',
 							},
 							{
 								// table
 								title: 'Table <table>',
-								href: '/table',
+								href: '/table-tag',
 							},
 							{
 								// tr
 								title: 'Table Row <tr>',
-								href: '/table-row',
+								href: '/table-row-tag',
 							},
 							{
 								// th
 								title: 'Table Header <th> and Table Data <td>',
-								href: '/table-header-and-data',
+								href: '/table-header-and-data-tag',
 							},
 							{
 								// form
 								title: 'Form <form>',
-								href: '/form',
+								href: '/form-tag',
 							},
 							{
 								// input
 								title: 'Input <input>',
-								href: '/input',
+								href: '/input-tag',
 							},
 							{
 								// textarea
 								title: 'Textarea <textarea>',
-								href: '/textarea',
+								href: '/textarea-tag',
 							},
 							{
 								// button
 								title: 'Button <button>',
-								href: '/button',
+								href: '/button-tag',
 							},
 							{
 								// label
 								title: 'Label <label>',
-								href: '/label',
+								href: '/label-tag',
 							},
 							{
 								// select
 								title: 'Select <select>',
-								href: '/select',
+								href: '/select-tag',
 							},
 							{
 								// iframe
 								title: 'Inline Frame <iframe>',
-								href: '/iframe',
+								href: '/iframe-tag',
 							},
 						],
 					},
