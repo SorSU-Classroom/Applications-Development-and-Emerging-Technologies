@@ -1,0 +1,212 @@
+---
+title: Selectors
+description: This lesson discusses CSS selectors and their usage.
+---
+
+## Selectors
+
+In CSS, selectors are used to target HTML elements and apply styles to them.
+There are different types of selectors that can be used to target elements
+based on their type, class, ID, or other attributes.
+
+### Element Selector
+
+The element selector is used to target all elements of a specific type. It is
+defined by the element name without any additional characters.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      color: red;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the element selector. In this example, the
+`<p>` element is targeted using the element selector, and the color of the text
+is set to red.
+
+### Class Selector
+
+The class selector is used to target elements with a specific class. It is
+defined by a period (.) followed by the class name. This selector is useful
+when you want to apply the same style to multiple elements. This is generally
+the most common selector used in CSS.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a <span class="highlight">paragraph</span>.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .highlight {
+      background: yellow;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the class selector. In this example, the
+`<span>` element with the class `highlight` is targeted using the class
+selector, and the background color is set to yellow.
+
+### ID Selector
+
+The ID selector is used to target a specific element with a unique ID. It is
+defined by a hash (#) followed by the ID name. This selector is used when you
+want to apply a style to a single element on the page.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p id="intro">This is an introduction.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    #intro {
+      font-size: 24px;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the ID selector. In this example, the `<p>`
+element with the ID `intro` is targeted using the ID selector, and the font size
+is set to 24 pixels.
+
+### Universal Selector
+
+The universal selector is used to target all elements on the page. It is
+defined by an asterisk (*) character. This selector is used when you want to
+apply a style to all elements on the page.
+
+```css showLineNumbers
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+```
+
+The code above shows an example of the universal selector. In this example, the
+universal selector is used to apply a style to all elements on the page, setting
+the margin, padding, and box-sizing properties.
+
+### Pseudo-classes
+
+Pseudo-classes are used to define a special state of an element. They are
+defined by a colon (:) followed by the pseudo-class name. Pseudo-classes are
+used to style elements based on user interaction or element state.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <a href="https://www.github.com/godkingjay" target="_blank">Visit GitHub</a>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    a:link {
+      color: blue;
+    }
+
+    a:hover {
+      color: red;
+    }
+
+    a:active {
+      color: green;
+    }
+
+    a:visited {
+      color: purple;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of pseudo-classes. In this example, the `<a>`
+element is targeted using the pseudo-classes `:link`, `:hover`, `:active`, and
+`:visited`, which define the styles for the link in different states.
+
+### Pseudo-elements
+
+Pseudo-elements are used to style a specific part of an element. They are
+defined by a double colon (::) followed by the pseudo-element name.
+Pseudo-elements are used to style elements based on their position or content.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>Velit sit ad aliquip laborum labore. Excepteur tempor ad duis Lorem. Aute labore dolor dolor aliqua eiusmod pariatur ut duis deserunt esse velit.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p::first-line {
+      font-weight: bold;
+    }
+
+    p::first-letter {
+      font-size: 24px;
+    }
+
+    p::before {
+      content: "Quote: ";
+    }
+
+    p::after {
+      content: " - Author";
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of pseudo-elements. In this example, the `<p>`
+element is targeted using the pseudo-elements `::first-line`, `::first-letter`,
+`::before`, and `::after`, which style the first line, first letter, and add
+content before and after the paragraph.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
