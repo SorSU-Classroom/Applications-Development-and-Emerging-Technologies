@@ -51,7 +51,7 @@ export default function Search() {
 						</div>
 					</div>
 				</DialogTrigger>
-				<DialogContent className='p-0 max-w-[650px] sm:top-[38%] top-[45%] !rounded-md'>
+				<DialogContent className='p-0 max-w-[650px] sm:top-[38%] top-[45%] !rounded-md left-1/2 -translate-x-1/2 transform sm:w-[500px] w-[92vw]'>
 					<DialogTitle className='sr-only'>Search</DialogTitle>
 					<DialogHeader>
 						<input
