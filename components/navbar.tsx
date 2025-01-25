@@ -1,13 +1,15 @@
-import { ModeToggle } from '@/components/theme-toggle';
-import { SheetClose } from '@/components/ui/sheet';
-import { page_routes } from '@/lib/routes-config';
 import { GithubIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+
+import { ModeToggle } from '@/components/theme-toggle';
+import { SheetClose } from '@/components/ui/sheet';
+import { page_routes } from '@/lib/routes-config';
+
 import Anchor from './anchor';
 import { SheetLeftbar } from './leftbar';
 import Search from './search';
-import { Button, buttonVariants } from './ui/button';
+import { Button } from './ui/button';
 
 export const NAVLINKS = [
 	{
