@@ -19,7 +19,7 @@ export default function LessonsMenu({ isSheet = false }) {
 				};
 				return (
 					<SubLink
-						key={item.title + index}
+						key={item.href + index}
 						{...modifiedItems}
 					/>
 				);
