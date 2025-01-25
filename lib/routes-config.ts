@@ -193,6 +193,10 @@ export const ROUTES: EachRoute[] = [
 							},
 						],
 					},
+					{
+						title: 'More About HTML',
+						href: '/more-about-html',
+					},
 				],
 			},
 		],
