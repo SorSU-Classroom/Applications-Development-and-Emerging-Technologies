@@ -18,6 +18,7 @@ import { Stepper, StepperItem } from '@/components/markdown/stepper';
 import Image from '@/components/markdown/image';
 import Link from '@/components/markdown/link';
 import { OutletLesson } from '@/components/markdown/outlet-lesson';
+import { DetailedHTMLProps, HTMLAttributes, IframeHTMLAttributes } from 'react';
 
 function sluggify(text: string) {
 	const slug = text.toLowerCase().replace(/\s+/g, '-');
@@ -69,7 +70,10 @@ const lessonComponents = {
 	Image: Image,
 	a: Link,
 	Outlet: OutletLesson,
-	div: (props: any) => <div {...props} />,
+	div: (props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => <div {...props} />,
+	iframe: ({ ...props }: DetailedHTMLProps<IframeHTMLAttributes<HTMLIFrameElement>, HTMLIFrameElement>) => (
+		<iframe {...props} />
+	),
 };
 
 // can be used for other pages like announcements, Guides etc

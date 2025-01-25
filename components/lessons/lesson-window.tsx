@@ -1,9 +1,7 @@
 'use client';
 
-import { FileTextIcon } from 'lucide-react';
-import React, { useRef } from 'react';
-import { Button } from '../ui/button';
 import { useComponentAsImage } from '@/lib/hooks/use-component-as-image';
+import React, { useRef } from 'react';
 
 type LessonWindowProps = React.HTMLAttributes<HTMLDivElement>;
 
