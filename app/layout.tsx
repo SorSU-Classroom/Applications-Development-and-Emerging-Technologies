@@ -46,7 +46,7 @@ export default function RootLayout({
 					disableTransitionOnChange
 				>
 					<Navbar />
-					<main className='sm:container mx-auto w-[90vw] h-auto scroll-smooth'>{children}</main>
+					<main className='sm:container mx-auto w-[100vw] h-auto scroll-smooth'>{children}</main>
 					<Footer />
 				</ThemeProvider>
 			</body>
