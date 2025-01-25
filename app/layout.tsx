@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/contexts/theme-provider';
-import { Navbar } from '@/components/navbar';
-import { Space_Mono, Poppins } from 'next/font/google';
 import { Footer } from '@/components/footer';
+import { Navbar } from '@/components/navbar';
 import '@/styles/globals.css';
+import type { Metadata } from 'next';
+import { Poppins, Space_Mono } from 'next/font/google';
 
 const sansFont = Poppins({
 	subsets: ['latin'],

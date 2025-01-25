@@ -1,8 +1,9 @@
 'use client';
 
 import { CheckIcon, CopyIcon } from 'lucide-react';
-import { Button } from '../ui/button';
 import { useState } from 'react';
+
+import { Button } from '../ui/button';
 
 export default function Copy({ content }: { content: string }) {
 	const [isCopied, setIsCopied] = useState(false);

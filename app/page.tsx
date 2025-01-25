@@ -1,9 +1,8 @@
 'use client';
 
-import { ButtonShowcase } from '@/components/showcases';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { page_routes } from '@/lib/routes-config';
-import { MoveUpRightIcon, DownloadIcon, FileTextIcon, BookIcon, BookOpenIcon, MegaphoneIcon } from 'lucide-react'; // Import DownloadIcon
+import { BookOpenIcon, DownloadIcon, FileTextIcon, MegaphoneIcon, MoveUpRightIcon } from 'lucide-react'; // Import DownloadIcon
 import Link from 'next/link';
 
 export default function Home() {

@@ -1,5 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Author, AnnouncementMdxFrontmatter, getAllAnnouncements } from '@/lib/markdown';
+import { AnnouncementMdxFrontmatter, Author, getAllAnnouncements } from '@/lib/markdown';
 import { formatDate2, stringToDate } from '@/lib/utils';
 import { Metadata } from 'next';
 import Image from 'next/image';

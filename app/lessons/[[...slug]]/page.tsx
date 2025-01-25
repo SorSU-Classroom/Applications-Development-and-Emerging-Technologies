@@ -1,11 +1,11 @@
 import LessonsBreadcrumb from '@/components/lessons-breadcrumb';
 import LessonsPagination from '@/components/lessons-pagination';
+import LessonWindow from '@/components/lessons/lesson-window';
 import Toc from '@/components/toc';
+import { Typography } from '@/components/typography';
+import { getLessonsForSlug } from '@/lib/markdown';
 import { page_routes } from '@/lib/routes-config';
 import { notFound } from 'next/navigation';
-import { getLessonsForSlug } from '@/lib/markdown';
-import { Typography } from '@/components/typography';
-import LessonWindow from '@/components/lessons/lesson-window';
 
 type PageProps = {
 	params: Promise<{ slug: string[] }>;
