@@ -199,6 +199,132 @@ export const ROUTES: EachRoute[] = [
 					},
 				],
 			},
+			{
+				title: 'CSS',
+				href: '/css',
+				items: [
+					{
+						title: 'Core Concepts',
+						href: '/core-concepts',
+						noLink: true,
+						items: [
+							{
+								title: 'Cascading and Specificity',
+								href: '/cascading-and-specificity',
+							},
+							{
+								title: 'Selectors',
+								href: '/selectors',
+							},
+							{
+								title: 'The Box Model',
+								href: '/box-model',
+							},
+						],
+					},
+					{
+						title: 'Properties',
+						href: '/properties',
+						noLink: true,
+						items: [
+							// Colors
+							{
+								title: 'Colors',
+								href: '/colors',
+							},
+							// Box
+							{
+								title: 'Box',
+								href: '/box',
+							},
+							// Text
+							{
+								title: 'Text',
+								href: '/text',
+							},
+							// Layout
+							{
+								title: 'Layout',
+								href: '/layout',
+								items: [
+									{
+										title: 'Flexbox',
+										href: '/flexbox',
+									},
+									{
+										title: 'Grid',
+										href: '/grid',
+									},
+								],
+							},
+							// Positioning
+							{
+								title: 'Positioning',
+								href: '/positioning',
+							},
+							// Transforms
+							{
+								title: 'Transforms',
+								href: '/transforms',
+							},
+							// Interactivity
+							{
+								title: 'Interactivity',
+								href: '/interactivity',
+								items: [
+									{
+										title: 'Transitions',
+										href: '/transitions',
+									},
+									{
+										title: 'Animations',
+										href: '/animations',
+									},
+								],
+							},
+							// Filters
+							{
+								title: 'Filters',
+								href: '/filters',
+							},
+							// Responsive Design
+							{
+								title: 'Responsive Design',
+								href: '/responsive-design',
+								noLink: true,
+								items: [
+									{
+										title: 'Media Queries',
+										href: '/media-queries',
+									},
+									{
+										title: 'Viewport',
+										href: '/viewport',
+									},
+									{
+										title: 'Responsive Images',
+										href: '/responsive-images',
+									},
+								],
+							},
+						],
+					},
+					{
+						title: 'Frameworks',
+						href: '/frameworks',
+						items: [
+							{
+								title: 'Bootstrap',
+								href: '/bootstrap',
+							},
+							{
+								title: 'Tailwind CSS',
+								href: '/tailwind-css',
+							},
+						],
+					},
+				],
+			},
 		],
 	},
 ];
