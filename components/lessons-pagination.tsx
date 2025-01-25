@@ -1,7 +1,7 @@
 import { getPreviousNext } from '@/lib/markdown';
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 import Link from 'next/link';
-import { Button, buttonVariants } from './ui/button';
+import { Button } from './ui/button';
 
 export default function LessonPagination({ pathname }: { pathname: string }) {
 	const res = getPreviousNext(pathname);
@@ -17,13 +17,13 @@ export default function LessonPagination({ pathname }: { pathname: string }) {
 						<Button
 							color='mode'
 							variant={'outline'}
-							className='border-foreground/20 w-full flex flex-col pl-3 !py-8 !items-start'
+							className='h-auto border-foreground/20 w-full flex flex-col pl-3 !py-8 !items-start'
 						>
 							<span className='flex items-center text-muted-foreground text-xs'>
 								<ChevronLeftIcon className='w-[1rem] h-[1rem] mr-1' />
 								Previous
 							</span>
-							<span className='mt-1 ml-1'>{res.prev.title}</span>
+							<span className='mt-1 ml-1 inline text-wrap text-left'>{res.prev.title}</span>
 						</Button>
 					</Link>
 				)}
@@ -37,13 +37,13 @@ export default function LessonPagination({ pathname }: { pathname: string }) {
 						<Button
 							color='mode'
 							variant={'outline'}
-							className='border-foreground/20 w-full flex flex-col pr-3 !py-8 !items-end'
+							className='h-auto border-foreground/20 w-full flex flex-col pr-3 !py-8 !items-end'
 						>
 							<span className='flex items-center text-muted-foreground text-xs'>
 								Next
 								<ChevronRightIcon className='w-[1rem] h-[1rem] ml-1' />
 							</span>
-							<span className='mt-1 mr-1'>{res.next.title}</span>
+							<span className='mt-1 mr-1 inline text-wrap text-right'>{res.next.title}</span>
 						</Button>
 					</Link>
 				)}
