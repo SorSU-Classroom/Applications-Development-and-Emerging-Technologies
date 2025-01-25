@@ -1,8 +1,9 @@
 'use client';
 
+import { ButtonShowcase } from '@/components/showcases';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { page_routes } from '@/lib/routes-config';
-import { MoveUpRightIcon, DownloadIcon, FileTextIcon } from 'lucide-react'; // Import DownloadIcon
+import { MoveUpRightIcon, DownloadIcon, FileTextIcon, BookIcon, BookOpenIcon, MegaphoneIcon } from 'lucide-react'; // Import DownloadIcon
 import Link from 'next/link';
 
 export default function Home() {
@@ -23,41 +24,46 @@ export default function Home() {
 				developing applications using emerging technologies. The course covers fundamental concepts, techniques,
 				and tools for developing modern applications that are scalable, secure, and responsive.
 			</p>
-			<div className='mb-2'>
+			<div className='flex flex-row items-center gap-4 mb-4'>
+				<Link href={`/lessons${page_routes[0].href}`}>
+					<Button
+						size='lg'
+						variant='solid'
+					>
+						<BookOpenIcon className='mr-2 h-4 w-4' />
+						Start Learning
+					</Button>
+				</Link>
+
+				<Link href='/announcements'>
+					<Button
+						size='lg'
+						variant='outline'
+					>
+						<MegaphoneIcon className='mr-2 h-4 w-4' />
+						Read Announcements
+					</Button>
+				</Link>
+			</div>
+			<div className='flex flex-row items-center gap-4'>
 				<Link
 					target='_blank'
 					href={
 						'https://github.com/SorSU-Classroom/CS-321-Applications-Development-and-Emerging-Technologies/blob/42eb06ed634f9944bde5d7dec20ef3ee83be6878/Module/Applications%20Development%20and%20Emerging%20Technologies.pdf'
 					}
 				>
-					<Button size='lg'>
+					<Button
+						size='lg'
+						variant={'soft'}
+					>
 						<FileTextIcon className='mr-2 h-4 w-4' /> Download Module{' '}
 						<DownloadIcon className='w-4 h-4 ml-2' />
 					</Button>
 				</Link>
 			</div>
-			<div className='flex flex-row items-center gap-5'>
-				<Link
-					href={`/lessons${page_routes[0].href}`}
-					className={buttonVariants({
-						className:
-							'px-6 bg-transparent border-primary border !text-primary hover:!text-primary-foreground',
-						size: 'lg',
-					})}
-				>
-					Start Learning
-				</Link>
-				<Link
-					href='/announcements'
-					className={buttonVariants({
-						className: 'px-6',
-						size: 'lg',
-						variant: 'outline',
-					})}
-				>
-					Read Announcements
-				</Link>
-			</div>
+
+			{/* <ButtonShowcase /> */}
+
 			{/* <span className='flex flex-row items-start sm:gap-2 gap-0.5 text-muted-foreground text-md mt-7 -mb-12 max-[800px]:mb-12 font-code sm:text-base text-sm font-medium'>
 				<TerminalSquareIcon className='w-5 h-5 sm:mr-1 mt-0.5' />
 				{'npx create-aria-lesson <project-directory>'}

@@ -7,7 +7,7 @@ import Link from 'next/link';
 import Anchor from './anchor';
 import { SheetLeftbar } from './leftbar';
 import Search from './search';
-import { buttonVariants } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 
 export const NAVLINKS = [
 	{
@@ -43,9 +43,14 @@ export function Navbar() {
 							<Link
 								target='_blank'
 								href='https://github.com/godkingjay'
-								className={buttonVariants({ variant: 'ghost', size: 'icon' })}
 							>
-								<GithubIcon className='h-[1.1rem] w-[1.1rem]' />
+								<Button
+									size='icon'
+									variant='ghost'
+									color='mode'
+								>
+									<GithubIcon className='h-[1.1rem] w-[1.1rem]' />
+								</Button>
 							</Link>
 							{/* <Link
 								href='#'

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { buttonVariants } from './ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { HeartIcon } from 'lucide-react';
 import Image from 'next/image';
 
@@ -17,11 +17,8 @@ export function Footer() {
 					/>
 					<p className='text-center'>
 						Built by{' '}
-						<Link
-							className='px-1 underline underline-offset-2'
-							href='https://github.com/godkingjay'
-						>
-							godkingjay
+						<Link href='https://github.com/godkingjay'>
+							<Button variant={'link'}>godkingjay</Button>
 						</Link>
 					</p>
 				</div>
@@ -37,13 +34,15 @@ export function Footer() {
 export function FooterButtons() {
 	return (
 		<>
-			<Link
-				href='https://github.com/sponsors/godkingjay'
-				className={buttonVariants({ variant: 'outline', size: 'sm' })}
-			>
-				<HeartIcon className='h-4 w-4 mr-2 text-red-600 fill-current' />
-				Sponsor
-			</Link>
+			{/* <Link href='https://github.com/sponsors/godkingjay'>
+				<Button
+					variant='outline'
+					size='sm'
+				>
+					<HeartIcon className='h-4 w-4 mr-2 text-red-600 fill-current' />
+					Sponsor
+				</Button>
+			</Link> */}
 		</>
 	);
 }
