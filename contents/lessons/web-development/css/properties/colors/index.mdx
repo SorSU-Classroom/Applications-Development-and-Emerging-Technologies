@@ -1,0 +1,315 @@
+---
+title: Colors
+description: This lesson discusses CSS Colors and their usage.
+---
+
+## Colors
+
+In CSS, colors can be specified using different formats, such as color
+names, hexadecimal values, RGB values, and HSL values.
+
+### Font Color
+
+The `color` property is used to set the color of the text.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      color: red;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `color` property. In this
+example, the color of the text in the `<p>` element is set to red.
+
+### Background Color
+
+The `background-color` property is used to set the background
+color of an element.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div>
+      <h1>Welcome to my website</h1>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    div {
+      background-color: lightblue;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `background-color` property. In
+this example, the background color of the `<div>` element is set to
+light blue.
+
+### Border Color
+
+The `border-color` property is used to set the color of the border
+of an element.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div>
+      <h1>Welcome to my website</h1>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    div {
+      border: 1px solid black;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `border-color` property. In this
+example, the border color of the `<div>` element is set to black.
+
+### Color Names
+
+CSS provides a set of predefined color names that can be used to specify
+colors. Some of the common color names include:
+
+- **Red** - red
+- **Green** - green
+- **Blue** - blue
+- **Black** - black
+- **White** - white
+- **Yellow** - yellow
+- **Purple** - purple
+- **Orange** - orange
+- **Gray** - gray
+- **Brown** - brown
+- **Pink** - pink
+- [More...](https://www.w3schools.com/tags/ref_colornames.asp)
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      color: blue;
+      background-color: yellow;
+      border-color: red;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of using color names to set the color
+of the text, background, and border of the `<p>` element to blue, yellow,
+and red, respectively.
+
+### Hexadecimal Colors
+
+**Hexadecimal colors** are represented using a six-digit code that
+defines the amount of red, green, and blue as well as the transparency
+of the color. The code starts with a hash (#) followed by the six-digit
+hexadecimal code - **#RRGGBB**. Eight digits can be used to include the
+alpha channel - **#RRGGBBAA**.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div>
+      <h1>Welcome to my website</h1>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    div {
+      color: #ff0000;
+      background-color: #00ff00;
+      border-color: #0000ff;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of using hexadecimal colors to set the
+color of the text, background, and border of the `<div>` element to red,
+green, and blue, respectively.
+
+### RGB or RGBA Colors
+
+**RGB colors** are represented using the RGB color model, which defines
+the amount of red, green, and blue in the color. The RGB color is defined
+using the `rgb()` function with three values for red, green, and blue.
+The **RGBA colors** include an additional value for the alpha channel
+(transparency) and are defined using the `rgba()` function.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      color: rgb(255, 0, 0); 
+      background-color: rgba(0, 255, 0, 0.5); 
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of using RGB and RGBA colors to set the
+color of the text in the `<p>` element to red and the background color to
+green with 50% opacity.
+
+### HSL or HSLA Colors
+
+**HSL colors** are represented using the HSL color model, which defines
+the hue, saturation, and lightness of the color. The HSL color is defined
+using the `hsl()` function with three values for hue, saturation, and
+lightness. The **HSLA colors** include an additional value for the alpha
+channel (transparency) and are defined using the `hsla()` function.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      color: hsl(0, 100%, 50%); 
+      background-color: hsla(120, 100%, 50%, 0.5); 
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of using HSL and HSLA colors to set the
+color of the text in the `<p>` element to red and the background color to
+green with 50% opacity.
+
+### Gradients
+
+**Gradients** are used to create a smooth transition between two or more
+colors. Gradients can be linear or radial and can be defined using the
+`linear-gradient()` or `radial-gradient()` function.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div>
+      <h1>Welcome to my website</h1>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    div {
+      padding: 20px;
+      background-image: linear-gradient(to right, red, blue);
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of using gradients to set the background
+color of the `<div>` element to a linear gradient from red to blue.
+
+### CSS Background Image
+
+The `background-image` property is used to specify the background image
+for an element. The value can be a URL to an image file or a gradient.
+
+```css showLineNumbers
+div {
+  padding: 20px;
+  background-image: url('https://picsum.photos/200');
+}
+```
+
+The code above shows an example of using the `background-image` property
+to set the background image for the `<div>` element to an image from the
+URL.
+
+### CSS Background Size
+
+The `background-size` property is used to specify the size of the
+background image. It can be set to a specific size, such as `cover` or
+`contain`, or to a percentage of the element's width and height.
+
+```css showLineNumbers
+div {
+  padding: 20px;
+  background-image: url('https://picsum.photos/200');
+  background-size: cover;
+}
+```
+
+The code above shows an example of using the `background-size` property
+to set the size of the background image for the `<div>` element to cover
+the entire element.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
