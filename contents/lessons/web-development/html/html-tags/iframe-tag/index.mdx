@@ -1,0 +1,40 @@
+---
+title: Inline Frame Tag - <ifram>
+description: This lesson discusses the Inline Frame <ifram> tag and its usage in web development.
+---
+
+This tag is used to embed another document within the
+current document. It is used to display content from
+another website or source. It can also be used to
+embed videos, maps, or other media.
+
+```html showLineNumbers
+<iframe
+  width="600"
+  height="450"
+  style="border:0;"
+  allowfullscreen="true"
+  loading="lazy"
+  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1075.0761255478576!2d123.88209023319297!3d12.66699124573315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2sph!4v1737791388626!5m2!1sen!2sph"
+>
+</iframe>
+```
+
+The code above shows an example of the `<iframe>` tag.
+This tag is used to embed another document within the current document,
+which displays content from another website or source. The `src`
+attribute specifies the URL of the document to be embedded, while the
+`width` and `height` attributes specify the dimensions of
+the embedded document. In this example, an embedded Google Maps is shown.
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - C 2.32"
+    src="https://codepen.io/godkingjay/embed/pvzQaMY?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
