@@ -1,0 +1,74 @@
+---
+title: Cascading and Specificity
+description: This lesson discusses the concepts of cascading and specificity in CSS.
+---
+
+## Cascading
+
+**Cascading** refers to the process of combining multiple style sheets
+and resolving conflicts between them. When multiple style rules apply
+to the same element, the browser uses a set of rules to determine which
+styles to apply.
+
+1. **Specificity** - The more specific rule takes precedence.
+2. **Order** - The last rule defined takes precedence.
+3. **Importance** - The `!important` rule takes precedence.
+
+In CSS, there are three types of style sheets:
+
+### Inline CSS
+
+The inline style is defined within the `style` attribute of an HTML element. It is used to define styles for a specific element.
+
+```html
+<p style="color: red;">This is a paragraph.</p>
+```
+
+### Internal CSS
+
+The internal style sheet is defined within the `<style>` tag in the `<head>` section of the HTML document. It is used to define styles for a specific document.
+
+```html
+<style>
+  h1 {
+    color: red;
+  }
+</style>
+
+<h1>This is a heading.</h1>
+```
+
+### External CSS
+
+The external style sheet is a separate file where you can define all the styles that you want to use on your website. You can link the external style sheet to your HTML document using the `<link>` tag.
+
+```html
+<link rel="stylesheet" href="styles.css" />
+
+<h1>This is a heading.</h1>
+```
+
+## Specificity
+
+**Specificity** is a set of rules that determines which style rules apply to an element when multiple rules conflict. Specificity is calculated based on the following factors:
+
+1. **Inline Styles** - Inline styles have the highest specificity and override all other styles.
+2. **Element Selectors** - Element selectors have the lowest specificity and are overridden by other selectors.
+3. **Class Selectors** - Class selectors have a higher specificity than element selectors.
+4. **ID Selectors** - ID selectors have a higher specificity than class selectors and element selectors.
+5. **!important** - The `!important` rule overrides all other rules and has the highest specificity.
+6. **Order of Appearance** - If two rules have the same specificity, the rule that appears last in the style sheet takes precedence.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
