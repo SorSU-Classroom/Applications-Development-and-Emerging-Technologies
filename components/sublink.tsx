@@ -29,8 +29,9 @@ export default function SubLink({
 
   const Comp = (
     <Anchor
-      activeClassName="text-primary dark:font-medium font-semibold"
       href={href}
+      className="w-full"
+      activeClassName="text-primary dark:font-medium font-semibold"
     >
       {title}
     </Anchor>
@@ -73,7 +74,7 @@ export default function SubLink({
           )}
         >
           <div className="flex w-full cursor-pointer items-center justify-between">
-            <span className="text-left">{titleOrLink}</span>
+            <div className="inline-flex w-full text-left">{titleOrLink}</div>
             <span>
               {!isOpen ? (
                 <ChevronRight
