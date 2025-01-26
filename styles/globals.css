@@ -249,3 +249,13 @@ pre > code {
   color: white;
   transform: translateX(-50%);
 }
+
+.mdx-preview {
+  font-family: 'Times New Roman', Times, serif;
+
+  @apply !p-4 !border !rounded-lg !border-border !text-foreground !text-base relative max-h-[400px] overflow-y-auto;
+
+  * {
+    @apply !border-none !rounded-none !shadow-none !m-0 p-0;
+  }
+}

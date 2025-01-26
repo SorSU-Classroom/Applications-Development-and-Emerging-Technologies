@@ -1,0 +1,416 @@
+---
+title: Positioning
+description: This lesson discusses the positioning properties in CSS and how they affect the positioning and arrangement of elements on a web page.
+---
+
+## Positioning
+
+### Static
+
+The `position` property is used to set the positioning behavior of an
+element. The position property can be set to `static`, `relative`,
+`absolute`, `fixed`, or `sticky`. The `static` value is the default
+value and does not affect the position of the element.
+
+<div className="mdx-preview mdx-preview-static">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'static',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+      position: static;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `position` property. In this
+example, the position property of the `<div>` element is set to `static`,
+which is the default value.
+
+### Relative
+
+A `relative` position is used to set the position of an element relative
+to its normal position. The element is positioned based on its normal
+position in the document flow, and then offset by the specified values.
+
+<div className="mdx-preview mdx-preview-relative">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    backgroundColor: 'lightgreen'
+  }}>
+    <div style={{
+      position: 'relative',
+      top: '10px',
+      left: '10px',
+      width: '100px',
+      height: '100px',
+      background: 'lightblue'
+    }}>Item 1</div>
+    <div style={{
+      position: 'relative',
+      top: '10px',
+      left: '10px',
+      width: '100px',
+      height: '100px',
+      background: 'lightblue'
+    }}>Item 2</div>
+    <div style={{
+      position: 'relative',
+      top: '10px',
+      left: '10px',
+      width: '100px',
+      height: '100px',
+      background: 'lightblue'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: lightgreen;
+    }
+
+    .item {
+      position: relative;
+      top: 10px;
+      left: 10px;
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `position` property with a
+value of relative. In this example, the position of the `<div>`
+element is set to `relative`, and the `top` and `left` properties are used
+to offset the element by 10 pixels.
+
+### Absolute
+
+An `absolute` position is used to set the position of an element
+relative to its nearest positioned ancestor. If no ancestor is
+positioned, the element is positioned relative to the document body.
+
+<div className="mdx-preview mdx-preview-absolute">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    backgroundColor: 'lightgreen',
+    width: '200px',
+    height: '200px'
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      background: 'lightcoral'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      position: 'absolute',
+      top: '0',
+      right: '0',
+      background: 'lightblue'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      position: 'absolute',
+      bottom: '0',
+      left: '0',
+      background: 'yellow'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: lightgreen;
+      width: 200px;
+      height: 200px;
+    }
+
+    .item {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      top: 0;
+      left: 0;
+      background-color: lightcoral;
+    }
+
+    .item2 {
+      top: 0;
+      right: 0;
+      background-color: lightblue;
+    }
+
+    .item3 {
+      bottom: 0;
+      left: 0;
+      background-color: yellow;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `position` property with a
+value of `absolute`. In this example, the position of the `<div>`
+elements is set to `absolute`, and the `top`, `right`, `bottom`, and `left`
+properties are used to position the elements in the container.
+
+### Fixed
+
+A `fixed` position is used to set the position of an element relative to
+the viewport. The element remains fixed in the same position on the screen
+even when the page is scrolled.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2 - Fixed</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: lightgreen;
+      height: 200vh;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      background-color: lightcoral;
+    }
+
+    .item2 {
+      position: fixed;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      background-color: lightblue;
+    }
+
+    .item3 {
+      background-color: yellow;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `position` property with a
+value of `fixed`. In this example, the position of the `<div>` element is
+set to `fixed`, and the `top` and `right` properties are used to position
+the element on the screen.
+
+### Sticky
+
+A `sticky` position is used to set the position of an element relative to
+its containing block. The element remains in the normal flow until it
+reaches a specified scroll position, at which point it becomes `fixed`.
+
+<div className="mdx-preview mdx-preview-sticky">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
+    backgroundColor: 'lightgreen',
+    height: '200vh'
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      position: 'sticky',
+      top: '0',
+      background: 'lightblue'
+    }}>Item 2 - Sticky</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'yellow'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2 - Sticky</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background-color: lightgreen;
+      height: 200vh;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      background-color: lightcoral;
+    }
+
+    .item2 {
+      position: sticky;
+      top: 0;
+      background-color: lightblue;
+    }
+
+    .item3 {
+      background-color: yellow;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `position` property with a
+value of `sticky`. In this example, the position of the `<div>` element is
+set to `sticky`, and the `top` property is used to position the element on
+the screen.
+
+### More on Positioning
+
+You can learn more about positioning by visiting the following links:
+
+- [Positioning](https://developer.mozilla.org/en-US/docs/Web/CSS/position)
+- [Z-Index](https://developer.mozilla.org/en-US/docs/Web/CSS/z-index)
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
