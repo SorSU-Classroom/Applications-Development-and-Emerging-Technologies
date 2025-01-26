@@ -265,6 +265,19 @@ pre > code {
   }
 }
 
+.mdx-preview-margin {
+  .container {
+    display: flex;
+    flex-direction: column;
+
+    .item {
+      width: 100px;
+      height: 100px;
+      margin: 10px !important;
+    }
+  }
+}
+
 .mdx-preview-hover {
   button {
     background-color: lightblue;
