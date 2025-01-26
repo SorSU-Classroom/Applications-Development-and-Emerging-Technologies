@@ -341,3 +341,34 @@ pre > code {
     transform: rotate(360deg);
   }
 }
+
+.mdx-preview-media-queries {
+  .container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    background-color: lightblue;
+  }
+
+  @media screen and (max-width: 600px) {
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    .container {
+      flex-direction: column;
+    }
+  }
+}

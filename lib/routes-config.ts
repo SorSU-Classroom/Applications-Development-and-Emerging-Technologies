@@ -301,10 +301,10 @@ export const ROUTES: EachRoute[] = [
 										title: 'Media Queries',
 										href: '/media-queries',
 									},
-									{
-										title: 'Viewport',
-										href: '/viewport',
-									},
+									// {
+									// 	title: 'Viewport',
+									// 	href: '/viewport',
+									// },
 									{
 										title: 'Responsive Images',
 										href: '/responsive-images',
