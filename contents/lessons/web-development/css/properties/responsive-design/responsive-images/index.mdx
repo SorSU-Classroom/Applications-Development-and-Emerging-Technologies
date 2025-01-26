@@ -1,0 +1,60 @@
+---
+title: Responsive Images
+description: This lesson discusses how to create responsive images using CSS and HTML.
+---
+
+## Responsive Images
+
+The `max-width` property is used to make images responsive by setting
+the maximum width to 100% of the container. This allows the image to scale
+down proportionally to fit the container while maintaining its aspect ratio.
+
+<div className="mdx-preview mdx-preview-responsive-images">
+  <div style={{ maxWidth: "600px" }}>
+    <img src="https://picsum.photos/400" alt="Placeholder Image" style={{ width: "100%", height: "auto" }} />
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <img src="https://picsum.photos/400" alt="Placeholder Image" />
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      max-width: 600px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of responsive images. In this example, the
+maximum width of the image is set to 100% of the container, allowing
+the image to scale down proportionally to fit the container.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
