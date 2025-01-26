@@ -47,7 +47,7 @@ export default function SubLink({
 
   if (!items) {
     return (
-      <div className="flex w-full flex-col rounded-md py-1 pl-2 pr-4 hover:bg-primary/10">
+      <div className="flex w-full flex-col rounded-md py-1 pl-2 pr-2 hover:bg-primary/10">
         {titleOrLink}
       </div>
     );
@@ -57,7 +57,7 @@ export default function SubLink({
     <div className="flex w-full flex-col gap-1">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger
-          className={cn("w-full rounded-md py-1 pl-2 pr-4 hover:bg-primary/10")}
+          className={cn("w-full rounded-md py-1 pl-2 pr-2 hover:bg-primary/10")}
         >
           <div className="flex w-full cursor-pointer items-center justify-between">
             <span className="text-left">{titleOrLink}</span>
