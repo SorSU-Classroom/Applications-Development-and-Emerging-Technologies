@@ -1,0 +1,181 @@
+---
+title: Animations
+description: This lesson discusses the animation property in CSS and how it can be used to create animations on a web page.
+---
+
+{/* ## Transition
+
+The `transition` property is used to create smooth transitions between
+different styles of an element. The transition property can be set to a
+specific duration, such as 0.5 seconds or 1 second, to create a smooth
+transition effect.
+
+<div className="mdx-preview mdx-preview-transition">
+  <button>Hover Over Me</button>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <button>Hover Over Me</button>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    button {
+      background-color: lightblue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      transform: scale(1);
+      transition: all 0.5s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background-color: lightcoral;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transition` property. In this example,
+the background color of the `<button>` element is changed to `lightcoral` and
+the scale is increased when the mouse hovers over it, creating a smooth
+transition effect.
+
+## More About Transitions
+
+You can learn more about CSS transitions by visiting the following links:
+
+- [MDN Web Docs CSS Transitions](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions)
+- [W3Schools CSS Transitions](https://www.w3schools.com/css/css3_transitions.asp)
+- [CSS-Tricks Transition](https://css-tricks.com/almanac/properties/t/transition/) */}
+
+{/*
+
+\paragraph{Animation}
+
+The \textbf{animation} property is used to create animations for an element.
+The animation property can be set to a specific duration, timing function,
+delay, and iteration count to create different animation effects.
+
+\begin{lstlisting}[language=HTML, caption={Animation HTML}, label={lst:animation-html}]
+<div class="container">
+  <div class="item">Item 1</div>
+</div>
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML, caption={Animation CSS}, label={lst:animation-css}]
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.item {
+  width: 100px;
+  height: 100px;
+  background-color: lightblue;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+\end{lstlisting}
+
+Code \ref{lst:animation-html} and \ref{lst:animation-css} show an example of
+the \textbf{animation} property. In this example, the \textbf{<div>} element is
+rotated 360 degrees over a duration of 2 seconds, creating a spinning
+animation.
+
+Read more about CSS animations from the following sources:
+
+\begin{itemize}
+  \item \href{https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations}{MDN Web Docs CSS Animations}
+  \item \href{https://www.w3schools.com/css/css3_animations.asp}{W3Schools CSS Animations}
+  \item \href{https://css-tricks.com/almanac/properties/a/animation/}{CSS-Tricks Animation}
+\end{itemize}
+
+
+*/}
+
+## Animation
+
+The `animation` property is used to create animations for an element. 
+The animation property can be set to a specific duration, timing 
+function, delay, and iteration count to create different animation effects.
+
+<div className="mdx-preview mdx-preview-animation">
+  <div className="container">
+    <div className="item">Item 1</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item">Item 1</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `animation` property. In this example,
+the `<div>` element is rotated 360 degrees over a duration of 2 seconds,
+creating a spinning animation.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>

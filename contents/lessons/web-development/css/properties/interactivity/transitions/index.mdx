@@ -1,0 +1,71 @@
+---
+title: Transitions
+description: This lesson discusses the transition property in CSS and how it can be used to create smooth animations when changing the style of an element.
+---
+
+## Transition
+
+The `transition` property is used to create smooth transitions between
+different styles of an element. The transition property can be set to a
+specific duration, such as 0.5 seconds or 1 second, to create a smooth
+transition effect.
+
+<div className="mdx-preview mdx-preview-transition">
+  <button>Hover Over Me</button>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <button>Hover Over Me</button>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    button {
+      background-color: lightblue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      transform: scale(1);
+      transition: all 0.5s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      background-color: lightcoral;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transition` property. In this example,
+the background color of the `<button>` element is changed to `lightcoral` and
+the scale is increased when the mouse hovers over it, creating a smooth
+transition effect.
+
+## More About Transitions
+
+You can learn more about CSS transitions by visiting the following links:
+
+- [MDN Web Docs CSS Transitions](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions/Using_CSS_transitions)
+- [W3Schools CSS Transitions](https://www.w3schools.com/css/css3_transitions.asp)
+- [CSS-Tricks Transition](https://css-tricks.com/almanac/properties/t/transition/)
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>

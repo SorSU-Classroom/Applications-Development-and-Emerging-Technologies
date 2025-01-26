@@ -1,0 +1,136 @@
+---
+title: Interactivity
+description: This lesson discusses the interactivity properties in CSS and how they affect the behavior of elements on a web page.
+---
+
+## Hover
+
+The `hover` property is used to change the style of an element when the
+mouse hovers over it. The hover property can be used to change the color,
+background color, or other styles of the element.
+
+<div className="mdx-preview mdx-preview-hover">
+  <button>Hover Over Me</button>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <button>Hover Over Me</button>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    button {
+      background-color: lightblue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+    }
+
+    button:hover {
+      background-color: lightcoral;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `hover` property. In this example,
+the background color of the `<button>` element is changed to `lightcoral`
+when the mouse hovers over it.
+
+## Focus
+
+The `focus` property is used to change the style of an element when it
+receives focus. The focus property can be used to change the color, background
+color, or other styles of the element.
+
+<div className="mdx-preview mdx-preview-focus">
+  <input type="text" placeholder="Enter your name" />
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <input type="text" placeholder="Enter your name" />
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    input {
+      padding: 10px;
+      background: lightblue;
+    }
+
+    input:focus {
+      background: lightcoral;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `focus` property. In this example,
+the background color of the `<input>` element is changed to `lightcoral` when
+it receives focus.
+
+## Active
+
+The `active` property is used to change the style of an element when it
+is activated. The active property can be used to change the color, background
+color, or other styles of the element.
+
+<div className="mdx-preview mdx-preview-active">
+  <button>Click Me</button>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <button>Click Me</button>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    button {
+      background-color: lightblue;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+    }
+
+    button:active {
+      background-color: lightcoral;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `active` property. In this example,
+the background color of the `<button>` element is changed to `lightcoral`
+when it is activated.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>

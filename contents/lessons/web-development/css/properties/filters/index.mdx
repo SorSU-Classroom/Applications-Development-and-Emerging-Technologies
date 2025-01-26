@@ -1,0 +1,727 @@
+---
+title: Filters
+description: This lesson discusses the filter property in CSS and how it can be used to apply visual effects to elements on a web page.
+---
+
+{/* ## Transforms
+
+The `transform` property is used to apply transformations to elements
+in CSS. Transformations can be used to rotate, scale, skew, or move
+elements on a web page. The `transform` property can be used with
+different values to apply different types of transformations.
+
+### Scale
+
+The `scale` value is used to scale an element. The scale value can be
+set to a specific size, such as `1.5` or `0.5`, to scale the element up
+or down.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'scale(1.5)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'scale(0.5)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'scale(2)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+        height: 100px;
+    }
+
+    .item1 {
+      transform: scale(1.5);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: scale(0.5);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: scale(2);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `scale`. In this example, the scale value of the `<div>` elements is
+set to `1.5`, `0.5`, and `2`, creating different scale effects for the
+elements.
+
+### Rotate
+
+The `rotate` value is used to rotate an element. The rotate value can
+be set to a specific angle, such as `45deg` or `90deg`, to rotate the
+element.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'rotate(45deg)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'rotate(90deg)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'rotate(180deg)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: rotate(45deg);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: rotate(90deg);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: rotate(180deg);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `rotate`. In this example, the rotate value of the `<div>` elements is
+set to `45deg`, `90deg`, and `180deg`, creating different rotate effects
+for the elements.
+
+### Skew
+
+The `skew` value is used to skew an element. The skew value can be set
+to a specific angle, such as `30deg` or `-30deg`, to skew the element.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'skew(30deg)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'skew(-30deg)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'skew(45deg)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: skew(30deg);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: skew(-30deg);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: skew(45deg);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `skew`. In this example, the skew value of the `<div>` elements is set
+to `30deg`, `-30deg`, and `45deg`, creating different skew effects for the
+elements.
+
+### Translate
+
+The `translate` value is used to move an element. The translate value can
+be set to a specific distance, such as `10px` or `-10px`, to move the
+element.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'translate(10px, 10px)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'translate(-10px, -10px)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'translate(20px, 20px)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: translate(10px, 10px);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: translate(-10px, -10px);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: translate(20px, 20px);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `translate`. In this example, the translate value of the `<div>` elements
+is set to `10px`, `-10px`, and `20px`, creating different translate effects
+for the elements.
+
+### Origin
+
+The `transform-origin` property is used to set the origin of the
+transformed element. The origin value can be set to a specific position,
+such as `top left`, `center`, or `bottom right`, to change the origin of
+the transformation.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'top left'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'center'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'bottom right'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: rotate(45deg);
+      transform-origin: top left;
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: rotate(45deg);
+      transform-origin: center;
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: rotate(45deg);
+      transform-origin: bottom right;
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform-origin` property. In this
+example, the origin of the transformation of the `<div>` elements is set to
+`top left`, `center`, and `bottom right`, creating different origin effects
+for the elements. */}
+
+{/*
+
+\subsection{Filters}
+
+The \textbf{filter} property is used to apply visual effects to an element. The
+filter property can be set to \textbf{blur}, \textbf{brightness},
+\textbf{contrast}, \textbf{grayscale}, \textbf{hue-rotate}, \textbf{invert},
+\textbf{saturate}, \textbf{sepia}, \textbf{drop-shadow}, or a combination of
+these values.
+
+\begin{lstlisting}[language=HTML, caption={Filter HTML}, label={lst:filter-html}]
+<div class="container">
+  <div class="item blur">Blur</div>
+  <div class="item brightness">Brightness</div>
+  <div class="item contrast">Contrast</div>
+  <div class="item grayscale">Grayscale</div>
+  <div class="item hue-rotate">Hue Rotate</div>
+  <div class="item invert">Invert</div>
+  <div class="item saturate">Saturate</div>
+  <div class="item sepia">Sepia</div>
+  <div class="item drop-shadow">Drop Shadow</div>
+</div>
+\end{lstlisting}
+
+\begin{lstlisting}[language=HTML, caption={Filter CSS}, label={lst:filter-css}]
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.item {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.blur {
+  background-color: blue;
+  filter: blur(5px);
+}
+
+.brightness {
+  background-color: green;
+  filter: brightness(150%);
+}
+
+.contrast {
+  background-color: red;
+  filter: contrast(200%);
+}
+
+.grayscale {
+  background-color: yellow;
+  filter: grayscale(100%);
+}
+
+.hue-rotate {
+  background-color: purple;
+  filter: hue-rotate(90deg);
+}
+
+.invert {
+  background-color: orange;
+  filter: invert(100%);
+}
+
+.saturate {
+  background-color: pink;
+  filter: saturate(200%);
+}
+
+.sepia {
+  background-color: brown;
+  filter: sepia(100%);
+}
+
+.drop-shadow {
+  background-color: lightblue;
+  filter: drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.5));
+}
+\end{lstlisting}
+
+Code \ref{lst:filter-html} and \ref{lst:filter-css} show an example of the
+\textbf{filter} property. In this example, different visual effects are applied
+to the \textbf{<div>} elements using the filter property.
+
+Read more about CSS filters from the following sources:
+
+\begin{itemize}
+  \item \href{https://developer.mozilla.org/en-US/docs/Web/CSS/filter}{MDN Web Docs CSS Filters}
+  \item \href{https://www.w3schools.com/cssref/css3_pr_filter.asp}{W3Schools CSS Filters}
+  \item \href{https://css-tricks.com/almanac/properties/f/filter/}{CSS-Tricks Filter}
+\end{itemize}
+
+*/}
+
+## Filters
+
+The `filter` property is used to apply visual effects to an element.
+The filter property can be set to `blur`, `brightness`, `contrast`,
+`grayscale`, `hue-rotate`, `invert`, `saturate`, `sepia`,
+`drop-shadow`, or a combination of these values.
+
+<div className="mdx-preview mdx-preview-filters">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '8px'
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'blue',
+      filter: 'blur(5px)'
+    }}>Blur</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundImage: "url('https://picsum.photos/200')",
+      filter: 'brightness(150%)'
+    }}>Brightness</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'red',
+      filter: 'contrast(200%)'
+    }}>Contrast</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'yellow',
+      filter: 'grayscale(100%)'
+    }}>Grayscale</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'purple',
+      filter: 'hue-rotate(90deg)'
+    }}>Hue Rotate</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'orange',
+      filter: 'invert(100%)'
+    }}>Invert</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'pink',
+      filter: 'saturate(50%)'
+    }}>Saturate</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'brown',
+      filter: 'sepia(100%)'
+    }}>Sepia</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: 'lightblue',
+      filter: 'drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.5)'
+    }}>Drop Shadow</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item blur">Blur</div>
+      <div class="item brightness">Brightness</div>
+      <div class="item contrast">Contrast</div>
+      <div class="item grayscale">Grayscale</div>
+      <div class="item hue-rotate">Hue Rotate</div>
+      <div class="item invert">Invert</div>
+      <div class="item saturate">Saturate</div>
+      <div class="item sepia">Sepia</div>
+      <div class="item drop-shadow">Drop Shadow</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .blur {
+      background-color: blue;
+      filter: blur(5px);
+    }
+
+    .brightness {
+      background-image: url('https://picsum.photos/200');
+      filter: brightness(150%);
+    }
+
+    .contrast {
+      background-color: red;
+      filter: contrast(200%);
+    }
+
+    .grayscale {
+      background-color: yellow;
+      filter: grayscale(100%);
+    }
+
+    .hue-rotate {
+      background-color: purple;
+      filter: hue-rotate(90deg);
+    }
+
+    .invert {
+      background-color: orange;
+      filter: invert(100%);
+    }
+
+    .saturate {
+      background-color: pink;
+      filter: saturate(50%);
+    }
+
+    .sepia {
+      background-color: brown;
+      filter: sepia(100%);
+    }
+
+    .drop-shadow {
+      background-color: lightblue;
+      filter: drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.5));
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `filter` property. In this example,
+different visual effects are applied to the `<div>` elements using the filter
+property.
+
+## More About Filters
+
+You can learn more about CSS filters by visiting the following links:
+
+- [MDN Web Docs CSS Filters](https://developer.mozilla.org/en-US/docs/Web/CSS/filter)
+- [W3Schools CSS Filters](https://www.w3schools.com/cssref/css3_pr_filter.asp)
+- [CSS-Tricks Filter](https://css-tricks.com/almanac/properties/f/filter/)
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>

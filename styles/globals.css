@@ -258,4 +258,86 @@ pre > code {
   * {
     @apply !border-none !rounded-none !shadow-none !m-0 p-0;
   }
+
+  button,
+  input {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+}
+
+.mdx-preview-hover {
+  button {
+    background-color: lightblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+
+    &:hover {
+      background-color: lightcoral;
+    }
+  }
+}
+
+.mdx-preview-focus {
+  input {
+    padding: 10px;
+    background: lightblue;
+  }
+
+  input:focus {
+    background: lightcoral;
+  }
+}
+
+.mdx-preview-active {
+  button {
+    background-color: lightblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+  }
+
+  button:active {
+    background-color: lightcoral;
+  }
+}
+
+.mdx-preview-transition {
+  button {
+    background-color: lightblue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    transform: scale(1);
+    transition: all 0.5s;
+  }
+
+  button:hover {
+    transform: scale(1.1);
+    background-color: lightcoral;
+  }
+}
+
+.mdx-preview-animation {
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .item {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    animation: spin 2s linear infinite;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
