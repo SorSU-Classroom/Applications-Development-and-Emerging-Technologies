@@ -9,7 +9,7 @@ export default function LessonsMenu({ isSheet = false }) {
   if (!pathname.startsWith("/lessons")) return null;
 
   return (
-    <div className="mt-5 flex flex-col gap-2 pb-6 pr-2">
+    <div className="mt-5 flex flex-col gap-1 pb-6 pr-2">
       {ROUTES.map((item, index) => {
         const modifiedItems = {
           ...item,
