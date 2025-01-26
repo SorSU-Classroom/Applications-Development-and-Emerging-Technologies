@@ -1,0 +1,247 @@
+---
+title: Text
+description: This lesson discusses the text properties in CSS and how they affect the layout of elements on a web page.
+---
+
+## Text
+
+### Text Align
+
+The `text-align` property is used to set the alignment of the text
+within an element. The text can be aligned to the `left`, `right`, `center`,
+or `justified`.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      text-align: center;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `text-align` property. In this
+example, the text in the `<p>` element is aligned to the center.
+
+### Text Decoration
+
+The `text-decoration` property is used to set the decoration of the text
+within an element. The text can be `none`, `underline`, `overline`,
+`line-through`, or a combination of these values.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a <span class="underline">paragraph</span>.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .underline {
+      text-decoration: underline;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `text-decoration` property. In this
+example, the text in the `<span>` element with the class `underline` is
+underlined.
+
+### Text Transform
+
+The `text-transform` property is used to set the transformation of the
+text within an element. The text can be transformed to `uppercase`,
+`lowercase`, `capitalize`, or `none`.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      text-transform: uppercase;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `text-transform` property. In this
+example, the text in the `<p>` element is transformed to uppercase.
+
+### Line Height
+
+The `line-height` property is used to set the height of a line of text
+within an element. The line height can be set to a specific size, such as
+pixels or percentages, to create different line heights.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      line-height: 1.5;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `line-height` property. In this
+example, the line height of the text in the `<p>` element is set to 1.5
+times the font size.
+
+### Font Family
+
+The `font-family` property is used to set the font family of the text
+within an element. The font family can be set to a specific font name or
+a list of font names to use as fallbacks.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      font-family: Arial, sans-serif;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `font-family` property. In this
+example, the font family of the text in the `<p>` element is set to Arial,
+with a fallback to the sans-serif font family.
+
+### Font Size
+
+The `font-size` property is used to set the font size of the text within
+an element. The font size can be set to a specific size, such as pixels
+or percentages, to create different font sizes.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      font-size: 16px;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `font-size` property. In this
+example, the font size of the text in the `<p>` element is set to 16
+pixels.
+
+### Font Weight
+
+The `font-weight` property is used to set the weight of the text within
+an element. The font weight can be set to a specific value, such as
+`normal`, `bold`, or a numeric value.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      font-weight: bold;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `font-weight` property. In this
+example, the font weight of the text in the `<p>` element is set to bold.
+
+### Font Style
+
+The `font-style` property is used to set the style of the text within an
+element. The font style can be set to `normal`, `italic`, or `oblique`.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <p>This is a paragraph.</p>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    p {
+      font-style: italic;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `font-style` property. In this
+example, the font style of the text in the `<p>` element is set to italic.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>

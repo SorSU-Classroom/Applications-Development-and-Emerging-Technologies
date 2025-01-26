@@ -237,3 +237,17 @@ export const isStaging = () => {
 export const getDocumentExtension = (filename: string): string => {
 	return (filename ?? '').split('.').pop() || '';
 };
+
+/**
+ * Add prefix to string or array of strings
+ *
+ * @param {string} prefix - The prefix to add
+ * @param {string | string[]} str - The string or array of strings to add the prefix to
+ * @return {string | string[]} - The string or array of strings with the prefix added
+ */
+export const prefix = <T extends string | string[]>(prefix: string, str: T): T extends string ? string : string[] => {
+	if (typeof str === 'string') {
+		return `${prefix}${str}` as T extends string ? string : string[];
+	}
+	return str.map((s) => `${prefix}${s}`) as T extends string ? string : string[];
+};
