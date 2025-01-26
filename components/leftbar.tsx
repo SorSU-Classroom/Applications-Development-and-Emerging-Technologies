@@ -68,7 +68,7 @@ export function SheetLeftbar() {
             <NavMenu isSheet />
             <hr className="mt-2 border-border" />
           </div>
-          <div className="mx-2 -mt-4 px-5">
+          <div className="mx-2 -mt-4 pl-5 pr-3">
             <LessonsMenu isSheet />
           </div>
           <div className="flex gap-2.5 p-6 pb-4">
