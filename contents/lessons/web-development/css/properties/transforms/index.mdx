@@ -1,0 +1,436 @@
+---
+title: Transforms
+description: This lesson discusses the transform property in CSS and how it can be used to apply transformations to elements on a web page.
+---
+
+## Transforms
+
+The `transform` property is used to apply transformations to elements
+in CSS. Transformations can be used to rotate, scale, skew, or move
+elements on a web page. The `transform` property can be used with
+different values to apply different types of transformations.
+
+### Scale
+
+The `scale` value is used to scale an element. The scale value can be
+set to a specific size, such as `1.5` or `0.5`, to scale the element up
+or down.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'scale(1.5)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'scale(0.5)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'scale(2)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+        height: 100px;
+    }
+
+    .item1 {
+      transform: scale(1.5);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: scale(0.5);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: scale(2);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `scale`. In this example, the scale value of the `<div>` elements is
+set to `1.5`, `0.5`, and `2`, creating different scale effects for the
+elements.
+
+### Rotate
+
+The `rotate` value is used to rotate an element. The rotate value can
+be set to a specific angle, such as `45deg` or `90deg`, to rotate the
+element.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'rotate(45deg)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'rotate(90deg)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'rotate(180deg)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: rotate(45deg);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: rotate(90deg);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: rotate(180deg);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `rotate`. In this example, the rotate value of the `<div>` elements is
+set to `45deg`, `90deg`, and `180deg`, creating different rotate effects
+for the elements.
+
+### Skew
+
+The `skew` value is used to skew an element. The skew value can be set
+to a specific angle, such as `30deg` or `-30deg`, to skew the element.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'skew(30deg)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'skew(-30deg)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'skew(45deg)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: skew(30deg);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: skew(-30deg);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: skew(45deg);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `skew`. In this example, the skew value of the `<div>` elements is set
+to `30deg`, `-30deg`, and `45deg`, creating different skew effects for the
+elements.
+
+### Translate
+
+The `translate` value is used to move an element. The translate value can
+be set to a specific distance, such as `10px` or `-10px`, to move the
+element.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'translate(10px, 10px)'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'translate(-10px, -10px)'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'translate(20px, 20px)'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: translate(10px, 10px);
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: translate(-10px, -10px);
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: translate(20px, 20px);
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform` property with a value
+of `translate`. In this example, the translate value of the `<div>` elements
+is set to `10px`, `-10px`, and `20px`, creating different translate effects
+for the elements.
+
+### Origin
+
+The `transform-origin` property is used to set the origin of the
+transformed element. The origin value can be set to a specific position,
+such as `top left`, `center`, or `bottom right`, to change the origin of
+the transformation.
+
+<div className="mdx-preview mdx-preview-transforms">
+  <div style={{
+    display: 'flex',
+    flexDirection: 'column',
+  }}>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightblue',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'top left'
+    }}>Item 1</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightcoral',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'center'
+    }}>Item 2</div>
+    <div style={{
+      width: '100px',
+      height: '100px',
+      background: 'lightgreen',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'bottom right'
+    }}>Item 3</div>
+  </div>
+</div>
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+    }
+
+    .item1 {
+      transform: rotate(45deg);
+      transform-origin: top left;
+      background-color: lightblue;
+    }
+
+    .item2 {
+      transform: rotate(45deg);
+      transform-origin: center;
+      background-color: lightcoral;
+    }
+
+    .item3 {
+      transform: rotate(45deg);
+      transform-origin: bottom right;
+      background-color: lightgreen;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `transform-origin` property. In this
+example, the origin of the transformation of the `<div>` elements is set to
+`top left`, `center`, and `bottom right`, creating different origin effects
+for the elements.
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
