@@ -12,6 +12,10 @@ names, hexadecimal values, RGB values, and HSL values.
 
 The `color` property is used to set the color of the text.
 
+<div className='mdx-preview mdx-preview-color'>
+	<p style={{ color: 'red' }}>This is a paragraph.</p>
+</div>
+
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
     <TabsTrigger value="html">HTML</TabsTrigger>
@@ -38,6 +42,12 @@ example, the color of the text in the `<p>` element is set to red.
 
 The `background-color` property is used to set the background
 color of an element.
+
+<div className='mdx-preview mdx-preview-background'>
+	<div style={{ backgroundColor: 'lightblue', padding: '10px' }}>
+		<h1>Welcome to my website</h1>
+	</div>
+</div>
 
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
@@ -69,6 +79,15 @@ light blue.
 The `border-color` property is used to set the color of the border
 of an element.
 
+<div className='mdx-preview mdx-preview-border'>
+	<div
+		className='!border !border-black dark:!border-white'
+		style={{ borderWidth: '1px', borderStyle: 'solid !important', padding: '10px' }}
+	>
+		<h1>Welcome to my website</h1>
+	</div>
+</div>
+
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
     <TabsTrigger value="html">HTML</TabsTrigger>
@@ -98,18 +117,18 @@ example, the border color of the `<div>` element is set to black.
 CSS provides a set of predefined color names that can be used to specify
 colors. Some of the common color names include:
 
-- **Red** - red
-- **Green** - green
-- **Blue** - blue
-- **Black** - black
-- **White** - white
-- **Yellow** - yellow
-- **Purple** - purple
-- **Orange** - orange
-- **Gray** - gray
-- **Brown** - brown
-- **Pink** - pink
-- [More...](https://www.w3schools.com/tags/ref_colornames.asp)
+-   **Red** - red
+-   **Green** - green
+-   **Blue** - blue
+-   **Black** - black
+-   **White** - white
+-   **Yellow** - yellow
+-   **Purple** - purple
+-   **Orange** - orange
+-   **Gray** - gray
+-   **Brown** - brown
+-   **Pink** - pink
+-   [More...](https://www.w3schools.com/tags/ref_colornames.asp)
 
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
@@ -127,6 +146,8 @@ colors. Some of the common color names include:
       color: blue;
       background-color: yellow;
       border-color: red;
+      border-width: 1px;
+      border-style: solid;
     }
     ```
   </TabsContent>
@@ -162,6 +183,8 @@ alpha channel - **#RRGGBBAA**.
       color: #ff0000;
       background-color: #00ff00;
       border-color: #0000ff;
+      border-width: 1px;
+      border-style: solid;
     }
     ```
   </TabsContent>
@@ -241,6 +264,12 @@ green with 50% opacity.
 colors. Gradients can be linear or radial and can be defined using the
 `linear-gradient()` or `radial-gradient()` function.
 
+<div className='mdx-preview mdx-preview-gradient'>
+  <div style={{ padding: '20px', backgroundImage: 'linear-gradient(to right, red, blue)' }}>
+    <h1>Welcome to my website</h1>
+  </div>
+</div>
+
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
     <TabsTrigger value="html">HTML</TabsTrigger>
@@ -271,10 +300,16 @@ color of the `<div>` element to a linear gradient from red to blue.
 The `background-image` property is used to specify the background image
 for an element. The value can be a URL to an image file or a gradient.
 
+<div className='mdx-preview mdx-preview-background-image'>
+  <div style={{ padding: '20px', backgroundImage: 'url(https://picsum.photos/200)' }}>
+    <h1>Welcome to my website</h1>
+  </div>
+</div>
+
 ```css showLineNumbers
 div {
-  padding: 20px;
-  background-image: url('https://picsum.photos/200');
+	padding: 20px;
+	background-image: url('https://picsum.photos/200');
 }
 ```
 
@@ -288,11 +323,17 @@ The `background-size` property is used to specify the size of the
 background image. It can be set to a specific size, such as `cover` or
 `contain`, or to a percentage of the element's width and height.
 
+<div className='mdx-preview mdx-preview-background-size'>
+  <div style={{ padding: '20px', backgroundImage: 'url(https://picsum.photos/200)', backgroundSize: 'cover' }}>
+    <h1>Welcome to my website</h1>
+  </div>
+</div>
+
 ```css showLineNumbers
 div {
-  padding: 20px;
-  background-image: url('https://picsum.photos/200');
-  background-size: cover;
+	padding: 20px;
+	background-image: url('https://picsum.photos/200');
+	background-size: cover;
 }
 ```
 
@@ -303,13 +344,13 @@ the entire element.
 ## Code Editor
 
 <iframe
-    height="480"
-    className="w-full"
-    scrolling="no"
-    title="CS 321 - Codespace"
-    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
-    frameBorder="no"
-    loading="lazy"
-    allowtransparency="true"
-    allowFullScreen={true}
+	height='480'
+	className='w-full'
+	scrolling='no'
+	title='CS 321 - Codespace'
+	src='https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true'
+	frameBorder='no'
+	loading='lazy'
+	allowtransparency='true'
+	allowFullScreen={true}
 />
