@@ -250,16 +250,16 @@ export const ROUTES: EachRoute[] = [
 							{
 								title: 'Layout',
 								href: '/layout',
-								items: [
-									{
-										title: 'Flexbox',
-										href: '/flexbox',
-									},
-									{
-										title: 'Grid',
-										href: '/grid',
-									},
-								],
+								// items: [
+								// 	{
+								// 		title: 'Flexbox',
+								// 		href: '/flexbox',
+								// 	},
+								// 	{
+								// 		title: 'Grid',
+								// 		href: '/grid',
+								// 	},
+								// ],
 							},
 							// Positioning
 							{

@@ -1,0 +1,198 @@
+---
+title: Layout
+description: This lesson discusses the layout properties in CSS and how they affect the positioning and arrangement of elements on a web page.
+---
+
+## Layout
+
+### Display
+
+The `display` property is used to set the display behavior of an element.
+The display property can be set to `block`, `inline`, `inline-block`, `flex`,
+`grid`, or `none`.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container1">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+
+    <div class="container2">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+
+    <div class="container3">
+      <div class="item">Item 1</div>
+      <div class="item">Item 2</div>
+      <div class="item">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container1 {
+      display: block;
+    }
+
+    .container2 {
+      display: inline;
+    }
+
+    .container3 {
+      display: flex;
+    }
+
+    .item {
+      width: 100px;
+      height: 100px;
+      background-color: lightblue;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `display` property. In this
+example, the display property of the `<div>` elements is set to `block`,
+`inline`, and `flex`, creating different display behaviors for the
+elements.
+
+### Flexbox
+
+The `flex` property is used to set the flex behavior of an element. The
+flex property can be set to `flex-grow`, `flex-shrink`, `flex-basis`, or
+a combination of these values.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container">
+      <div class="item item1">Item 1</div>
+      <div class="item item2">Item 2</div>
+      <div class="item item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container {
+      display: flex;
+    }
+
+    .item {
+      flex: 1;
+      height: 100px;
+      background-color: lightblue;
+    }
+
+    .item1 {
+      flex: 2;
+    }
+
+    .item2 {
+      flex: 1;
+    }
+
+    .item3 {
+      flex: 1;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `flex` property. In this
+example, the flex property of the `<div>` elements is set to 1, 2, and 1,
+creating different flex behaviors for the elements.
+
+### Grid
+
+The `grid` property is used to set the grid behavior of an element. The
+grid property can be set to `grid-template-columns`, `grid-template-rows`,
+`grid-gap`, or a combination of these values.
+
+<Tabs defaultValue="html" className="pt-5 pb-1">
+  <TabsList>
+    <TabsTrigger value="html">HTML</TabsTrigger>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+  </TabsList>
+  <TabsContent value="html">
+    ```html showLineNumbers
+    <div class="container1">
+      <div class="item1">Item 1</div>
+      <div class="item2">Item 2</div>
+      <div class="item3">Item 3</div>
+    </div>
+
+    <div class="container2">
+      <div class="item1">Item 1</div>
+      <div class="item2">Item 2</div>
+      <div class="item3">Item 3</div>
+    </div>
+
+    <div class="container3">
+      <div class="item1">Item 1</div>
+      <div class="item2">Item 2</div>
+      <div class="item3">Item 3</div>
+    </div>
+    ```
+  </TabsContent>
+  <TabsContent value="css">
+    ```css showLineNumbers
+    .container1 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 10px;
+    }
+
+    .container2 {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-gap: 10px;
+    }
+
+    .container3 {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-template-rows: 1fr 2fr 1fr;
+      grid-gap: 10px;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of the `grid` property. In this
+example, the grid property of the `<div>` elements is set to `1fr`, `2fr`,
+and `1fr`, creating different grid behaviors for the elements.
+
+### More on Flexbox and Grid
+
+You can learn more about Flexbox and Grid by visiting the following links:
+
+- [Flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox)
+- [Grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout/Basic_Concepts_of_Grid_Layout)
+
+## Code Editor
+
+<iframe
+    height="480"
+    className="w-full"
+    scrolling="no"
+    title="CS 321 - Codespace"
+    src="https://codepen.io/godkingjay/embed/vEBQzKb?default-tab=html%2Cresult&editable=true"
+    frameBorder="no"
+    loading="lazy"
+    allowtransparency="true"
+    allowFullScreen={true}
+/>
