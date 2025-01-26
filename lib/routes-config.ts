@@ -316,16 +316,16 @@ export const ROUTES: EachRoute[] = [
 					{
 						title: 'Frameworks',
 						href: '/frameworks',
-						items: [
-							{
-								title: 'Bootstrap',
-								href: '/bootstrap',
-							},
-							{
-								title: 'Tailwind CSS',
-								href: '/tailwind-css',
-							},
-						],
+						// items: [
+						// 	{
+						// 		title: 'Bootstrap',
+						// 		href: '/bootstrap',
+						// 	},
+						// 	{
+						// 		title: 'Tailwind CSS',
+						// 		href: '/tailwind-css',
+						// 	},
+						// ],
 					},
 				],
 			},
