@@ -11,6 +11,26 @@ The `display` property is used to set the display behavior of an element.
 The display property can be set to `block`, `inline`, `inline-block`, `flex`,
 `grid`, or `none`.
 
+<div className="mdx-preview mdx-preview-display">
+  <div style={{ display: 'block' }}>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  </div>
+
+  <div style={{ display: 'inline' }}>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  </div>
+
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
+    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  </div>
+</div>
+
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
     <TabsTrigger value="html">HTML</TabsTrigger>
@@ -71,6 +91,14 @@ The `flex` property is used to set the flex behavior of an element. The
 flex property can be set to `flex-grow`, `flex-shrink`, `flex-basis`, or
 a combination of these values.
 
+<div className="mdx-preview mdx-preview-flexbox">
+  <div style={{ display: 'flex' }}>
+    <div style={{ flex: 2, height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ flex: 1, height: '100px', backgroundColor: 'lightcoral' }}>Item 2</div>
+    <div style={{ flex: 1, height: '100px', backgroundColor: 'lightgreen' }}>Item 3</div>
+  </div>
+</div>
+
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
     <TabsTrigger value="html">HTML</TabsTrigger>
@@ -94,19 +122,21 @@ a combination of these values.
     .item {
       flex: 1;
       height: 100px;
-      background-color: lightblue;
     }
 
     .item1 {
       flex: 2;
+      background-color: lightblue;
     }
 
     .item2 {
       flex: 1;
+      background-color: lightcoral;
     }
 
     .item3 {
       flex: 1;
+      background-color: lightgreen;
     }
     ```
   </TabsContent>
@@ -121,6 +151,32 @@ creating different flex behaviors for the elements.
 The `grid` property is used to set the grid behavior of an element. The
 grid property can be set to `grid-template-columns`, `grid-template-rows`,
 `grid-gap`, or a combination of these values.
+
+<div className="mdx-preview mdx-preview-grid">
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
+    <div style={{ backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ backgroundColor: 'lightcoral' }}>Item 2</div>
+    <div style={{ backgroundColor: 'lightgreen' }}>Item 3</div>
+  </div>
+
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
+    <div style={{ backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ backgroundColor: 'lightcoral' }}>Item 2</div>
+    <div style={{ backgroundColor: 'lightgreen' }}>Item 3</div>
+  </div>
+
+  <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gridTemplateRows: '1fr 2fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
+    <div style={{ backgroundColor: 'lightblue' }}>Item 1</div>
+    <div style={{ backgroundColor: 'lightcoral' }}>Item 2</div>
+    <div style={{ backgroundColor: 'lightgreen' }}>Item 3</div>
+    <div style={{ backgroundColor: 'lightblue' }}>Item 4</div>
+    <div style={{ backgroundColor: 'lightcoral' }}>Item 5</div>
+    <div style={{ backgroundColor: 'lightgreen' }}>Item 6</div>
+    <div style={{ backgroundColor: 'lightblue' }}>Item 7</div>
+    <div style={{ backgroundColor: 'lightcoral' }}>Item 8</div>
+    <div style={{ backgroundColor: 'lightgreen' }}>Item 9</div>
+  </div>
+</div>
 
 <Tabs defaultValue="html" className="pt-5 pb-1">
   <TabsList>
@@ -145,6 +201,12 @@ grid property can be set to `grid-template-columns`, `grid-template-rows`,
       <div class="item1">Item 1</div>
       <div class="item2">Item 2</div>
       <div class="item3">Item 3</div>
+      <div class="item4">Item 4</div>
+      <div class="item5">Item 5</div>
+      <div class="item6">Item 6</div>
+      <div class="item7">Item 7</div>
+      <div class="item8">Item 8</div>
+      <div class="item9">Item 9</div>
     </div>
     ```
   </TabsContent>
@@ -154,12 +216,14 @@ grid property can be set to `grid-template-columns`, `grid-template-rows`,
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       grid-gap: 10px;
+      margin-block: 10px;
     }
 
     .container2 {
       display: grid;
       grid-template-columns: 1fr 2fr 1fr;
       grid-gap: 10px;
+      margin-block: 10px;
     }
 
     .container3 {
@@ -167,6 +231,7 @@ grid property can be set to `grid-template-columns`, `grid-template-rows`,
       grid-template-columns: 1fr 2fr 1fr;
       grid-template-rows: 1fr 2fr 1fr;
       grid-gap: 10px;
+      margin-block: 10px;
     }
     ```
   </TabsContent>
