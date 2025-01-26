@@ -29,7 +29,7 @@ const LessonWindow = ({ children, ...props }: LessonWindowProps) => {
 			<div
 				id='lesson-content'
 				ref={contentRef}
-				className='pt-4 -mx-8 px-8'
+				className='pt-4'
 			>
 				{children}
 			</div>

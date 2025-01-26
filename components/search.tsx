@@ -1,12 +1,14 @@
 'use client';
 
 import { CommandIcon, FileIcon, SearchIcon } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTrigger, DialogClose, DialogTitle } from '@/components/ui/dialog';
 import { useEffect, useMemo, useState } from 'react';
-import Anchor from './anchor';
-import { advanceSearch, cn } from '@/lib/utils';
+
+import { Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { advanceSearch, cn } from '@/lib/utils';
+
+import Anchor from './anchor';
 
 export default function Search() {
 	const [searchedInput, setSearchedInput] = useState('');
