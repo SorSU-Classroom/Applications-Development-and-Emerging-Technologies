@@ -278,6 +278,31 @@ pre > code {
   }
 }
 
+.mdx-preview-radius {
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+  }
+
+  .item1 {
+    border-radius: 50%;
+  }
+
+  .item2 {
+    border-radius: 10px;
+  }
+
+  .item3 {
+    border-radius: 20%;
+  }
+}
+
 .mdx-preview-hover {
   button {
     background-color: lightblue;
@@ -299,6 +324,14 @@ pre > code {
 
   input:focus {
     background: lightcoral;
+  }
+}
+
+.mdx-preview-grid {
+  .container1,
+  .container2,
+  .container3 {
+    margin-block: 16px !important;
   }
 }
 

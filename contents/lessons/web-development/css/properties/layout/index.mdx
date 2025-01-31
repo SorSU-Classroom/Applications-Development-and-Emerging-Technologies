@@ -153,19 +153,19 @@ grid property can be set to `grid-template-columns`, `grid-template-rows`,
 `grid-gap`, or a combination of these values.
 
 <div className="mdx-preview mdx-preview-grid">
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
+  <div className="container1" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
     <div style={{ backgroundColor: 'lightblue' }}>Item 1</div>
     <div style={{ backgroundColor: 'lightcoral' }}>Item 2</div>
     <div style={{ backgroundColor: 'lightgreen' }}>Item 3</div>
   </div>
 
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
+  <div className="container2" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
     <div style={{ backgroundColor: 'lightblue' }}>Item 1</div>
     <div style={{ backgroundColor: 'lightcoral' }}>Item 2</div>
     <div style={{ backgroundColor: 'lightgreen' }}>Item 3</div>
   </div>
 
-  <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gridTemplateRows: '1fr 2fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
+  <div className="container3" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr 1fr', gridTemplateRows: '1fr 2fr 1fr', gridGap: '10px', marginBlock: "10px !important" }}>
     <div style={{ backgroundColor: 'lightblue' }}>Item 1</div>
     <div style={{ backgroundColor: 'lightcoral' }}>Item 2</div>
     <div style={{ backgroundColor: 'lightgreen' }}>Item 3</div>
@@ -232,6 +232,18 @@ grid property can be set to `grid-template-columns`, `grid-template-rows`,
       grid-template-rows: 1fr 2fr 1fr;
       grid-gap: 10px;
       margin-block: 10px;
+    }
+
+    .item1, .item4, .item7 {
+      background-color: lightblue;
+    }
+
+    .item2, .item5, .item8 {
+      background-color: lightcoral;
+    }
+
+    .item3, .item6, .item9 {
+      background-color: lightgreen;
     }
     ```
   </TabsContent>
