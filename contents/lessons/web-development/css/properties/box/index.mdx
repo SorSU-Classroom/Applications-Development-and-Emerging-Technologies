@@ -12,10 +12,10 @@ margin is the space outside the border of the element and is used to
 create space between elements.
 
 <div className="mdx-preview mdx-preview-margin">
-  <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-    <div className="item" style={{ margin: '10px', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div className="item" style={{ margin: '10px', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div className="item" style={{ margin: '10px', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  <div className="container">
+    <div className="item">Item 1</div>
+    <div className="item">Item 2</div>
+    <div className="item">Item 3</div>
   </div>
 </div>
 
@@ -61,10 +61,10 @@ padding is the space between the content area and the border of the
 element and is used to create space around the content.
 
 <div className="mdx-preview mdx-preview-padding">
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
-    <div style={{ padding: '10px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div style={{ padding: '10px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div style={{ padding: '10px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  <div className="container">
+    <div className="item">Item 1</div>
+    <div className="item">Item 2</div>
+    <div className="item">Item 3</div>
   </div>
 </div>
 
@@ -109,11 +109,11 @@ The `border` property is used to set the border of an element. The
 border is the line that surrounds the padding and content of the element
 and is used to define the visual appearance of the element.
 
-<div className="mdx-preview mdx-preview-border">
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
-    <div style={{ border: '1px solid black !important', padding: '4px !important', margin: '4px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div style={{ border: '1px solid black !important', padding: '4px !important', margin: '4px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div style={{ border: '1px solid black !important', padding: '4px !important', margin: '4px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+<div className="mdx-preview mdx-preview-border-box">
+  <div className="container">
+    <div className="item">Item 1</div>
+    <div className="item">Item 2</div>
+    <div className="item">Item 3</div>
   </div>
 </div>
 
@@ -161,10 +161,10 @@ in a flex container. It distributes the extra space between elements in
 the container.
 
 <div className="mdx-preview mdx-preview-space-between">
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div style={{ width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  <div className="container">
+    <div className="item">Item 1</div>
+    <div className="item">Item 2</div>
+    <div className="item">Item 3</div>
   </div>
 </div>
 
@@ -263,10 +263,10 @@ an element. The radius can be set to a specific size, such as pixels or
 percentages, to create rounded corners.
 
 <div className="mdx-preview mdx-preview-radius">
-  <div className="container" style={{ display: 'flex', flexDirection: 'column' }}>
-    <div className="item1" style={{ borderRadius: '50% !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div className="item2" style={{ borderRadius: '10px !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div className="item3" style={{ borderRadius: '20% !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  <div className="container">
+    <div className="item item1">Item 1</div>
+    <div className="item item2">Item 2</div>
+    <div className="item item3">Item 3</div>
   </div>
 </div>
 
@@ -323,10 +323,10 @@ The shadow can be set to a specific size, color, and blur radius to create
 different shadow effects.
 
 <div className="mdx-preview mdx-preview-box-shadow">
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
-    <div style={{ boxShadow: '5px 5px 5px black !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div style={{ boxShadow: '10px 10px 10px red !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div style={{ boxShadow: '0 0 10px blue !important', width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  <div className="container">
+    <div className="item item1">Item 1</div>
+    <div className="item item2">Item 2</div>
+    <div className="item item3">Item 3</div>
   </div>
 </div>
 
@@ -383,10 +383,10 @@ opacity can be set to a value between 0 and 1, where 0 is fully transparent
 and 1 is fully opaque.
 
 <div className="mdx-preview mdx-preview-opacity">
-  <div style={{ display: 'flex', flexDirection: 'column' }}>
-    <div style={{ opacity: 0.5, width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 1</div>
-    <div style={{ opacity: 0.7, width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 2</div>
-    <div style={{ opacity: 0.9, width: '100px', height: '100px', backgroundColor: 'lightblue' }}>Item 3</div>
+  <div className="container">
+    <div className="item item1">Item 1</div>
+    <div className="item item2">Item 2</div>
+    <div className="item item3">Item 3</div>
   </div>
 </div>
 

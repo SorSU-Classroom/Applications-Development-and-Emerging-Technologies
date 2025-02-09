@@ -265,41 +265,141 @@ pre > code {
   }
 }
 
+.mdx-preview-border {
+  div {
+    border: 1px solid black !important;
+  }
+}
+
 .mdx-preview-margin {
   .container {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
+  }
 
-    .item {
-      width: 100px;
-      height: 100px;
-      margin: 10px !important;
-    }
+  .item {
+    width: 100px !important;
+    height: 100px !important;
+    margin: 10px !important;
+    background-color: lightblue !important;
+  }
+}
+
+.mdx-preview-padding {
+  .container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .item {
+    padding: 10px !important;
+    width: 100px !important;
+    height: 100px !important;
+    background-color: lightblue !important;
+  }
+}
+
+.mdx-preview-border-box {
+  .container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .item {
+    padding: 4px !important;
+    margin: 4px !important;
+    border: 1px solid black !important;
+    width: 100px !important;
+    height: 100px !important;
+    background-color: lightblue !important;
+  }
+}
+
+.mdx-preview-space-between {
+  .container {
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .item {
+    width: 100px !important;
+    height: 100px !important;
+    background-color: lightblue !important;
   }
 }
 
 .mdx-preview-radius {
   .container {
-    display: flex;
-    flex-direction: column;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   .item {
-    width: 100px;
-    height: 100px;
-    background-color: lightblue;
+    width: 100px !important;
+    height: 100px !important;
+    background-color: lightblue !important;
   }
 
   .item1 {
-    border-radius: 50%;
+    border-radius: 50% !important;
   }
 
   .item2 {
-    border-radius: 10px;
+    border-radius: 10px !important;
   }
 
   .item3 {
-    border-radius: 20%;
+    border-radius: 20% !important;
+  }
+}
+
+.mdx-preview-box-shadow {
+  .container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .item {
+    width: 100px !important;
+    height: 100px !important;
+    background-color: lightblue !important;
+  }
+
+  .item1 {
+    box-shadow: 5px 5px 5px black !important;
+  }
+
+  .item2 {
+    box-shadow: 10px 10px 10px red !important;
+  }
+
+  .item3 {
+    box-shadow: 0 0 10px blue !important;
+  }
+}
+
+.mdx-preview-opacity {
+  .container {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .item {
+    width: 100px !important;
+    height: 100px !important;
+    background-color: lightblue !important;
+  }
+
+  .item1 {
+    opacity: 0.5 !important;
+  }
+
+  .item2 {
+    opacity: 0.7 !important;
+  }
+
+  .item3 {
+    opacity: 0.9 !important;
   }
 }
 
