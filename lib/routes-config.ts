@@ -349,6 +349,10 @@ export const ROUTES: EachRoute[] = [
         title: "Best Practices",
         href: "/best-practices-for-version-control",
       },
+      {
+        title: "More About Version Control, Git, and GitHub",
+        href: "/more-about-version-control-git-and-github",
+      },
     ],
   },
 ];
