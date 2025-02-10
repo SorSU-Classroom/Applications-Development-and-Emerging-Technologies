@@ -1,0 +1,42 @@
+---
+title: Best Practices for Version Control
+description: This lesson discusses best practices for version control, including Git ignore, commit messages, and branch naming conventions.
+---
+
+## Git Ignore
+
+The `.gitignore` file is used to specify files and directories that should be ignored by Git. You can create a `.gitignore` file in the root directory of your project and add patterns for files and directories that you want to exclude from version control:
+
+```bash
+# Ignore build files
+build/
+
+# Ignore configuration files
+config.json
+```
+
+The example above shows a `.gitignore` file that excludes the `build` directory and `config.json` file from version control. You can add patterns for files and directories that you want to ignore in the `.gitignore` file.
+
+## Commit Messages
+
+Commit messages should be clear, concise, and descriptive. A good commit message should explain the changes made in the commit and provide context for the changes. You can follow the *imperative mood* and use the subject line and body to structure your commit messages:
+
+```bash
+git commit -m "Add feature X"
+
+Add feature X to improve performance
+```
+
+The example above shows a commit message with a subject line and body. The subject line is concise and describes the changes made in the commit, while the body provides additional context for the changes.
+
+## Branch Naming
+
+Branch names should be descriptive and follow a consistent naming convention. You can use prefixes such as `feature/`, `bugfix/`, or `hotfix/` to categorize branches based on the type of changes:
+
+```bash
+git branch feature/add-x
+git branch bugfix/fix-y
+git branch hotfix/patch-z
+```
+
+The example above shows branch names with prefixes to categorize branches based on the type of changes. You can use prefixes to organize branches and make it easier to identify the purpose of each branch.

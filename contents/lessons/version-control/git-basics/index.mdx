@@ -1,0 +1,108 @@
+---
+title: Git Basics
+description: This lesson discusses the basics of Git, a distributed version control system widely used in software development.
+---
+
+## Introduction to Git
+
+**Git** is a distributed version control system that allows you to track changes to files, collaborate with others, and maintain a history of your work. Git is widely used in software development to manage code changes, track project history, and collaborate with other developers. It was created by Linus Torvalds in 2005 and is an open-source tool that is free to use. Nowadays, Git is the most popular version control system and is used by millions of developers around the world. Not only is Git used for software development, but it is also used for managing configuration files, documentation, and other types of files.
+
+## Setting Up Git
+
+To get started with Git, you need to <a href="https://git-scm.com/" target="_blank" className="font-bold text-primary">install</a> on your local machine and configure your Git username and email address. You can download Git from the official Git website and follow the installation instructions for your operating system. Once Git is installed, you can configure your username and email address using the following commands:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "example@example.com"
+```
+
+The commands above set up your Git username and email address. Replace "Your Name" with your actual name and "example@example.com" with your actual email address. These settings are used to identify you as the author of the changes you make in Git.
+
+## Core Concepts
+
+**Git** has several core concepts that you need to understand to use Git effectively:
+
+- **Repository**: A repository is a collection of files and directories that are tracked by Git. It contains the project history, branches, and configuration settings.
+
+- **Commit**: A commit is a snapshot of the project at a specific point in time. It records changes to files and includes a commit message that describes the changes.
+
+- **Branch**: A branch is a parallel version of the project that allows you to work on different features independently. It is used to isolate changes and merge them later.
+
+- **Merge**: Merging is the process of combining changes from one branch into another branch. It is used to integrate changes and resolve conflicts between branches.
+
+- **Remote**: A remote is a shared repository that is hosted on a server. It allows multiple users to collaborate on a project and share changes with others.
+
+- **Staging Area**: The staging area is a temporary storage area where changes are prepared before committing them to the repository. It allows you to review changes and select which changes to commit.
+
+## Git Workflow
+
+The typical Git workflow consists of the following steps:
+
+### Initialize Repository
+
+To start using Git, you need to initialize a new repository in your project directory. You can do this by running the following command:
+
+```bash
+git init
+```
+
+The command above initializes a new Git repository in your project directory. This command creates a hidden `.git` directory that contains the project history and configuration settings.
+
+### Add and Commit Changes
+
+After initializing a repository, you can add files to the staging area and commit changes to the repository. You can add files to the staging area using the `git add` command and commit changes using the `git commit` command:
+
+```bash
+git add file.txt
+git commit -m "Add file.txt"
+```
+
+The commands above add a file to the staging area and commit changes to the repository. Replace `file.txt` with the name of the file you want to add, and `Add file.txt` with a descriptive commit message.
+
+### View History and Changes
+
+You can view the project history and changes using the `git log` and `git diff` commands. The `git log` command displays the commit history, and the `git diff` command shows the changes between files:
+
+```bash
+git log
+git diff file.txt
+```
+
+The commands above show the project history and changes. The `git log` command displays the commit history, and the `git diff` command shows the changes between files.
+
+### Undoing Changes
+
+You can undo changes in Git using the `git checkout`, `git reset`, and `git revert` commands. The `git checkout` command is used to discard changes in the working directory, the `git reset` command is used to unstage changes in the staging area, and the `git revert` command is used to revert commits in the repository.
+
+#### Checkout
+
+The `git checkout` command is used to discard changes in the working directory. You can use it to revert changes to a specific file or restore the project to a previous commit:
+
+```bash
+git checkout file.txt
+git checkout HEAD~1
+```
+
+The commands above show how to discard changes to a specific file and restore the project to a previous commit. Replace `file.txt` with the name of the file you want to discard changes to, and `HEAD~1` with the commit you want to restore the project to.
+
+#### Reset
+
+The `git reset` command is used to unstage changes in the staging area. You can use it to unstage changes to a specific file or reset the staging area to the last commit:
+
+```bash
+git reset file.txt
+git reset
+```
+
+The commands above show how to unstage changes to a specific file and reset the staging area to the last commit. Replace `file.txt` with the name of the file you want to unstage changes to.
+
+#### Revert
+
+The `git revert` command is used to revert commits in the repository. You can use it to create a new commit that undoes the changes introduced by a specific commit:
+
+```bash
+git revert HEAD
+```
+
+The command above shows how to revert a specific commit in the repository. Replace `HEAD` with the commit you want to revert.
+
