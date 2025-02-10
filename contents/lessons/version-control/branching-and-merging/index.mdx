@@ -1,0 +1,43 @@
+---
+title: Branching and Merging
+description: This lesson discusses branching and merging in Git, allowing developers to work on different features independently and integrate changes later.
+---
+
+## What is Branching?
+
+**Branching** allows developers to diverge from the main codebase to work independently. Branches are pointers to commits, enabling parallel development.
+
+## Creating and Switching Branches
+
+You can create and switch branches in Git using the `git branch` and `git checkout` commands. The `git branch` command is used to create a new branch, and the `git checkout` command is used to switch to a branch:
+
+```bash
+git branch feature
+git checkout feature
+```
+
+The commands above create a new branch named `feature` and switch to the `feature` branch. Replace `feature` with the name of the branch you want to create and switch to.
+
+## Merging Branches
+
+You can merge branches in Git using the `git merge` command. The `git merge` command is used to combine changes from one branch into another branch:
+
+```bash
+git checkout main
+git merge feature
+```
+
+The commands above switch to the `main` branch and merge changes from the `feature` branch into the `main` branch. Replace `main` with the name of the branch you want to merge changes into.
+
+## Resolving Merge Conflicts
+
+Merge conflicts occur when Git is unable to automatically merge changes from different branches. You can resolve merge conflicts by editing the conflicting files, marking the conflicts as resolved, and committing the changes:
+
+```bash
+git status
+# Edit conflicting files
+git add file.txt
+git commit -m "Resolve merge conflicts"
+```
+
+The commands above show how to resolve merge conflicts in Git. After editing the conflicting files, you need to add the files to the staging area and commit the changes to mark the conflicts as resolved.
