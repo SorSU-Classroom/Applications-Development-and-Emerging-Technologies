@@ -1,0 +1,42 @@
+---
+title: Installation
+description: This lesson will guide you through the installation process for NextJS.
+---
+
+## Pre-requisites
+
+Before installing NextJS, you need to have Node.js and npm (Node Package Manager) installed on your local machine. You can download and install Node.js from the official Node.js website. npm is included with Node.js, so you don't need to install it separately. You can download Node.js from the following link:
+
+<Link
+  title="Node.js Download"
+  href="https://nodejs.org/en/download/"
+  target="_blank"
+>
+  <Button size="lg" color="success">
+    Node.js Download
+  </Button>
+</Link>
+
+## Automatic Installation
+
+You can create a new NextJS project using the `create-next-app` command provided by the NextJS team. This command sets up a new NextJS project with all the necessary dependencies and configuration files:
+
+```bash
+npx create-next-app@latest
+```
+
+On installation, you'll see the following prompts:
+
+```bash
+What is your project named? my-app
+Would you like to use TypeScript? No / Yes
+Would you like to use ESLint? No / Yes
+Would you like to use Tailwind CSS? No / Yes
+Would you like your code inside a `src/` directory? No / Yes
+Would you like to use App Router? (recommended) No / Yes
+Would you like to use Turbopack for `next dev`?  No / Yes
+Would you like to customize the import alias (`@/*` by default)? No / Yes
+What import alias would you like configured? @/*
+```
+
+After the prompts, `create-next-app` will create a folder with your project name and install the required dependencies.
