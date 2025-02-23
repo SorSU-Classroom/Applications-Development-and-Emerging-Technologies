@@ -1,0 +1,108 @@
+---
+title: Styling
+description: This lesson will introduce you to styling in NextJS, a React framework that provides built-in support for CSS, Sass, and CSS-in-JS.
+---
+
+## CSS Modules
+
+**CSS modules** are a way to scope CSS locally by default. It allows you to write CSS styles for a specific component without worrying about global styles or naming conflicts. CSS modules generate unique class names for each component, making it easy to style components in isolation.
+
+<Tabs defaultValue="css">
+  <TabsList>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+    <TabsTrigger value="jsx">JSX</TabsTrigger>
+  </TabsList>
+  <TabsContent value="css">
+    ```css
+    /* styles.module.css */
+    .container {
+      background-color: lightblue;
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="jsx">
+    ```jsx
+    import styles from './styles.module.css';
+
+    export default function Component() {
+      return <div className={styles.container}>Hello, Next.js!</div>;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of a CSS module file that defines a `container` class with a background color of light blue. The JSX code shows how to use the CSS module in a React component by importing the styles and applying the `container` class to the `div` element.
+
+## External Stylesheets
+
+NextJS allows you to import external stylesheets into your components by importing the CSS file directly into the component. You can use global CSS stylesheets to style your components and apply styles across the entire application.
+
+<Tabs defaultValue="css">
+  <TabsList>
+    <TabsTrigger value="css">CSS</TabsTrigger>
+    <TabsTrigger value="jsx">JSX</TabsTrigger>
+  </TabsList>
+  <TabsContent value="css">
+    ```css
+    /* styles.css */
+    .btn-success {
+      background-color: #28a745;
+      color: #fff;
+      border-radius: 4px;
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="jsx">
+    ```jsx
+    import '../styles.css';
+
+    export default function Component() {
+      return <button className="btn-success">Click me</button>;
+    }
+    ```
+  </TabsContent>
+</Tabs>
+
+The code above shows an example of an external CSS file that defines a `btn-success` class with styles for a success button. The JSX code shows how to use the external stylesheet in a React component by importing the CSS file and applying the `btn-success` class to the `button` element.
+
+## CSS-in-JS Libraries
+
+NextJS supports CSS-in-JS libraries that allow you to write CSS styles directly in your JavaScript code. CSS-in-JS libraries provide a way to create dynamic styles, share styles between components, and improve performance by reducing the number of HTTP requests. There are several popular CSS-in-JS libraries available, such as styled-components, emotion, @emotion/styled, or the inline style prop.
+
+```jsx
+export default function Component() {
+  return (
+    <button style={{
+      backgroundColor: '#007bff',
+      color: '#fff',
+      borderRadius: '4px',
+    }}>
+      Click Me
+    </button>
+  );
+}
+```
+
+The code above shows an example of using the inline style prop to apply styles directly to a React component. The `style` prop accepts an object with CSS properties and values to style the component.
+
+## Tailwind CSS
+
+**Tailwind CSS** is a utility-first CSS framework that provides a set of utility classes to style web designs. Tailwind CSS allows you to create custom designs by applying utility classes directly in the HTML markup, making it easier to build responsive and customizable web designs.
+
+```html
+<button class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
+  Click Me
+</button>
+```
+
+The code above shows an example of using Tailwind CSS utility classes to style a button component. The utility classes apply background color, text color, font weight, padding, and border radius styles to the button.
+
+## More about Styling in NextJS
+
+You can find more information about styling in NextJS from the following sources:
+
+- [NextJS Documentation: Built-in CSS Support](https://nextjs.org/docs/basic-features/built-in-css-support)
+- [NextJS Documentation: CSS Modules](https://nextjs.org/docs/basic-features/built-in-css-support#css-modules)
+- [NextJS Documentation: External Stylesheets](https://nextjs.org/docs/basic-features/built-in-css-support#external-stylesheets)
+- [NextJS Documentation: CSS-in-JS](https://nextjs.org/docs/basic-features/built-in-css-support#css-in-js)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)

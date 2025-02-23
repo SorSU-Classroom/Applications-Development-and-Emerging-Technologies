@@ -1,0 +1,67 @@
+---
+title: Routing
+description: This lesson will introduce you to routing in NextJS, a React framework that provides built-in support for file-based routing and dynamic routes.
+---
+
+## Link Component
+
+The `Link` component in NextJS is used to navigate between pages in the application. It is an optimized component that pre-fetches linked pages in the background to improve performance and provide a seamless navigation experience.
+
+```jsx
+import Link from 'next/link';
+
+export default function Page() {
+  return (
+    <div>
+      <h1>Home</h1>
+      <Link href="/about">
+        About
+      </Link>
+    </div>
+  );
+}
+```
+
+The code above shows an example of using the `Link` component in NextJS to create a link to the about page. The `Link` component accepts the `href` prop with the path to the linked page.
+
+## Dynamic Routes
+
+A Dynamic Segment can be created by wrapping a folder's name in square brackets: `[folderName]`. For example, `[id]` or `[slug]`.
+
+Dynamic Segments are passed as the `params` prop to `layout`, `page`, `route`, and `generateMetadata` functions.
+
+```bash
+app/
+├── blog/
+│   └── [slug]
+│       └── page.js
+```
+
+```jsx
+export default async function Page({ params }) {
+  const slug = (await params).slug;
+  return (<div>My Post: {slug}</div>);
+}
+```
+
+The code above shows an example of using dynamic routes in NextJS. The `[slug]/page.js` file accepts the `params` prop and extracts the `slug` value to render the post content.
+
+## Nested Routes
+
+Nested routes can be created by nesting folders inside the pages directory. Each folder represents a nested route, and each file inside the folder represents a page in the nested route.
+
+```bash
+pages/
+├── blog/
+│   └── [slug]
+│   │   └── page.js
+│   └── page.js
+```
+
+The example above shows the structure of nested routes in NextJS. The `blog/[slug]/page.js` file represents a dynamic post page, and the `blog/page.js` file represents the blog index page.
+
+## More about Routing in NextJS
+
+You can find more information about routing in NextJS from the following sources:
+
+- [NextJS Documentation: Routing](https://nextjs.org/docs/app/building-your-application/routing)

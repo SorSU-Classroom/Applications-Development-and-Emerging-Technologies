@@ -371,50 +371,26 @@ export const ROUTES: EachRoute[] = [
       {
         title: "Core Features of NextJS",
         href: "/core-features-of-nextjs",
-        items: [
-          {
-            title: "More about NextJS",
-            href: "/more-about-nextjs",
-          },
-        ],
       },
       {
         title: "Components",
-        href: "/components",
-        items: [
-          {
-            title: "More about Components in NextJS",
-            href: "/more-about-components-in-nextjs",
-          },
-        ],
+        href: "/components-in-nextjs",
       },
       {
         title: "Styling",
-        href: "/styling",
-        items: [
-          {
-            title: "More about Styling in NextJS",
-            href: "/more-about-styling-in-nextjs",
-          },
-        ],
+        href: "/styling-in-nextjs",
       },
       {
         title: "Routing",
-        href: "/routing",
-        items: [
-          {
-            title: "More about Routing in NextJS",
-            href: "/more-about-routing-in-nextjs",
-          },
-        ],
+        href: "/routing-in-nextjs",
       },
       {
         title: "State Management",
-        href: "/state-management",
+        href: "/state-management-in-nextjs",
       },
       {
         title: "Hooks",
-        href: "/hooks",
+        href: "/hooks-in-nextjs",
       },
       {
         title: "More about NextJS",

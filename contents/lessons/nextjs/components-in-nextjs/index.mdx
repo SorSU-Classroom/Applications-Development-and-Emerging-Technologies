@@ -1,0 +1,93 @@
+---
+title: Components
+description: This lesson will introduce you to components in NextJS, a React framework that allows you to build modern web applications.
+---
+
+## Pages
+
+A page is UI that is rendered on a specific route. To create a page, add a page
+file inside the app directory and default export a React component. For example, to create an index page (/):
+
+```bash
+app/
+├── page.js
+```
+
+```jsx
+export default function Page() {
+  return <h1>Hello, Next.js!</h1>;
+}
+```
+
+The code above shows an example of creating a page in NextJS. The `page.js` file exports a React component that renders an `h1` element with the text "Hello, Next.js!".
+
+## Layouts
+
+A layout is UI that is shared between multiple pages. On navigation, layouts
+preserve state, remain interactive, and do not rerender.
+
+You can define a layout by default exporting a React component from a layout
+file. The component should accept a children prop which can be a page or
+another layout.
+
+For example, to create a layout that accepts your index page as child, add a
+layout file inside the app directory:
+
+```bash
+app/
+├── layout.js
+├── page.js
+```
+
+```jsx
+export default function Layout({ children }) {
+  return (
+    <div>
+      <h1>My Layout</h1>
+      {children}
+    </div>
+  );
+}
+```
+
+The code above shows an example of creating a layout in
+NextJS. The `layout.js` file exports a React component that renders an
+`h1` element with the text "My Layout" and accepts a `children`
+prop to render the child components.
+
+## Reusable Components
+
+Reusable components are UI elements that can be shared across multiple pages
+and layouts. You can create reusable components by defining React components
+and importing them into your pages and layouts.
+
+For example, to create a reusable button component, define a button file inside
+the components directory:
+
+```bash
+components/
+├── button.js
+app/
+├── layout.js
+├── page.js
+```
+
+```jsx
+export default function Button({ children }) {
+  return <button>{children}</button>;
+}
+```
+
+The code above shows an example of creating a
+reusable button component in NextJS. The `button.js` file exports a
+React component that renders a `button` element with the children passed
+as props.
+
+## More about Components in NextJS
+
+You can find more information about components in NextJS from the following
+sources:
+
+- [NextJS Documentation: Pages](https://nextjs.org/docs/app/getting-started/layouts-and-pages#creating-a-page)
+- [NextJS Documentation: Layouts](https://nextjs.org/docs/app/getting-started/layouts-and-pages#creating-a-layout)
+- [NextJS Documentation: Components](https://nextjs.org/docs/app/api-reference/components)

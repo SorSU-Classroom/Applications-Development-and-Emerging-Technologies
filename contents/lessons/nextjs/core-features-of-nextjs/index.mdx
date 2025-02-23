@@ -1,0 +1,105 @@
+---
+title: Core Features of NextJS
+description: This lesson will introduce you to the core features of NextJS, a React framework that provides a set of tools and features to build modern web applications.
+---
+
+## File-based Routing
+
+NextJS uses a file-based routing system that allows you to create pages by adding files to the `pages` directory. Each file in the `pages` directory corresponds to a route in the application, making it easy to create dynamic and static pages.
+
+```bash
+pages/
+├── index.js
+├── about.js
+├── contact.js
+```
+
+The example above shows the file-based routing system in NextJS. The `index.js` file corresponds to the home page, the `about.js` file corresponds to the about page, and the `contact.js` file corresponds to the contact page.
+
+NextJS has two types of routing methods: `pages router` and `app router`.
+
+### Pages Router
+
+`Pages router` is the traditional way of routing in NextJS. It uses the file-based routing system to create pages by adding files to the `pages` directory. Each file in the `pages` directory corresponds to a route in the application.
+
+```bash
+pages/
+├── index.js         // Maps to `/'
+├── about.js         // Maps to `/about'
+├── blog/
+│   └── [id].js      // Maps to `/blog/:id'
+└── api/
+    └── hello.js     // API endpoint at `/api/hello'
+```
+
+The example above shows the structure of the pages router in NextJS. The `index.js` file corresponds to the home page, the `about.js` file corresponds to the about page, the `[id].js` file corresponds to dynamic blog pages, and the `hello.js` file corresponds to an API endpoint.
+
+### App Router
+
+`App router` is a new routing method introduced in NextJS 13. It offers a new approach to routing, leveraging React's latest features like Server Components and Suspense. It uses the `app` directory instead of pages and provides enhanced capabilities for building modern applications.
+
+```bash
+app/
+├── layout.js             // Root layout
+├── page.js               // Maps to `/'
+├── about/
+│   └── page.js           // Maps to `/about'
+├── blog/
+│   ├── [id]/
+│   │   └── page.js       // Maps to `/blog/:id'
+│   └── page.js           // Maps to `/blog'
+└── api/
+    └── hello/route.js    // API endpoint at `/api/hello'
+```
+
+The example above shows the structure of the app router in NextJS. The `layout.js` file corresponds to the root layout, the `page.js` file corresponds to the home page, the `about/page.js` file corresponds to the about page, the `blog/[id]/page.js` file corresponds to dynamic blog pages, and the `api/hello/route.js` file corresponds to an API endpoint.
+
+## Image and Font Optimization
+
+NextJS provides built-in support for image and font optimization to improve performance and reduce loading times. It automatically optimizes images and fonts by compressing, resizing, and caching them to deliver the best possible user experience.
+
+## Multiple Rendering Methods
+
+NextJS supports multiple rendering methods, including server-side rendering (SSR), client-side rendering (CSR), static site generation (SSG), and incremental static regeneration (ISR). You can choose the rendering method that best suits your application requirements and performance goals.
+
+### Server-side Rendering (SSR)
+
+Server-side rendering (SSR) generates HTML on the server and sends it to the client. It allows you to pre-render pages with dynamic data and improve SEO and performance by delivering fully rendered pages to the client.
+
+### Client-side Rendering (CSR)
+
+Client-side rendering (CSR) generates HTML on the client using JavaScript. It allows you to build interactive and dynamic web applications by rendering pages in the browser and fetching data dynamically.
+
+### Static Site Generation (SSG)
+
+Static site generation (SSG) generates HTML at build time and serves static files to the client. It allows you to pre-render pages with static data and improve performance by delivering static content to the client.
+
+### Incremental Static Regeneration (ISR)
+
+Incremental static regeneration (ISR) generates HTML at build time and revalidates and updates pages at runtime. It allows you to update static content dynamically and improve performance by serving updated content to the client.
+
+## API Routes
+
+NextJS provides built-in support for API routes that allow you to create serverless functions to handle API requests. You can create API routes by adding files to the `pages/api` directory and defining the route logic.
+
+```jsx
+// pages/api/hello.js
+export default function handler(req, res) {
+  res.status(200).json({ message: 'Hello, Next.js!' });
+}
+```
+
+## Built-in CSS Support
+
+NextJS provides built-in support for CSS modules, CSS-in-JS libraries, and global CSS styles. You can import CSS files directly into your components and use them to style your web applications.
+
+## TypeScript Support
+
+NextJS has built-in support for TypeScript, a statically typed superset of JavaScript that helps you write safer and more maintainable code. You can use TypeScript in your NextJS projects by adding a `tsconfig.json` file and installing the necessary dependencies.
+
+## More about NextJS
+
+You can find more information about NextJS from the following sources:
+
+- [NextJS Documentation](https://nextjs.org/docs)
+- [NextJS Learn](https://nextjs.org/learn)

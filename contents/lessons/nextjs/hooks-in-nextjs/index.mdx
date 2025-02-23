@@ -1,0 +1,58 @@
+---
+title: Hooks
+description: This lesson will introduce you to hooks in NextJS, a React framework that provides built-in support for adding functionality to components.
+---
+
+## useState
+
+The `useState` hook is used to add state to functional components in NextJS. It returns a state variable and a function to update the state, allowing you to manage local state in functional components.
+
+```jsx
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+The code above shows an example of using the `useState` hook in NextJS to manage local state in a functional component. The `Counter` component defines a `count` state variable and an `increment` function to update the count value.
+
+## useEffect
+
+The `useEffect` hook is used to add side effects to functional components in NextJS. It allows you to perform side effects such as fetching data, subscribing to events, or updating the DOM in functional components.
+
+```jsx
+import { useState, useEffect } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log(`Count: ${count}`);
+  }, [count]);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+```
+
+The code above shows an example of using the `useEffect` hook in NextJS to add a side effect to a functional component. The `Counter` component logs the count value to the console when the count state changes.

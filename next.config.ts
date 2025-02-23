@@ -108,6 +108,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "blog.devart.com/**",
       },
+      {
+        protocol: "https",
+        hostname: "nextjs.org/**",
+      },
     ],
   },
   // if used turbopack
