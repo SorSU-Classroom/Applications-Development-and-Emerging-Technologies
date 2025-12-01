@@ -407,6 +407,29 @@ export const ROUTES: EachRoute[] = [
         title: "Introduction",
         href: "/introduction",
       },
+      {
+        title: "UI Libraries",
+        href: "/ui-libraries",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "Tailwind CSS",
+            href: "/tailwind-css",
+          },
+          {
+            title: "Material UI",
+            href: "/material-ui",
+          },
+          {
+            title: "More UI Libraries",
+            href: "/more-ui-libraries",
+          }
+        ]
+      }
     ],
   }
 ];

@@ -1,0 +1,484 @@
+---
+title: Material UI (MUI)
+description: This lesson covers Material UI, a comprehensive React component library implementing Google's Material Design.
+---
+
+## Introduction to Material UI
+
+<img src="https://mui.com/static/logo.png" alt="Material UI" width="96px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Material UI (MUI)** is an open-source React component library that implements Google's [Material Design](https://m2.material.io/). It provides a comprehensive collection of prebuilt components that are ready for production use right out of the box, along with extensive customization options.
+
+## Key Features
+
+### 1. Comprehensive Component Library
+
+Material UI provides 50+ production-ready components:
+
+- **Inputs**: Button, TextField, Checkbox, Radio, Select, Switch, Slider
+- **Navigation**: AppBar, Drawer, Menu, Tabs, Breadcrumbs
+- **Surfaces**: Paper, Card, Accordion, AppBar
+- **Feedback**: Alert, Dialog, Snackbar, Progress, Backdrop
+- **Data Display**: Table, List, Avatar, Chip, Badge, Tooltip
+- **Layout**: Box, Container, Grid, Stack, ImageList
+
+### 2. Material Design Implementation
+
+Follows Google's Material Design principles:
+- Elevation and shadows
+- Motion and animations
+- Typography system
+- Color palette
+- Spacing system
+- Responsive layouts
+
+### 3. Customization Options
+
+- **Theme customization**: Create your own design system
+- **CSS-in-JS**: Using Emotion or styled-components
+- **sx prop**: Quick inline styling
+- **Component variants**: Pre-defined style variations
+
+### 4. Accessibility
+
+- ARIA attributes
+- Keyboard navigation
+- Screen reader support
+- Focus management
+- Color contrast compliance
+
+## Installation
+
+### Default Installation
+
+Install Material UI with npm:
+
+```bash
+npm install @mui/material @emotion/react @emotion/styled
+```
+
+Or with yarn:
+
+```bash
+yarn add @mui/material @emotion/react @emotion/styled
+```
+
+Or with pnpm:
+
+```bash
+pnpm add @mui/material @emotion/react @emotion/styled
+```
+
+### Peer Dependencies
+
+Ensure React and ReactDOM are installed:
+
+```json
+{
+  "peerDependencies": {
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
+  }
+}
+```
+
+### With styled-components
+
+If you prefer styled-components over Emotion:
+
+```bash
+npm install @mui/material @mui/styled-engine-sc styled-components
+```
+
+### Roboto Font
+
+Material UI uses Roboto font by default.
+
+**Via npm (recommended):**
+
+```bash
+npm install @fontsource/roboto
+```
+
+Then import in your entry file:
+
+```javascript
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+```
+
+**Via Google Fonts CDN:**
+
+```html
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+/>
+```
+
+### Material Icons
+
+**Via npm:**
+
+```bash
+npm install @mui/icons-material
+```
+
+**Via Google Fonts CDN:**
+
+```html
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/icon?family=Material+Icons"
+/>
+```
+
+## Getting Started
+
+### Basic Usage
+
+```jsx
+import * as React from 'react';
+import Button from '@mui/material/Button';
+
+export default function App() {
+  return (
+    <Button variant="contained">Hello World</Button>
+  );
+}
+```
+
+### Common Components
+
+#### Button
+
+```jsx
+import Button from '@mui/material/Button';
+
+// Variants
+<Button variant="text">Text</Button>
+<Button variant="contained">Contained</Button>
+<Button variant="outlined">Outlined</Button>
+
+// Colors
+<Button color="primary">Primary</Button>
+<Button color="secondary">Secondary</Button>
+<Button color="success">Success</Button>
+<Button color="error">Error</Button>
+
+// Sizes
+<Button size="small">Small</Button>
+<Button size="medium">Medium</Button>
+<Button size="large">Large</Button>
+```
+
+#### TextField
+
+```jsx
+import TextField from '@mui/material/TextField';
+
+<TextField
+  label="Email"
+  variant="outlined"
+  fullWidth
+  required
+/>
+
+<TextField
+  label="Password"
+  type="password"
+  variant="filled"
+  helperText="Enter your password"
+/>
+
+<TextField
+  label="Standard"
+  variant="standard"
+  error
+  helperText="Error message"
+/>
+```
+
+#### Card
+
+```jsx
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
+import CardActions from '@mui/material/CardActions';
+import Button from '@mui/material/Button';
+
+<Card sx={{ maxWidth: 345 }}>
+  <CardMedia
+    component="img"
+    height="140"
+    image="/image.jpg"
+    alt="Card image"
+  />
+  <CardContent>
+    <Typography gutterBottom variant="h5" component="div">
+      Card Title
+    </Typography>
+    <Typography variant="body2" color="text.secondary">
+      Card description goes here.
+    </Typography>
+  </CardContent>
+  <CardActions>
+    <Button size="small">Share</Button>
+    <Button size="small">Learn More</Button>
+  </CardActions>
+</Card>
+```
+
+#### AppBar & Drawer
+
+```jsx
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+
+<AppBar position="static">
+  <Toolbar>
+    <IconButton
+      size="large"
+      edge="start"
+      color="inherit"
+      aria-label="menu"
+      sx={{ mr: 2 }}
+    >
+      <MenuIcon />
+    </IconButton>
+    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+      My App
+    </Typography>
+    <Button color="inherit">Login</Button>
+  </Toolbar>
+</AppBar>
+```
+
+## Theming
+
+### Creating a Theme
+
+```jsx
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+  typography: {
+    fontFamily: 'Roboto, Arial, sans-serif',
+    h1: {
+      fontSize: '3rem',
+      fontWeight: 500,
+    },
+  },
+  spacing: 8, // default spacing unit
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      {/* Your components */}
+    </ThemeProvider>
+  );
+}
+```
+
+### Dark Mode
+
+```jsx
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
+function App() {
+  return (
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />
+      {/* Your components */}
+    </ThemeProvider>
+  );
+}
+```
+
+### Responsive Design
+
+```jsx
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
+function MyComponent() {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
+  return (
+    <Box sx={{
+      width: {
+        xs: '100%',    // 0-600px
+        sm: '50%',     // 600-900px
+        md: '33.33%',  // 900-1200px
+      },
+    }}>
+      {isMobile ? 'Mobile View' : 'Desktop View'}
+    </Box>
+  );
+}
+```
+
+## Styling Options
+
+### 1. sx Prop (Recommended)
+
+```jsx
+<Box
+  sx={{
+    width: 300,
+    height: 300,
+    backgroundColor: 'primary.main',
+    '&:hover': {
+      backgroundColor: 'primary.dark',
+    },
+  }}
+/>
+```
+
+### 2. styled() API
+
+```jsx
+import { styled } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+
+const CustomButton = styled(Button)(({ theme }) => ({
+  backgroundColor: theme.palette.primary.main,
+  padding: theme.spacing(2),
+  '&:hover': {
+    backgroundColor: theme.palette.primary.dark,
+  },
+}));
+```
+
+### 3. CSS Modules
+
+```jsx
+import styles from './styles.module.css';
+
+<Button className={styles.customButton}>
+  Styled Button
+</Button>
+```
+
+## Layout Components
+
+### Grid System
+
+```jsx
+import Grid from '@mui/material/Grid';
+
+<Grid container spacing={2}>
+  <Grid item xs={12} sm={6} md={4}>
+    <Card>Item 1</Card>
+  </Grid>
+  <Grid item xs={12} sm={6} md={4}>
+    <Card>Item 2</Card>
+  </Grid>
+  <Grid item xs={12} sm={6} md={4}>
+    <Card>Item 3</Card>
+  </Grid>
+</Grid>
+```
+
+### Stack
+
+```jsx
+import Stack from '@mui/material/Stack';
+
+<Stack spacing={2} direction="row">
+  <Button>Button 1</Button>
+  <Button>Button 2</Button>
+  <Button>Button 3</Button>
+</Stack>
+```
+
+### Container
+
+```jsx
+import Container from '@mui/material/Container';
+
+<Container maxWidth="lg">
+  <Typography variant="h1">Content</Typography>
+</Container>
+```
+
+## Best Practices
+
+1. **Use Theme**: Leverage the theming system for consistency
+2. **Import Components**: Import only the components you need
+3. **sx Prop**: Use sx prop for simple, one-off styling
+4. **styled() API**: Use for reusable, complex styled components
+5. **Responsive**: Use Grid and breakpoints for responsive layouts
+6. **Accessibility**: Leverage built-in accessibility features
+7. **Icons**: Use Material Icons for consistency
+8. **CssBaseline**: Include CssBaseline for normalized styles
+
+## Advantages
+
+- **Production Ready**: Battle-tested by thousands of applications
+- **Beautiful Defaults**: Looks great out of the box
+- **Comprehensive**: 50+ components for most use cases
+- **Customizable**: Extensive theming and styling options
+- **TypeScript Support**: Excellent TypeScript definitions
+- **Large Community**: Active community and extensive resources
+- **Documentation**: Comprehensive and well-maintained docs
+- **Accessibility**: Built with accessibility in mind
+
+## Disadvantages
+
+- **Bundle Size**: Larger than utility-first frameworks
+- **Learning Curve**: Many APIs and concepts to learn
+- **Opinionated**: Strong Material Design aesthetic
+- **Runtime Overhead**: CSS-in-JS has performance cost
+- **Customization Complexity**: Deep customization can be challenging
+
+## Resources
+
+- [Official Documentation](https://mui.com/material-ui/getting-started/)
+- [Component Demos](https://mui.com/material-ui/all-components/)
+- [Templates](https://mui.com/material-ui/getting-started/templates/)
+- [GitHub Repository](https://github.com/mui/material-ui)
+- [Figma Design Kit](https://www.figma.com/community/file/912837788133317724)
+
+## MUI Ecosystem
+
+- **MUI Core**: Free component library (Material UI)
+- **MUI X**: Advanced components (Data Grid, Date Pickers, Charts)
+- **MUI Base**: Unstyled components
+- **MUI System**: CSS utilities
+- **Templates**: Pre-built templates (free and premium)
+
+## Next Steps
+
+Now that you understand Material UI, you can:
+- Explore the complete component library
+- Create custom themes
+- Build responsive layouts with Grid
+- Explore MUI X for advanced components
+- Check out pre-built templates for inspiration

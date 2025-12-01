@@ -1,0 +1,428 @@
+---
+title: More UI Libraries
+description: This lesson covers additional popular UI libraries and frameworks for modern web development.
+---
+
+## Other Popular UI Libraries
+
+While Tailwind CSS and Material UI are among the most popular choices, there are many other excellent UI libraries available. Each has its own strengths and use cases.
+
+## Component Libraries
+
+### Ant Design
+
+<img src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg" alt="Ant Design" width="96px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Ant Design** is an enterprise-level UI design language and React UI library.
+
+**Key Features:**
+- 50+ high-quality React components
+- Designed for enterprise applications
+- Comprehensive design guidelines
+- International support (i18n)
+- Strong TypeScript support
+- Powerful theming
+
+**Installation:**
+```bash
+npm install antd
+```
+
+**Usage:**
+```jsx
+import { Button, DatePicker, Space } from 'antd';
+
+function App() {
+  return (
+    <Space>
+      <Button type="primary">Primary Button</Button>
+      <DatePicker />
+    </Space>
+  );
+}
+```
+
+**Best For:**
+- Enterprise applications
+- Admin dashboards
+- Data-heavy applications
+- Complex forms
+
+---
+
+### Chakra UI
+
+<img src="https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/logo/logomark-colored.svg" alt="Chakra UI" width="96px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Chakra UI** is a simple, modular and accessible component library.
+
+**Key Features:**
+- Accessible by default
+- Dark mode support
+- Highly composable
+- Responsive styles
+- Theme customization
+- TypeScript support
+
+**Installation:**
+```bash
+npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion
+```
+
+**Usage:**
+```jsx
+import { ChakraProvider, Button, Box } from '@chakra-ui/react';
+
+function App() {
+  return (
+    <ChakraProvider>
+      <Box p={4}>
+        <Button colorScheme="blue">Click me</Button>
+      </Box>
+    </ChakraProvider>
+  );
+}
+```
+
+**Best For:**
+- Accessibility-focused projects
+- Modern web applications
+- Projects requiring flexibility
+- Teams valuing developer experience
+
+---
+
+### Mantine
+
+<img src="https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/images/logo.svg" alt="Mantine" width="96px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Mantine** is a fully featured React components library.
+
+**Key Features:**
+- 100+ customizable components
+- Dark theme support
+- TypeScript based
+- Hooks library included
+- Form management
+- Rich notifications system
+
+**Installation:**
+```bash
+npm install @mantine/core @mantine/hooks
+```
+
+**Usage:**
+```jsx
+import { MantineProvider, Button } from '@mantine/core';
+
+function App() {
+  return (
+    <MantineProvider>
+      <Button variant="filled">Click me</Button>
+    </MantineProvider>
+  );
+}
+```
+
+**Best For:**
+- Feature-rich applications
+- Projects needing many components
+- TypeScript projects
+- Teams wanting comprehensive solutions
+
+---
+
+### Shadcn/ui
+
+**Shadcn/ui** is a collection of re-usable components built with Radix UI and Tailwind CSS.
+
+**Key Features:**
+- Copy-paste components
+- Not a package dependency
+- Built on Radix UI primitives
+- Styled with Tailwind CSS
+- Fully customizable
+- TypeScript support
+
+**Installation:**
+```bash
+npx shadcn-ui@latest init
+```
+
+**Add Components:**
+```bash
+npx shadcn-ui@latest add button
+npx shadcn-ui@latest add card
+```
+
+**Usage:**
+```jsx
+import { Button } from "@/components/ui/button"
+
+function App() {
+  return <Button variant="outline">Click me</Button>
+}
+```
+
+**Best For:**
+- Projects using Tailwind CSS
+- Teams wanting full control
+- Copy-paste component approach
+- Modern Next.js applications
+
+---
+
+## CSS Frameworks
+
+### Bootstrap
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Bootstrap_logo.svg/1200px-Bootstrap_logo.svg.png" alt="Bootstrap" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Bootstrap** is the most popular CSS framework.
+
+**Key Features:**
+- Mobile-first responsive design
+- Extensive component library
+- Grid system
+- JavaScript plugins
+- Customizable via Sass
+- Large community
+
+**Installation:**
+```bash
+npm install bootstrap
+```
+
+**Usage:**
+```jsx
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+function App() {
+  return (
+    <button className="btn btn-primary">Click me</button>
+  );
+}
+```
+
+**Best For:**
+- Quick prototyping
+- Traditional web applications
+- Teams familiar with Bootstrap
+- Projects needing wide browser support
+
+---
+
+### Bulma
+
+<img src="https://bulma.io/images/bulma-logo.png" alt="Bulma" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Bulma** is a modern CSS framework based on Flexbox.
+
+**Key Features:**
+- Pure CSS (no JavaScript)
+- Flexbox-based layout
+- Modular architecture
+- Responsive by default
+- Easily customizable
+- Clean syntax
+
+**Installation:**
+```bash
+npm install bulma
+```
+
+**Usage:**
+```jsx
+import 'bulma/css/bulma.css';
+
+function App() {
+  return (
+    <button className="button is-primary">Click me</button>
+  );
+}
+```
+
+**Best For:**
+- CSS-only solutions
+- Flexbox-based layouts
+- Projects avoiding JavaScript dependencies
+- Simple, clean designs
+
+---
+
+## Headless UI Libraries
+
+### Headless UI
+
+**Headless UI** provides unstyled, accessible UI components.
+
+**Key Features:**
+- Fully accessible
+- Unstyled by design
+- Works with Tailwind CSS
+- React and Vue support
+- Composable components
+
+**Installation:**
+```bash
+npm install @headlessui/react
+```
+
+**Usage:**
+```jsx
+import { Menu } from '@headlessui/react'
+
+function MyDropdown() {
+  return (
+    <Menu>
+      <Menu.Button>Options</Menu.Button>
+      <Menu.Items>
+        <Menu.Item>
+          {({ active }) => (
+            <a className={active ? 'bg-blue-500' : ''}
+               href="/account">
+              Account
+            </a>
+          )}
+        </Menu.Item>
+      </Menu.Items>
+    </Menu>
+  )
+}
+```
+
+**Best For:**
+- Custom design systems
+- Tailwind CSS projects
+- Projects needing accessibility
+- Full styling control
+
+---
+
+### Radix UI
+
+**Radix UI** provides low-level UI primitives.
+
+**Key Features:**
+- Unstyled components
+- Accessibility built-in
+- Composable primitives
+- Full keyboard navigation
+- Focus management
+- TypeScript support
+
+**Installation:**
+```bash
+npm install @radix-ui/react-dialog
+```
+
+**Usage:**
+```jsx
+import * as Dialog from '@radix-ui/react-dialog';
+
+function MyDialog() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger>Open</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Title</Dialog.Title>
+          <Dialog.Description>Description</Dialog.Description>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+**Best For:**
+- Building design systems
+- Accessibility-first projects
+- Custom component libraries
+- Shadcn/ui foundation
+
+---
+
+## Comparison Table
+
+| Library | Type | Bundle Size | Learning Curve | Customization | Best Use Case |
+|---------|------|-------------|----------------|---------------|---------------|
+| **Tailwind CSS** | Utility-first | Small | Medium | High | Custom designs |
+| **Material UI** | Component | Large | Medium | Medium | Material Design |
+| **Ant Design** | Component | Large | Medium | Medium | Enterprise apps |
+| **Chakra UI** | Component | Medium | Low | High | Accessible apps |
+| **Mantine** | Component | Medium | Low | High | Feature-rich apps |
+| **Shadcn/ui** | Copy-paste | Small | Low | Very High | Tailwind projects |
+| **Bootstrap** | CSS Framework | Medium | Low | Medium | Quick prototyping |
+| **Bulma** | CSS Framework | Small | Low | Medium | CSS-only projects |
+| **Headless UI** | Headless | Tiny | Medium | Very High | Custom styling |
+| **Radix UI** | Headless | Tiny | High | Very High | Design systems |
+
+## Choosing the Right Library
+
+Consider these factors:
+
+1. **Project Type**:
+   - Enterprise app → Ant Design
+   - Modern web app → Chakra UI, Mantine
+   - Material Design → Material UI
+   - Custom design → Tailwind CSS, Shadcn/ui
+
+2. **Team Experience**:
+   - Beginners → Bootstrap, Chakra UI
+   - Experienced → Tailwind CSS, Radix UI
+   - Enterprise teams → Ant Design, Material UI
+
+3. **Customization Needs**:
+   - Full control → Tailwind CSS, Headless UI
+   - Some customization → Material UI, Chakra UI
+   - Quick setup → Bootstrap, Ant Design
+
+4. **Bundle Size Concerns**:
+   - Small bundle → Tailwind CSS, Shadcn/ui
+   - Acceptable size → Chakra UI, Mantine
+   - Large but feature-rich → Material UI, Ant Design
+
+5. **Accessibility Priority**:
+   - Critical → Chakra UI, Radix UI, Headless UI
+   - Important → Material UI, Mantine
+   - Basic → Bootstrap, Tailwind CSS
+
+## Mixing Libraries
+
+You can combine different approaches:
+
+**Common Combinations:**
+- Tailwind CSS + Headless UI
+- Tailwind CSS + Radix UI (Shadcn/ui)
+- Material UI + Custom CSS
+- Bootstrap + Custom components
+
+**Be Careful Of:**
+- Style conflicts
+- Increased bundle size
+- Maintenance complexity
+- Inconsistent design language
+
+## Resources
+
+- [Ant Design](https://ant.design/)
+- [Chakra UI](https://chakra-ui.com/)
+- [Mantine](https://mantine.dev/)
+- [Shadcn/ui](https://ui.shadcn.com/)
+- [Bootstrap](https://getbootstrap.com/)
+- [Bulma](https://bulma.io/)
+- [Headless UI](https://headlessui.com/)
+- [Radix UI](https://www.radix-ui.com/)
+
+## Conclusion
+
+Each UI library has its strengths:
+- **Need speed?** → Bootstrap, Chakra UI
+- **Need customization?** → Tailwind CSS, Shadcn/ui
+- **Need components?** → Material UI, Ant Design
+- **Need accessibility?** → Chakra UI, Radix UI
+- **Need enterprise features?** → Ant Design, Material UI
+
+Choose based on your project requirements, team expertise, and long-term maintenance considerations.

@@ -1,0 +1,379 @@
+---
+title: Tailwind CSS
+description: This lesson covers Tailwind CSS, a utility-first CSS framework for building custom designs quickly.
+---
+
+## Introduction to Tailwind CSS
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind CSS" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Tailwind CSS** is a utility-first CSS framework that provides low-level utility classes to build custom designs directly in your HTML. Unlike traditional CSS frameworks that provide pre-designed components, Tailwind gives you the building blocks to create any design you can imagine without writing custom CSS.
+
+## Key Features
+
+### 1. Utility-First Approach
+
+Instead of writing custom CSS, you compose designs using utility classes:
+
+```html
+<!-- Traditional CSS approach -->
+<div class="card">
+  <h2 class="card-title">Welcome</h2>
+  <p class="card-text">Hello World</p>
+</div>
+
+<!-- Tailwind CSS approach -->
+<div class="bg-white rounded-lg shadow-md p-6">
+  <h2 class="text-2xl font-bold mb-2">Welcome</h2>
+  <p class="text-gray-700">Hello World</p>
+</div>
+```
+
+### 2. Responsive Design
+
+Tailwind makes responsive design simple with responsive prefixes:
+
+```html
+<!-- Mobile: stack vertically, Desktop: side by side -->
+<div class="flex flex-col md:flex-row gap-4">
+  <div class="w-full md:w-1/2">Left</div>
+  <div class="w-full md:w-1/2">Right</div>
+</div>
+```
+
+Breakpoint prefixes:
+- `sm:` - 640px and up
+- `md:` - 768px and up
+- `lg:` - 1024px and up
+- `xl:` - 1280px and up
+- `2xl:` - 1536px and up
+
+### 3. Dark Mode Support
+
+Easy dark mode implementation:
+
+```html
+<div class="bg-white dark:bg-gray-900 text-black dark:text-white">
+  This adapts to dark mode
+</div>
+```
+
+### 4. State Variants
+
+Style elements based on their state:
+
+```html
+<!-- Hover, focus, active states -->
+<button class="bg-blue-500 hover:bg-blue-700 focus:ring-4 active:bg-blue-800">
+  Click me
+</button>
+
+<!-- First child, last child -->
+<ul>
+  <li class="first:font-bold">First item is bold</li>
+  <li>Regular item</li>
+  <li class="last:text-red-500">Last item is red</li>
+</ul>
+```
+
+### 5. Modern CSS Features
+
+- **Flexbox & Grid**: `flex`, `grid`, `justify-center`, `items-center`
+- **Transforms**: `rotate-45`, `scale-150`, `translate-x-4`
+- **Transitions**: `transition`, `duration-300`, `ease-in-out`
+- **Animations**: `animate-spin`, `animate-bounce`, `animate-pulse`
+- **Filters**: `blur-sm`, `brightness-150`, `contrast-125`
+
+## Installation
+
+### Using Vite (Recommended for React/NextJS)
+
+1. **Create your project**
+
+```bash
+npm create vite@latest my-project
+cd my-project
+```
+
+2. **Install Tailwind CSS**
+
+```bash
+npm install tailwindcss @tailwindcss/vite
+```
+
+3. **Configure Vite plugin**
+
+```javascript
+// vite.config.js
+import { defineConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+  ],
+})
+```
+
+4. **Import Tailwind CSS**
+
+```css
+/* src/index.css */
+@import "tailwindcss";
+```
+
+5. **Start development server**
+
+```bash
+npm run dev
+```
+
+### Using Tailwind CLI
+
+1. **Install Tailwind CSS**
+
+```bash
+npm install -D tailwindcss
+npx tailwindcss init
+```
+
+2. **Configure template paths**
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  content: ["./src/**/*.{html,js}"],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+3. **Add Tailwind directives**
+
+```css
+/* src/input.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+4. **Start build process**
+
+```bash
+npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+```
+
+### Using PostCSS
+
+1. **Install dependencies**
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init
+```
+
+2. **Configure PostCSS**
+
+```javascript
+// postcss.config.js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
+
+## Core Concepts
+
+### Utility Classes
+
+Tailwind provides thousands of utility classes organized by categories:
+
+**Layout:**
+```html
+<div class="container mx-auto">
+  <div class="flex justify-between items-center">
+    <div class="w-1/2">Half width</div>
+    <div class="w-1/2">Half width</div>
+  </div>
+</div>
+```
+
+**Spacing:**
+```html
+<!-- Padding and Margin -->
+<div class="p-4 m-2">Padding 1rem, Margin 0.5rem</div>
+<div class="px-6 py-3">Padding x: 1.5rem, y: 0.75rem</div>
+<div class="mt-8 mb-4">Margin top 2rem, bottom 1rem</div>
+```
+
+**Typography:**
+```html
+<h1 class="text-4xl font-bold">Large Bold Heading</h1>
+<p class="text-base text-gray-700 leading-relaxed">
+  Body text with relaxed line height
+</p>
+<span class="text-sm font-medium uppercase tracking-wide">
+  Small caps text
+</span>
+```
+
+**Colors:**
+```html
+<!-- Background and Text colors -->
+<div class="bg-blue-500 text-white">Blue background</div>
+<div class="bg-gradient-to-r from-purple-500 to-pink-500">
+  Gradient background
+</div>
+```
+
+**Borders:**
+```html
+<div class="border border-gray-300 rounded-lg">
+  Rounded border
+</div>
+<div class="border-2 border-t-4 border-blue-500 rounded-xl">
+  Custom borders
+</div>
+```
+
+### Customization
+
+Extend Tailwind's default theme:
+
+```javascript
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        'brand': '#1DA1F2',
+        'brand-light': '#AAB8C2',
+      },
+      spacing: {
+        '72': '18rem',
+        '84': '21rem',
+      },
+      fontFamily: {
+        'sans': ['Inter', 'sans-serif'],
+      },
+    },
+  },
+}
+```
+
+### Custom Components
+
+Extract repeated patterns using `@layer`:
+
+```css
+@layer components {
+  .btn-primary {
+    @apply bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6;
+  }
+}
+```
+
+## Common Patterns
+
+### Card Component
+
+```html
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+  <img src="/image.jpg" alt="Card" class="w-full h-48 object-cover" />
+  <div class="p-6">
+    <h3 class="text-xl font-bold mb-2">Card Title</h3>
+    <p class="text-gray-700 mb-4">Card description goes here.</p>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Learn More
+    </button>
+  </div>
+</div>
+```
+
+### Navbar
+
+```html
+<nav class="bg-white shadow-lg">
+  <div class="container mx-auto px-6 py-4">
+    <div class="flex justify-between items-center">
+      <div class="text-xl font-bold">Logo</div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#" class="hover:text-blue-500">Home</a>
+        <a href="#" class="hover:text-blue-500">About</a>
+        <a href="#" class="hover:text-blue-500">Contact</a>
+      </div>
+    </div>
+  </div>
+</nav>
+```
+
+### Form
+
+```html
+<form class="max-w-md mx-auto">
+  <div class="mb-4">
+    <label class="block text-gray-700 font-bold mb-2" for="email">
+      Email
+    </label>
+    <input 
+      type="email" 
+      id="email"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      placeholder="your@email.com"
+    />
+  </div>
+  <button class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+    Submit
+  </button>
+</form>
+```
+
+## Best Practices
+
+1. **Use Consistent Spacing**: Stick to Tailwind's spacing scale (4, 8, 12, 16, etc.)
+2. **Responsive First**: Start with mobile design, then add responsive classes
+3. **Extract Components**: Create reusable components for repeated patterns
+4. **Use Semantic HTML**: Don't rely solely on utility classes for structure
+5. **Optimize for Production**: Tailwind automatically removes unused classes
+6. **Leverage Plugins**: Use official and community plugins for extended functionality
+7. **Design System**: Create a consistent color palette and spacing system
+
+## Advantages
+
+- **Fast Development**: No context switching between HTML and CSS
+- **Small Bundle Size**: Only includes the classes you use
+- **No Naming Conventions**: No need for BEM, SMACSS, etc.
+- **Responsive by Default**: Easy mobile-first development
+- **Highly Customizable**: Extend or override any default setting
+- **No Dead CSS**: Unused styles are automatically removed
+
+## Disadvantages
+
+- **Learning Curve**: Need to memorize utility class names
+- **Verbose HTML**: Class names can become very long
+- **Design Constraints**: Can be limiting if you need very custom designs
+- **Team Buy-in**: Requires team agreement on utility-first approach
+
+## Resources
+
+- [Official Documentation](https://tailwindcss.com/docs)
+- [Tailwind Play](https://play.tailwindcss.com/) - Online playground
+- [Tailwind UI](https://tailwindui.com/) - Official component library (paid)
+- [Headless UI](https://headlessui.com/) - Unstyled accessible components
+- [Heroicons](https://heroicons.com/) - Beautiful SVG icons
+
+## Next Steps
+
+Now that you understand Tailwind CSS, you can:
+- Explore the official documentation for all utility classes
+- Try building components in the Tailwind Play playground
+- Learn about plugins and extensions
+- Explore Material UI for a component-based alternative
