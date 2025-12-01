@@ -1,0 +1,923 @@
+---
+title: Recharts
+description: Master Recharts, the composable React charting library built on D3 that makes creating beautiful, responsive charts simple and intuitive.
+---
+
+# Recharts
+
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi0hxOmfhUvLnVx3w0Bq0Rydp_bzrMmYb8KQ&s" alt="Recharts Logo" width="200" height="60" />
+
+Recharts is a composable charting library built with React components. It's designed to help you quickly build charts with decoupled, reusable React components while maintaining full flexibility and control.
+
+## Why Recharts?
+
+Recharts stands out as one of the best React charting libraries for several reasons:
+
+### 1. Composable Architecture
+
+Recharts uses a component-based approach that feels natural in React:
+
+```jsx
+<LineChart data={data}>
+  <Line dataKey="sales" />
+  <XAxis dataKey="month" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+</LineChart>
+```
+
+Each element is a separate component that you can mix and match.
+
+### 2. Declarative API
+
+Define your charts declaratively using JSX:
+- Easy to read and understand
+- Visual structure matches component hierarchy
+- Props-driven configuration
+- No imperative chart manipulation needed
+
+### 3. Built on React and D3
+
+- **React**: Natural integration with React applications
+- **D3 Submodules**: Leverages D3's powerful calculations (scales, shapes, etc.)
+- **Lightweight**: Only uses necessary D3 modules, keeping bundle size reasonable
+
+### 4. SVG-Based Rendering
+
+- Scalable graphics (no pixelation)
+- Easy to style with CSS
+- Good for most use cases (< 1000 data points)
+- Accessible and SEO-friendly
+
+### 5. Responsive by Default
+
+Built-in responsive container makes charts adapt to any screen size:
+
+```jsx
+<ResponsiveContainer width="100%" height={400}>
+  <LineChart data={data}>
+    {/* chart components */}
+  </LineChart>
+</ResponsiveContainer>
+```
+
+### 6. Rich Customization
+
+- Custom shapes and components
+- Flexible styling options
+- Animation support
+- Event handlers
+- Custom tooltips and legends
+
+## Installation
+
+### Using npm
+
+```bash
+npm install recharts
+```
+
+### Using yarn
+
+```bash
+yarn add recharts
+```
+
+### Using pnpm
+
+```bash
+pnpm add recharts
+```
+
+## Basic Concepts
+
+### 1. Chart Components
+
+Recharts provides various chart types as container components:
+
+- `<LineChart>` - Line charts
+- `<BarChart>` - Bar charts
+- `<AreaChart>` - Area charts
+- `<PieChart>` - Pie and donut charts
+- `<RadarChart>` - Radar/spider charts
+- `<ScatterChart>` - Scatter plots
+- `<ComposedChart>` - Combine multiple chart types
+- `<RadialBarChart>` - Radial bar charts
+- `<Treemap>` - Treemap charts
+- `<Sankey>` - Sankey diagrams
+- `<Funnel>` - Funnel charts
+
+### 2. Graphical Components
+
+Components that display data:
+
+- `<Line>` - Line in a line chart
+- `<Bar>` - Bar in a bar chart
+- `<Area>` - Area in an area chart
+- `<Pie>` - Slice in a pie chart
+- `<Scatter>` - Scatter plot points
+- `<Radar>` - Radar chart polygon
+
+### 3. Axis Components
+
+Components for axes:
+
+- `<XAxis>` - X-axis
+- `<YAxis>` - Y-axis
+- `<ZAxis>` - Z-axis (for 3D scatter plots)
+
+### 4. Helper Components
+
+Utility components:
+
+- `<Tooltip>` - Interactive tooltip on hover
+- `<Legend>` - Chart legend
+- `<CartesianGrid>` - Background grid
+- `<Brush>` - Interactive data brush/zoom
+- `<ReferenceLine>` - Reference lines
+- `<ReferenceArea>` - Reference areas
+- `<ReferenceDot>` - Reference points
+- `<Label>` - Custom labels
+- `<LabelList>` - Labels on data points
+
+### 5. Container Component
+
+- `<ResponsiveContainer>` - Makes charts responsive
+
+## Basic Usage
+
+### Simple Line Chart
+
+```jsx
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+const data = [
+  { name: 'Jan', sales: 4000, revenue: 2400 },
+  { name: 'Feb', sales: 3000, revenue: 1398 },
+  { name: 'Mar', sales: 2000, revenue: 9800 },
+  { name: 'Apr', sales: 2780, revenue: 3908 },
+  { name: 'May', sales: 1890, revenue: 4800 },
+  { name: 'Jun', sales: 2390, revenue: 3800 },
+];
+
+function SimpleLineChart() {
+  return (
+    <LineChart width={600} height={300} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+      <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
+    </LineChart>
+  );
+}
+```
+
+### Responsive Line Chart
+
+```jsx
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis } from 'recharts';
+
+function ResponsiveLineChart() {
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data}>
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+```
+
+## Chart Types
+
+### 1. Bar Chart
+
+```jsx
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+function SimpleBarChart() {
+  return (
+    <BarChart width={600} height={300} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="sales" fill="#8884d8" />
+      <Bar dataKey="revenue" fill="#82ca9d" />
+    </BarChart>
+  );
+}
+```
+
+### Stacked Bar Chart
+
+```jsx
+<BarChart width={600} height={300} data={data}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="name" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+  <Bar dataKey="sales" stackId="a" fill="#8884d8" />
+  <Bar dataKey="revenue" stackId="a" fill="#82ca9d" />
+</BarChart>
+```
+
+### 2. Area Chart
+
+```jsx
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+
+function SimpleAreaChart() {
+  return (
+    <AreaChart width={600} height={300} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
+    </AreaChart>
+  );
+}
+```
+
+### Stacked Area Chart
+
+```jsx
+<AreaChart width={600} height={300} data={data}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="name" />
+  <YAxis />
+  <Tooltip />
+  <Area type="monotone" dataKey="sales" stackId="1" stroke="#8884d8" fill="#8884d8" />
+  <Area type="monotone" dataKey="revenue" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
+</AreaChart>
+```
+
+### 3. Pie Chart
+
+```jsx
+import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
+
+const pieData = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+  { name: 'Group C', value: 300 },
+  { name: 'Group D', value: 200 },
+];
+
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+
+function SimplePieChart() {
+  return (
+    <PieChart width={400} height={400}>
+      <Pie
+        data={pieData}
+        cx={200}
+        cy={200}
+        labelLine={false}
+        label
+        outerRadius={80}
+        fill="#8884d8"
+        dataKey="value"
+      >
+        {pieData.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+      <Tooltip />
+      <Legend />
+    </PieChart>
+  );
+}
+```
+
+### Donut Chart
+
+```jsx
+<PieChart width={400} height={400}>
+  <Pie
+    data={pieData}
+    cx={200}
+    cy={200}
+    innerRadius={60}  // Add inner radius for donut
+    outerRadius={80}
+    fill="#8884d8"
+    dataKey="value"
+  >
+    {pieData.map((entry, index) => (
+      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+    ))}
+  </Pie>
+  <Tooltip />
+</PieChart>
+```
+
+### 4. Composed Chart (Multiple Chart Types)
+
+```jsx
+import { ComposedChart, Line, Bar, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+
+function MixedChart() {
+  return (
+    <ComposedChart width={600} height={400} data={data}>
+      <CartesianGrid stroke="#f5f5f5" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Area type="monotone" dataKey="revenue" fill="#8884d8" stroke="#8884d8" />
+      <Bar dataKey="sales" barSize={20} fill="#413ea0" />
+      <Line type="monotone" dataKey="profit" stroke="#ff7300" />
+    </ComposedChart>
+  );
+}
+```
+
+### 5. Scatter Chart
+
+```jsx
+import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+
+const scatterData = [
+  { x: 100, y: 200, z: 200 },
+  { x: 120, y: 100, z: 260 },
+  { x: 170, y: 300, z: 400 },
+  { x: 140, y: 250, z: 280 },
+  { x: 150, y: 400, z: 500 },
+];
+
+function SimpleScatterChart() {
+  return (
+    <ScatterChart width={600} height={400}>
+      <CartesianGrid />
+      <XAxis dataKey="x" type="number" />
+      <YAxis dataKey="y" />
+      <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+      <Scatter name="A school" data={scatterData} fill="#8884d8" />
+    </ScatterChart>
+  );
+}
+```
+
+## Customization
+
+### 1. Custom Tooltips
+
+```jsx
+function CustomTooltip({ active, payload, label }) {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip" style={{
+        backgroundColor: 'white',
+        padding: '10px',
+        border: '1px solid #ccc',
+        borderRadius: '4px'
+      }}>
+        <p className="label">{`${label}`}</p>
+        <p className="value" style={{ color: '#8884d8' }}>
+          {`Sales: $${payload[0].value}`}
+        </p>
+        <p className="desc">Additional information can go here</p>
+      </div>
+    );
+  }
+  return null;
+}
+
+// Usage
+<LineChart width={600} height={300} data={data}>
+  <Line dataKey="sales" />
+  <Tooltip content={<CustomTooltip />} />
+</LineChart>
+```
+
+### 2. Custom Legend
+
+```jsx
+function CustomLegend({ payload }) {
+  return (
+    <ul style={{ listStyle: 'none', padding: 0 }}>
+      {payload.map((entry, index) => (
+        <li key={`item-${index}`} style={{ color: entry.color }}>
+          <span style={{
+            display: 'inline-block',
+            width: 10,
+            height: 10,
+            backgroundColor: entry.color,
+            marginRight: 5
+          }} />
+          {entry.value}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Usage
+<LineChart width={600} height={300} data={data}>
+  <Line dataKey="sales" />
+  <Legend content={<CustomLegend />} />
+</LineChart>
+```
+
+### 3. Custom Shapes
+
+```jsx
+// Custom dot for line chart
+function CustomDot(props) {
+  const { cx, cy, value } = props;
+  
+  if (value > 2500) {
+    return (
+      <svg x={cx - 5} y={cy - 5} width={10} height={10} fill="red">
+        <circle cx={5} cy={5} r={5} />
+      </svg>
+    );
+  }
+  
+  return (
+    <svg x={cx - 2} y={cy - 2} width={4} height={4} fill="green">
+      <circle cx={2} cy={2} r={2} />
+    </svg>
+  );
+}
+
+// Usage
+<Line type="monotone" dataKey="sales" dot={<CustomDot />} />
+```
+
+### 4. Custom Axis Tick
+
+```jsx
+function CustomAxisTick({ x, y, payload }) {
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <text 
+        x={0} 
+        y={0} 
+        dy={16} 
+        textAnchor="end" 
+        fill="#666" 
+        transform="rotate(-35)"
+      >
+        {payload.value}
+      </text>
+    </g>
+  );
+}
+
+// Usage
+<XAxis dataKey="name" tick={<CustomAxisTick />} />
+```
+
+### 5. Custom Bar Shape
+
+```jsx
+function CustomBar(props) {
+  const { fill, x, y, width, height } = props;
+  
+  return (
+    <g>
+      <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} />
+    </g>
+  );
+}
+
+// Usage
+<Bar dataKey="sales" shape={<CustomBar />} />
+```
+
+## Advanced Features
+
+### 1. Synchronized Charts
+
+```jsx
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { useState } from 'react';
+
+function SynchronizedCharts() {
+  const [syncId] = useState('anyId');
+  
+  return (
+    <>
+      <LineChart width={600} height={200} data={data} syncId={syncId}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+      </LineChart>
+      
+      <LineChart width={600} height={200} data={data} syncId={syncId}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
+      </LineChart>
+    </>
+  );
+}
+```
+
+### 2. Brush (Zoom/Filter)
+
+```jsx
+import { LineChart, Line, XAxis, YAxis, Tooltip, Brush } from 'recharts';
+
+function ChartWithBrush() {
+  return (
+    <LineChart width={600} height={300} data={data}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Tooltip />
+      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+      <Brush dataKey="name" height={30} stroke="#8884d8" />
+    </LineChart>
+  );
+}
+```
+
+### 3. Reference Lines and Areas
+
+```jsx
+import { LineChart, Line, XAxis, YAxis, ReferenceLine, ReferenceArea } from 'recharts';
+
+function ChartWithReferences() {
+  return (
+    <LineChart width={600} height={300} data={data}>
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
+      
+      {/* Reference line at y=3000 */}
+      <ReferenceLine 
+        y={3000} 
+        label="Target" 
+        stroke="red" 
+        strokeDasharray="3 3" 
+      />
+      
+      {/* Reference area between Feb and Apr */}
+      <ReferenceArea 
+        x1="Feb" 
+        x2="Apr" 
+        strokeOpacity={0.3} 
+        fill="green" 
+      />
+    </LineChart>
+  );
+}
+```
+
+### 4. Animations
+
+```jsx
+// Disable animation
+<Line type="monotone" dataKey="sales" isAnimationActive={false} />
+
+// Custom animation
+<Line 
+  type="monotone" 
+  dataKey="sales" 
+  animationDuration={2000}
+  animationEasing="ease-in-out"
+/>
+```
+
+### 5. Event Handlers
+
+```jsx
+function InteractiveChart() {
+  const handleClick = (data, index) => {
+    console.log('Clicked:', data, index);
+  };
+  
+  const handleMouseEnter = (data, index) => {
+    console.log('Mouse enter:', data, index);
+  };
+  
+  return (
+    <LineChart width={600} height={300} data={data}>
+      <Line 
+        type="monotone" 
+        dataKey="sales" 
+        stroke="#8884d8"
+        onClick={handleClick}
+        onMouseEnter={handleMouseEnter}
+      />
+    </LineChart>
+  );
+}
+```
+
+## Responsive Design
+
+### Using ResponsiveContainer
+
+```jsx
+import { ResponsiveContainer, LineChart, Line } from 'recharts';
+
+function ResponsiveChart() {
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data}>
+        <Line dataKey="sales" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+```
+
+### Responsive with Percentage
+
+```jsx
+<ResponsiveContainer width="95%" height="90%">
+  <LineChart data={data}>
+    <Line dataKey="sales" stroke="#8884d8" />
+  </LineChart>
+</ResponsiveContainer>
+```
+
+### Min/Max Dimensions
+
+```jsx
+<ResponsiveContainer 
+  width="100%" 
+  height={400}
+  minWidth={300}
+  minHeight={200}
+>
+  <LineChart data={data}>
+    <Line dataKey="sales" stroke="#8884d8" />
+  </LineChart>
+</ResponsiveContainer>
+```
+
+## Best Practices
+
+### 1. Data Format
+
+✅ **Good**: Use consistent, clean data structures
+
+```jsx
+const data = [
+  { month: 'Jan', sales: 4000, revenue: 2400 },
+  { month: 'Feb', sales: 3000, revenue: 1398 },
+  { month: 'Mar', sales: 2000, revenue: 9800 },
+];
+```
+
+❌ **Bad**: Inconsistent or missing data
+
+```jsx
+const badData = [
+  { month: 'Jan', sales: 4000 },
+  { month: 'Feb', revenue: 1398 }, // missing sales
+  { sales: 2000, revenue: 9800 }, // missing month
+];
+```
+
+### 2. Performance Optimization
+
+```jsx
+import { useMemo } from 'react';
+
+function OptimizedChart({ rawData }) {
+  // Memoize processed data
+  const data = useMemo(() => {
+    return rawData.map(item => ({
+      date: formatDate(item.timestamp),
+      value: item.amount / 100
+    }));
+  }, [rawData]);
+  
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data}>
+        <Line dataKey="value" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+```
+
+### 3. Color Consistency
+
+```jsx
+// Define color palette
+const COLORS = {
+  primary: '#8884d8',
+  secondary: '#82ca9d',
+  accent: '#ffc658',
+  danger: '#ff0000'
+};
+
+// Use consistently
+<Line dataKey="sales" stroke={COLORS.primary} />
+<Bar dataKey="revenue" fill={COLORS.secondary} />
+```
+
+### 4. Accessibility
+
+```jsx
+// Add meaningful labels
+<LineChart 
+  data={data}
+  aria-label="Sales trend chart showing monthly performance"
+>
+  <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom' }} />
+  <YAxis label={{ value: 'Sales ($)', angle: -90, position: 'insideLeft' }} />
+  <Line dataKey="sales" name="Monthly Sales" />
+  <Tooltip />
+  <Legend />
+</LineChart>
+```
+
+### 5. Error Handling
+
+```jsx
+function SafeChart({ data }) {
+  if (!data || data.length === 0) {
+    return <div>No data available</div>;
+  }
+  
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data}>
+        <Line dataKey="sales" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+```
+
+## Common Patterns
+
+### 1. Dashboard Card
+
+```jsx
+function ChartCard({ title, data }) {
+  return (
+    <div style={{ 
+      padding: '20px', 
+      backgroundColor: 'white', 
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    }}>
+      <h3>{title}</h3>
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Line type="monotone" dataKey="value" stroke="#8884d8" />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
+```
+
+### 2. Loading State
+
+```jsx
+function ChartWithLoading({ data, isLoading }) {
+  if (isLoading) {
+    return (
+      <div style={{ width: '100%', height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p>Loading chart...</p>
+      </div>
+    );
+  }
+  
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data}>
+        <Line dataKey="sales" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
+}
+```
+
+### 3. Formatted Tooltips
+
+```jsx
+function FormattedTooltip({ active, payload, label }) {
+  if (active && payload && payload.length) {
+    return (
+      <div style={{
+        backgroundColor: 'white',
+        padding: '10px',
+        border: '1px solid #ccc',
+        borderRadius: '4px'
+      }}>
+        <p style={{ margin: 0, fontWeight: 'bold' }}>{label}</p>
+        {payload.map((entry, index) => (
+          <p key={index} style={{ margin: '5px 0', color: entry.color }}>
+            {`${entry.name}: $${entry.value.toLocaleString()}`}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+}
+```
+
+## Advantages
+
+✅ **React-First Design** - Built specifically for React with composable components
+
+✅ **Easy to Learn** - Intuitive, declarative API
+
+✅ **Flexible** - Highly customizable with custom components
+
+✅ **Responsive** - Built-in responsive container
+
+✅ **Lightweight** - Reasonable bundle size (~50KB)
+
+✅ **Well Documented** - Comprehensive documentation and examples
+
+✅ **Active Community** - Large community and regular updates
+
+✅ **TypeScript Support** - Full TypeScript definitions
+
+✅ **Free and Open Source** - MIT license
+
+## Disadvantages
+
+❌ **React Only** - Cannot be used outside of React
+
+❌ **SVG Performance** - Can be slow with large datasets (>1000 points)
+
+❌ **Limited 3D** - No built-in 3D chart support
+
+❌ **Animation Control** - Less control over animations compared to libraries like GSAP
+
+❌ **Learning Curve** - Component composition requires understanding React patterns
+
+## When to Use Recharts
+
+### Choose Recharts When:
+
+✅ Building a React application
+
+✅ Need composable, reusable chart components
+
+✅ Want declarative chart definitions
+
+✅ Have datasets under 1000 points
+
+✅ Need responsive charts
+
+✅ Want good TypeScript support
+
+✅ Prefer component-based architecture
+
+### Choose Alternatives When:
+
+❌ Not using React (use ApexCharts, Chart.js)
+
+❌ Need to render 10,000+ data points (use canvas-based libraries)
+
+❌ Require advanced 3D visualizations (use Plotly.js)
+
+❌ Need maximum customization (use D3.js)
+
+❌ Building commercial products needing support (consider Highcharts)
+
+## Resources
+
+### Official Resources
+
+- [Recharts Website](https://recharts.github.io/)
+- [Documentation](https://recharts.github.io/en-US/)
+- [Examples](https://recharts.github.io/en-US/storybook/)
+- [GitHub Repository](https://github.com/recharts/recharts)
+
+### Learning Resources
+
+- [API Reference](https://recharts.github.io/en-US/api/)
+- [Storybook Examples](https://recharts.github.io/en-US/storybook/)
+- [GitHub Wiki](https://github.com/recharts/recharts/wiki)
+
+### Community
+
+- [GitHub Issues](https://github.com/recharts/recharts/issues)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/recharts)
+- [npm Package](https://www.npmjs.com/package/recharts)
+
+---
+
+Recharts is the perfect choice for React developers who want to create beautiful, responsive charts with a composable, declarative API. Its component-based architecture feels natural in React applications and provides the flexibility to create both simple and complex visualizations.

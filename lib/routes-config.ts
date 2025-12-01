@@ -452,6 +452,29 @@ export const ROUTES: EachRoute[] = [
             href: "/more-animation-and-effects-libraries",
           }
         ]
+      },
+      {
+        title: "Charts and Data Visualization Libraries",
+        href: "/charts-and-data-visualization",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "Recharts",
+            href: "/recharts",
+          },
+          {
+            title: "ApexCharts",
+            href: "/apex-charts",
+          },
+          {
+            title: "More Charts and Data Visualization Libraries",
+            href: "/more-charts-and-data-visualization-libraries",
+          }
+        ]
       }
     ],
   }

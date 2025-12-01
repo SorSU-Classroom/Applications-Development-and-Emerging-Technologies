@@ -1,0 +1,1016 @@
+---
+title: ApexCharts
+description: Master ApexCharts, the modern JavaScript charting library that provides beautiful, interactive, and responsive charts for any web application.
+---
+
+# ApexCharts
+
+<img src="https://apexcharts.com/media/apexcharts-logo.png" alt="ApexCharts Logo" width="200" height="60" />
+
+ApexCharts is a modern charting library that helps developers create beautiful and interactive visualizations for web pages. It's an open-source project with over 1 million weekly downloads and is trusted by developers worldwide.
+
+## Why ApexCharts?
+
+ApexCharts stands out as one of the most popular and feature-rich charting libraries:
+
+### 1. Framework Agnostic
+
+Works with any JavaScript framework:
+- Vanilla JavaScript
+- React (with react-apexcharts wrapper)
+- Vue (with vue-apexcharts wrapper)
+- Angular (with ng-apexcharts wrapper)
+- Next.js, Nuxt.js, and more
+
+### 2. Rich Feature Set
+
+- **20+ Chart Types**: Line, bar, area, pie, radar, scatter, heatmap, candlestick, and more
+- **Interactive**: Built-in zoom, pan, and selection tools
+- **Animations**: Smooth, customizable animations
+- **Responsive**: Automatically adapts to screen size
+- **Modern Design**: Beautiful default styling
+- **Real-Time Updates**: Perfect for dashboards and live data
+
+### 3. Developer Experience
+
+- Simple, intuitive API
+- Comprehensive documentation
+- 100+ ready-to-use examples
+- TypeScript support
+- Active community and regular updates
+- Detailed configuration options
+
+### 4. Performance
+
+- Canvas rendering for large datasets
+- Efficient re-rendering
+- Optimized for mobile devices
+- Lazy loading support
+- Hardware acceleration
+
+### 5. Free and Open Source
+
+- MIT license (free for commercial use)
+- No hidden costs
+- Community-driven development
+- Regular updates and bug fixes
+
+## Installation
+
+### Using npm
+
+```bash
+npm install apexcharts
+```
+
+### Using yarn
+
+```bash
+yarn add apexcharts
+```
+
+### Using CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+```
+
+### For React
+
+```bash
+npm install react-apexcharts apexcharts
+```
+
+### For Vue
+
+```bash
+npm install vue-apexcharts apexcharts
+```
+
+### For Angular
+
+```bash
+npm install ng-apexcharts apexcharts
+```
+
+## Basic Usage (Vanilla JavaScript)
+
+### Simple Line Chart
+
+```html
+<div id="chart"></div>
+
+<script>
+const options = {
+  chart: {
+    type: 'line',
+    height: 350
+  },
+  series: [{
+    name: 'Sales',
+    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+  }],
+  xaxis: {
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+  }
+};
+
+const chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+</script>
+```
+
+### Simple Bar Chart
+
+```javascript
+const options = {
+  chart: {
+    type: 'bar',
+    height: 350
+  },
+  series: [{
+    name: 'Revenue',
+    data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31, 87, 65]
+  }],
+  xaxis: {
+    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  },
+  colors: ['#008FFB']
+};
+
+const chart = new ApexCharts(document.querySelector("#chart"), options);
+chart.render();
+```
+
+## React Integration
+
+### Installation
+
+```bash
+npm install react-apexcharts apexcharts
+```
+
+### Basic React Component
+
+```jsx
+import React from 'react';
+import Chart from 'react-apexcharts';
+
+function LineChart() {
+  const options = {
+    chart: {
+      id: 'basic-line'
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+    }
+  };
+
+  const series = [{
+    name: 'Sales',
+    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+  }];
+
+  return (
+    <Chart
+      options={options}
+      series={series}
+      type="line"
+      height={350}
+    />
+  );
+}
+
+export default LineChart;
+```
+
+### React with State
+
+```jsx
+import React, { useState, useEffect } from 'react';
+import Chart from 'react-apexcharts';
+
+function DynamicChart() {
+  const [series, setSeries] = useState([{
+    name: 'Sales',
+    data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+  }]);
+
+  const [options] = useState({
+    chart: {
+      id: 'dynamic-chart',
+      animations: {
+        enabled: true,
+        dynamicAnimation: {
+          speed: 350
+        }
+      }
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+    }
+  });
+
+  useEffect(() => {
+    // Update data every 3 seconds
+    const interval = setInterval(() => {
+      setSeries([{
+        name: 'Sales',
+        data: Array.from({ length: 9 }, () => Math.floor(Math.random() * 100))
+      }]);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <Chart
+      options={options}
+      series={series}
+      type="line"
+      height={350}
+    />
+  );
+}
+```
+
+### React Component with Multiple Series
+
+```jsx
+import Chart from 'react-apexcharts';
+
+function MultiSeriesChart() {
+  const options = {
+    chart: {
+      id: 'multi-series',
+      toolbar: {
+        show: true
+      }
+    },
+    xaxis: {
+      categories: ['Q1', 'Q2', 'Q3', 'Q4']
+    },
+    legend: {
+      position: 'top'
+    },
+    colors: ['#008FFB', '#00E396', '#FEB019']
+  };
+
+  const series = [
+    {
+      name: 'Product A',
+      data: [44, 55, 41, 67]
+    },
+    {
+      name: 'Product B',
+      data: [13, 23, 20, 8]
+    },
+    {
+      name: 'Product C',
+      data: [11, 17, 15, 15]
+    }
+  ];
+
+  return (
+    <Chart
+      options={options}
+      series={series}
+      type="bar"
+      height={350}
+    />
+  );
+}
+```
+
+## Chart Types
+
+### 1. Area Chart
+
+```jsx
+import Chart from 'react-apexcharts';
+
+function AreaChart() {
+  const options = {
+    chart: {
+      id: 'area-chart',
+      toolbar: {
+        show: false
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      curve: 'smooth'
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+    },
+    fill: {
+      type: 'gradient',
+      gradient: {
+        opacityFrom: 0.6,
+        opacityTo: 0.1
+      }
+    }
+  };
+
+  const series = [{
+    name: 'Revenue',
+    data: [31, 40, 28, 51, 42, 109, 100]
+  }];
+
+  return <Chart options={options} series={series} type="area" height={350} />;
+}
+```
+
+### 2. Pie/Donut Chart
+
+```jsx
+function PieChart() {
+  const options = {
+    chart: {
+      type: 'pie'
+    },
+    labels: ['Team A', 'Team B', 'Team C', 'Team D', 'Team E'],
+    legend: {
+      position: 'bottom'
+    },
+    colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0']
+  };
+
+  const series = [44, 55, 13, 43, 22];
+
+  return <Chart options={options} series={series} type="pie" height={350} />;
+}
+
+// Donut Chart
+function DonutChart() {
+  const options = {
+    chart: {
+      type: 'donut'
+    },
+    labels: ['Product A', 'Product B', 'Product C', 'Product D'],
+    plotOptions: {
+      pie: {
+        donut: {
+          size: '65%'
+        }
+      }
+    }
+  };
+
+  const series = [44, 55, 41, 17];
+
+  return <Chart options={options} series={series} type="donut" height={350} />;
+}
+```
+
+### 3. Radar Chart
+
+```jsx
+function RadarChart() {
+  const options = {
+    chart: {
+      type: 'radar'
+    },
+    xaxis: {
+      categories: ['Speed', 'Power', 'Accuracy', 'Durability', 'Range', 'Efficiency']
+    },
+    yaxis: {
+      show: true
+    }
+  };
+
+  const series = [{
+    name: 'Product A',
+    data: [80, 50, 30, 40, 100, 20]
+  }];
+
+  return <Chart options={options} series={series} type="radar" height={350} />;
+}
+```
+
+### 4. Heatmap
+
+```jsx
+function HeatmapChart() {
+  const options = {
+    chart: {
+      type: 'heatmap'
+    },
+    plotOptions: {
+      heatmap: {
+        colorScale: {
+          ranges: [
+            { from: 0, to: 30, color: '#00A100', name: 'Low' },
+            { from: 31, to: 70, color: '#FFB200', name: 'Medium' },
+            { from: 71, to: 100, color: '#FF0000', name: 'High' }
+          ]
+        }
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    xaxis: {
+      categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    }
+  };
+
+  const series = [
+    { name: 'Week 1', data: [30, 40, 45, 50, 49, 60, 70] },
+    { name: 'Week 2', data: [20, 30, 35, 40, 39, 50, 60] },
+    { name: 'Week 3', data: [40, 50, 55, 60, 59, 70, 80] }
+  ];
+
+  return <Chart options={options} series={series} type="heatmap" height={350} />;
+}
+```
+
+### 5. Candlestick Chart (Financial)
+
+```jsx
+function CandlestickChart() {
+  const options = {
+    chart: {
+      type: 'candlestick',
+      height: 350
+    },
+    xaxis: {
+      type: 'datetime'
+    },
+    yaxis: {
+      tooltip: {
+        enabled: true
+      }
+    }
+  };
+
+  const series = [{
+    data: [
+      { x: new Date(1538778600000), y: [6629.81, 6650.5, 6623.04, 6633.33] },
+      { x: new Date(1538780400000), y: [6632.01, 6643.59, 6620, 6630.11] },
+      { x: new Date(1538782200000), y: [6630.71, 6648.95, 6623.34, 6635.65] },
+      // ... more data
+    ]
+  }];
+
+  return <Chart options={options} series={series} type="candlestick" height={350} />;
+}
+```
+
+### 6. Mixed Chart (Line + Bar)
+
+```jsx
+function MixedChart() {
+  const options = {
+    chart: {
+      id: 'mixed-chart',
+      stacked: false
+    },
+    stroke: {
+      width: [0, 2, 5],
+      curve: 'smooth'
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '50%'
+      }
+    },
+    xaxis: {
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+    },
+    yaxis: [
+      {
+        title: {
+          text: 'Revenue'
+        }
+      },
+      {
+        opposite: true,
+        title: {
+          text: 'Sales'
+        }
+      }
+    ]
+  };
+
+  const series = [
+    {
+      name: 'Revenue',
+      type: 'column',
+      data: [440, 505, 414, 671, 227, 413, 201]
+    },
+    {
+      name: 'Sales',
+      type: 'line',
+      data: [23, 42, 35, 27, 43, 22, 17]
+    }
+  ];
+
+  return <Chart options={options} series={series} height={350} />;
+}
+```
+
+## Advanced Features
+
+### 1. Real-Time Updates
+
+```jsx
+import { useState, useEffect } from 'react';
+import Chart from 'react-apexcharts';
+
+function RealTimeChart() {
+  const [data, setData] = useState([{
+    x: new Date().getTime(),
+    y: Math.floor(Math.random() * 100)
+  }]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setData(prevData => {
+        const newData = [...prevData, {
+          x: new Date().getTime(),
+          y: Math.floor(Math.random() * 100)
+        }];
+        // Keep only last 10 points
+        return newData.slice(-10);
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const options = {
+    chart: {
+      id: 'realtime',
+      animations: {
+        enabled: true,
+        easing: 'linear',
+        dynamicAnimation: {
+          speed: 1000
+        }
+      }
+    },
+    xaxis: {
+      type: 'datetime',
+      range: 10000
+    },
+    yaxis: {
+      max: 100
+    }
+  };
+
+  return (
+    <Chart
+      options={options}
+      series={[{ name: 'Real-Time Data', data }]}
+      type="line"
+      height={350}
+    />
+  );
+}
+```
+
+### 2. Zoom and Pan
+
+```jsx
+const options = {
+  chart: {
+    type: 'line',
+    zoom: {
+      enabled: true,
+      type: 'x',
+      autoScaleYaxis: true
+    },
+    toolbar: {
+      show: true,
+      tools: {
+        zoom: true,
+        zoomin: true,
+        zoomout: true,
+        pan: true,
+        reset: true
+      }
+    }
+  },
+  // ... other options
+};
+```
+
+### 3. Custom Tooltips
+
+```jsx
+const options = {
+  chart: {
+    type: 'line'
+  },
+  tooltip: {
+    custom: function({ series, seriesIndex, dataPointIndex, w }) {
+      return (
+        '<div class="custom-tooltip">' +
+        '<span>Value: ' + series[seriesIndex][dataPointIndex] + '</span>' +
+        '</div>'
+      );
+    }
+  }
+};
+```
+
+### 4. Data Labels
+
+```jsx
+const options = {
+  chart: {
+    type: 'bar'
+  },
+  dataLabels: {
+    enabled: true,
+    formatter: function(val) {
+      return '$' + val.toLocaleString();
+    },
+    style: {
+      fontSize: '12px',
+      colors: ['#fff']
+    }
+  }
+};
+```
+
+### 5. Annotations
+
+```jsx
+const options = {
+  chart: {
+    type: 'line'
+  },
+  annotations: {
+    yaxis: [
+      {
+        y: 8000,
+        borderColor: '#00E396',
+        label: {
+          borderColor: '#00E396',
+          style: {
+            color: '#fff',
+            background: '#00E396'
+          },
+          text: 'Target'
+        }
+      }
+    ],
+    xaxis: [
+      {
+        x: 'Jun',
+        borderColor: '#775DD0',
+        label: {
+          borderColor: '#775DD0',
+          style: {
+            color: '#fff',
+            background: '#775DD0'
+          },
+          text: 'Important Date'
+        }
+      }
+    ]
+  }
+};
+```
+
+### 6. Events
+
+```jsx
+const options = {
+  chart: {
+    type: 'line',
+    events: {
+      dataPointSelection: (event, chartContext, config) => {
+        console.log('Point clicked:', config.dataPointIndex);
+      },
+      legendClick: (chartContext, seriesIndex, config) => {
+        console.log('Legend clicked:', seriesIndex);
+      },
+      markerClick: (event, chartContext, { seriesIndex, dataPointIndex }) => {
+        console.log('Marker clicked:', seriesIndex, dataPointIndex);
+      }
+    }
+  }
+};
+```
+
+## Theming and Styling
+
+### Dark Mode
+
+```jsx
+const options = {
+  chart: {
+    type: 'line'
+  },
+  theme: {
+    mode: 'dark',
+    palette: 'palette1'
+  }
+};
+```
+
+### Custom Colors
+
+```jsx
+const options = {
+  chart: {
+    type: 'bar'
+  },
+  colors: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728'],
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shade: 'dark',
+      type: 'horizontal',
+      shadeIntensity: 0.5,
+      inverseColors: true,
+      opacityFrom: 1,
+      opacityTo: 1,
+      stops: [0, 100]
+    }
+  }
+};
+```
+
+### Custom Fonts
+
+```jsx
+const options = {
+  chart: {
+    type: 'line',
+    fontFamily: 'Inter, sans-serif'
+  },
+  title: {
+    text: 'Sales Overview',
+    style: {
+      fontSize: '20px',
+      fontWeight: 'bold',
+      fontFamily: 'Inter, sans-serif',
+      color: '#263238'
+    }
+  }
+};
+```
+
+## Responsive Design
+
+```jsx
+const options = {
+  chart: {
+    type: 'line'
+  },
+  responsive: [
+    {
+      breakpoint: 768,
+      options: {
+        chart: {
+          height: 300
+        },
+        legend: {
+          position: 'bottom'
+        },
+        xaxis: {
+          labels: {
+            rotate: -45
+          }
+        }
+      }
+    },
+    {
+      breakpoint: 480,
+      options: {
+        chart: {
+          height: 250
+        },
+        legend: {
+          show: false
+        }
+      }
+    }
+  ]
+};
+```
+
+## Best Practices
+
+### 1. Performance Optimization
+
+```jsx
+import { useMemo } from 'react';
+import Chart from 'react-apexcharts';
+
+function OptimizedChart({ rawData }) {
+  // Memoize options and series
+  const options = useMemo(() => ({
+    chart: { id: 'optimized-chart' },
+    xaxis: { categories: rawData.map(d => d.date) }
+  }), [rawData]);
+
+  const series = useMemo(() => [{
+    name: 'Sales',
+    data: rawData.map(d => d.value)
+  }], [rawData]);
+
+  return <Chart options={options} series={series} type="line" height={350} />;
+}
+```
+
+### 2. Error Handling
+
+```jsx
+function SafeChart({ data }) {
+  if (!data || data.length === 0) {
+    return (
+      <div style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p>No data available</p>
+      </div>
+    );
+  }
+
+  const options = { /* ... */ };
+  const series = [{ name: 'Data', data }];
+
+  return <Chart options={options} series={series} type="line" height={350} />;
+}
+```
+
+### 3. Loading States
+
+```jsx
+function ChartWithLoading({ data, isLoading }) {
+  if (isLoading) {
+    return (
+      <div style={{ height: 350, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p>Loading chart...</p>
+      </div>
+    );
+  }
+
+  return <Chart options={options} series={series} type="line" height={350} />;
+}
+```
+
+### 4. Accessibility
+
+```jsx
+const options = {
+  chart: {
+    type: 'line'
+  },
+  title: {
+    text: 'Monthly Sales Data',
+    align: 'left'
+  },
+  subtitle: {
+    text: 'Data from January to December 2024'
+  },
+  // Add descriptive labels
+  xaxis: {
+    title: {
+      text: 'Month'
+    }
+  },
+  yaxis: {
+    title: {
+      text: 'Sales ($)'
+    }
+  }
+};
+```
+
+## Common Patterns
+
+### Dashboard Card
+
+```jsx
+function ChartCard({ title, subtitle, data, type = 'line' }) {
+  const options = {
+    chart: { id: `card-${title}`, toolbar: { show: false } },
+    title: { text: title, style: { fontSize: '16px' } },
+    subtitle: { text: subtitle }
+  };
+
+  return (
+    <div style={{
+      padding: '20px',
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+    }}>
+      <Chart options={options} series={data} type={type} height={300} />
+    </div>
+  );
+}
+```
+
+### Sparkline (Mini Chart)
+
+```jsx
+function Sparkline({ data, color = '#008FFB' }) {
+  const options = {
+    chart: {
+      type: 'line',
+      sparkline: { enabled: true }
+    },
+    stroke: { curve: 'smooth', width: 2 },
+    colors: [color]
+  };
+
+  return <Chart options={options} series={[{ data }]} type="line" height={50} />;
+}
+```
+
+## Advantages
+
+✅ **Framework Agnostic** - Works with any JavaScript framework
+
+✅ **Rich Features** - 20+ chart types with extensive customization
+
+✅ **Modern Design** - Beautiful, professional-looking charts out of the box
+
+✅ **Interactive** - Built-in zoom, pan, selection, and tooltips
+
+✅ **Responsive** - Automatic responsiveness with breakpoint support
+
+✅ **Real-Time** - Perfect for dashboards with live data updates
+
+✅ **Well Documented** - Comprehensive docs with 100+ examples
+
+✅ **Active Development** - Regular updates and bug fixes
+
+✅ **TypeScript Support** - Full TypeScript definitions
+
+✅ **Free and Open Source** - MIT license
+
+## Disadvantages
+
+❌ **Bundle Size** - Larger than some alternatives (~140KB minified)
+
+❌ **Learning Curve** - Extensive configuration options can be overwhelming
+
+❌ **Performance** - Can struggle with very large datasets (>10,000 points)
+
+❌ **Customization Limits** - Some advanced customizations require workarounds
+
+## When to Use ApexCharts
+
+### Choose ApexCharts When:
+
+✅ Need a feature-rich charting library
+
+✅ Want beautiful default styling
+
+✅ Building dashboards with interactive charts
+
+✅ Need real-time data visualization
+
+✅ Want framework flexibility (not locked to React)
+
+✅ Need financial charts (candlestick, etc.)
+
+✅ Building commercial projects (free MIT license)
+
+### Choose Alternatives When:
+
+❌ Bundle size is critical (use Chart.js)
+
+❌ Building React-only app (consider Recharts)
+
+❌ Need maximum customization (use D3.js)
+
+❌ Handling massive datasets (use canvas-based libraries)
+
+❌ Need simple charts only (use Chart.js)
+
+## Resources
+
+### Official Resources
+
+- [ApexCharts Website](https://apexcharts.com/)
+- [Documentation](https://apexcharts.com/docs/installation/)
+- [Demos](https://apexcharts.com/javascript-chart-demos/)
+- [React Integration](https://apexcharts.com/docs/react-charts/)
+- [GitHub Repository](https://github.com/apexcharts/apexcharts.js)
+
+### Learning Resources
+
+- [Getting Started Guide](https://apexcharts.com/docs/creating-first-javascript-chart/)
+- [Chart Options](https://apexcharts.com/docs/options/)
+- [Examples Gallery](https://apexcharts.com/javascript-chart-demos/)
+- [Blog & Tutorials](https://apexcharts.com/blog/)
+
+### Community
+
+- [GitHub Issues](https://github.com/apexcharts/apexcharts.js/issues)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/apexcharts)
+- [npm Package](https://www.npmjs.com/package/apexcharts)
+
+---
+
+ApexCharts is an excellent choice for developers who need modern, feature-rich, interactive charts that work across any framework. Its beautiful default styling and comprehensive feature set make it perfect for building professional dashboards and data visualizations.
