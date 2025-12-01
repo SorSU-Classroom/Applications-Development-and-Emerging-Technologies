@@ -1,0 +1,801 @@
+---
+title: GSAP (GreenSock Animation Platform)
+description: Master GSAP, the industry-standard JavaScript animation library for creating professional, high-performance web animations.
+---
+
+# GSAP (GreenSock Animation Platform)
+
+<img src="/images/gsap-logo.svg" alt="GSAP Logo" width="200" height="60" />
+
+GSAP (GreenSock Animation Platform) is the industry-standard JavaScript animation library trusted by over 12 million developers worldwide. It's used by companies like Google, Adobe, Netflix, and countless award-winning websites to create professional, high-performance animations.
+
+## Why GSAP?
+
+GSAP stands out as the most robust and feature-rich animation library available:
+
+### 1. Unmatched Performance
+
+- **20x faster** than jQuery for animations
+- Hardware-accelerated by default
+- Automatic optimization for 60fps animations
+- Minimal CPU usage, even with complex animations
+- Efficient DOM manipulation and batching
+
+### 2. Framework Agnostic
+
+- Works with vanilla JavaScript
+- React, Vue, Angular, Svelte integrations available
+- No dependencies required
+- Easy to integrate with any tech stack
+
+### 3. Comprehensive Feature Set
+
+- Animate any numeric property (CSS, SVG, canvas, etc.)
+- Timeline sequencing and choreography
+- Advanced easing functions
+- ScrollTrigger for scroll animations
+- Draggable interactions
+- SVG morphing and path animations
+- Text effects and splitting
+
+### 4. Battle-Tested Reliability
+
+- Over 10 years of development and refinement
+- Used on millions of websites
+- Extensive documentation and examples
+- Active community and support
+- Regular updates and maintenance
+
+### 5. Developer Experience
+
+- Intuitive, consistent API
+- Chainable methods
+- Excellent TypeScript support
+- Comprehensive error handling
+- DevTools for debugging animations
+
+## Core Concepts
+
+### 1. Tweens
+
+A tween is a single animation that changes properties over time.
+
+```javascript
+// Basic tween
+gsap.to(".box", {
+  x: 100,
+  duration: 1
+});
+```
+
+### 2. Timelines
+
+Timelines let you sequence multiple animations and control them as a group.
+
+```javascript
+const tl = gsap.timeline();
+
+tl.to(".box1", { x: 100 })
+  .to(".box2", { y: 100 })
+  .to(".box3", { rotation: 360 });
+```
+
+### 3. Targets
+
+GSAP can animate any JavaScript object, not just DOM elements.
+
+```javascript
+// CSS selector
+gsap.to(".class", { x: 100 });
+
+// DOM element
+gsap.to(document.getElementById('box'), { x: 100 });
+
+// Array of elements
+gsap.to([".box1", ".box2"], { x: 100 });
+
+// Generic object
+const obj = { value: 0 };
+gsap.to(obj, { value: 100 });
+```
+
+### 4. Properties
+
+GSAP can animate virtually any numeric property.
+
+```javascript
+gsap.to(".box", {
+  // Transform properties (preferred for performance)
+  x: 100,        // translateX
+  y: 100,        // translateY
+  rotation: 360, // rotate
+  scale: 2,      // scale
+  
+  // CSS properties
+  opacity: 0.5,
+  backgroundColor: "red",
+  borderRadius: "50%",
+  
+  // Custom properties
+  "--custom-prop": 50
+});
+```
+
+## Installation
+
+### Using npm (Recommended)
+
+```bash
+npm install gsap
+```
+
+Then import in your JavaScript:
+
+```javascript
+import gsap from "gsap";
+
+// With plugins
+import { gsap, ScrollTrigger, Draggable } from "gsap";
+
+gsap.registerPlugin(ScrollTrigger, Draggable);
+```
+
+### Using CDN
+
+```html
+<!-- GSAP Core -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+
+<!-- With ScrollTrigger plugin -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+```
+
+### Using yarn
+
+```bash
+yarn add gsap
+```
+
+## Basic Usage
+
+### 1. Simple Animations
+
+```javascript
+// Move element to x: 100px
+gsap.to(".box", { x: 100 });
+
+// Animate from starting values
+gsap.from(".box", { opacity: 0, y: 50 });
+
+// Set starting and ending values
+gsap.fromTo(".box", 
+  { opacity: 0, scale: 0 },
+  { opacity: 1, scale: 1, duration: 1 }
+);
+
+// Set properties immediately (no animation)
+gsap.set(".box", { x: 100, opacity: 0.5 });
+```
+
+### 2. Duration and Easing
+
+```javascript
+gsap.to(".box", {
+  x: 100,
+  duration: 2,           // 2 seconds
+  ease: "power2.inOut"   // easing function
+});
+
+// Available eases:
+// "none", "power1", "power2", "power3", "power4"
+// "back", "elastic", "bounce", "circ", "expo", "sine"
+// Each with .in, .out, or .inOut
+```
+
+### 3. Delays and Repeats
+
+```javascript
+gsap.to(".box", {
+  x: 100,
+  duration: 1,
+  delay: 0.5,        // wait 0.5s before starting
+  repeat: 2,         // repeat 2 times (plays 3 times total)
+  repeatDelay: 1,    // wait 1s between repeats
+  yoyo: true         // animate back and forth
+});
+
+// Infinite repeat
+gsap.to(".box", {
+  rotation: 360,
+  duration: 2,
+  repeat: -1,        // infinite repeat
+  ease: "none"       // linear rotation
+});
+```
+
+### 4. Callbacks
+
+```javascript
+gsap.to(".box", {
+  x: 100,
+  duration: 1,
+  onStart: () => console.log("Started!"),
+  onUpdate: () => console.log("Animating..."),
+  onComplete: () => console.log("Complete!"),
+  onRepeat: () => console.log("Repeating..."),
+  onReverseComplete: () => console.log("Reversed!")
+});
+```
+
+## Timelines
+
+Timelines are one of GSAP's most powerful features for creating complex animation sequences.
+
+### 1. Basic Timeline
+
+```javascript
+// Create timeline
+const tl = gsap.timeline();
+
+// Add animations (play one after another)
+tl.to(".box1", { x: 100, duration: 1 })
+  .to(".box2", { y: 100, duration: 1 })
+  .to(".box3", { rotation: 360, duration: 1 });
+```
+
+### 2. Timeline with Position Parameter
+
+```javascript
+const tl = gsap.timeline();
+
+tl.to(".box1", { x: 100, duration: 1 })
+  .to(".box2", { y: 100, duration: 1 }, "<")      // start at same time as previous
+  .to(".box3", { rotation: 360, duration: 1 }, "-=0.5") // start 0.5s before previous ends
+  .to(".box4", { scale: 2, duration: 1 }, "+=0.5")      // start 0.5s after previous ends
+  .to(".box5", { opacity: 0, duration: 1 }, 2);         // start at 2 seconds absolute time
+```
+
+### 3. Timeline Controls
+
+```javascript
+const tl = gsap.timeline({
+  paused: true,       // start paused
+  repeat: -1,         // infinite repeat
+  yoyo: true,         // play forward then backward
+  defaults: {         // default values for all children
+    duration: 1,
+    ease: "power2.inOut"
+  }
+});
+
+tl.to(".box1", { x: 100 })
+  .to(".box2", { y: 100 });
+
+// Control timeline
+tl.play();           // play from current position
+tl.pause();          // pause
+tl.resume();         // resume from pause
+tl.restart();        // restart from beginning
+tl.reverse();        // play in reverse
+tl.seek(2);          // jump to 2 seconds
+tl.progress(0.5);    // jump to 50% progress
+tl.timeScale(2);     // double the speed
+```
+
+### 4. Timeline Labels
+
+```javascript
+const tl = gsap.timeline();
+
+tl.to(".box1", { x: 100 })
+  .addLabel("scene2")                    // add label
+  .to(".box2", { y: 100 })
+  .to(".box3", { rotation: 360 })
+  .addLabel("scene3")
+  .to(".box4", { scale: 2 });
+
+// Jump to labels
+tl.play("scene2");                       // play from scene2
+tl.tweenFromTo("scene2", "scene3");     // play between labels
+```
+
+## Advanced Features
+
+### 1. Stagger Animations
+
+Animate multiple elements with delays between each.
+
+```javascript
+// Simple stagger
+gsap.to(".box", {
+  y: 100,
+  stagger: 0.1  // 0.1s delay between each element
+});
+
+// Advanced stagger
+gsap.to(".box", {
+  y: 100,
+  stagger: {
+    each: 0.1,           // delay between each
+    from: "center",      // start from center (or "end", "edges", "random", index)
+    grid: [7, 15],       // treat as 7x15 grid
+    ease: "power2.inOut", // ease for stagger timing
+    repeat: -1,          // repeat the stagger
+    yoyo: true
+  }
+});
+```
+
+### 2. Custom Easing
+
+Create custom easing functions:
+
+```javascript
+// Using CustomEase plugin
+gsap.registerPlugin(CustomEase);
+
+CustomEase.create("custom", "M0,0 C0.5,0 0.5,1 1,1");
+
+gsap.to(".box", {
+  x: 100,
+  ease: "custom"
+});
+
+// Using function
+gsap.to(".box", {
+  x: 100,
+  ease: (progress) => progress < 0.5 ? 2 * progress : 1
+});
+```
+
+### 3. Keyframes
+
+```javascript
+// Array of keyframe objects
+gsap.to(".box", {
+  keyframes: [
+    { x: 100, duration: 1 },
+    { y: 100, duration: 1 },
+    { rotation: 360, duration: 1 }
+  ]
+});
+
+// With custom timing
+gsap.to(".box", {
+  keyframes: {
+    x: [0, 100, 50, 200],
+    y: [0, 50, 100, 0],
+    easeEach: "power2.inOut"
+  },
+  duration: 3
+});
+```
+
+### 4. Random Values
+
+```javascript
+// Random between two values
+gsap.to(".box", {
+  x: "random(0, 100)",
+  y: "random(50, 150)"
+});
+
+// Random from array
+gsap.to(".box", {
+  x: "random([0, 100, 200, 300])"
+});
+
+// Random for each target
+gsap.to(".box", {
+  x: (i, target) => Math.random() * 100
+});
+```
+
+### 5. Utility Functions
+
+```javascript
+// Interpolate between values
+const lerp = gsap.utils.interpolate(0, 100, 0.5); // 50
+
+// Map range to another range
+const mapped = gsap.utils.mapRange(0, 100, 0, 1, 50); // 0.5
+
+// Clamp value
+const clamped = gsap.utils.clamp(0, 100, 150); // 100
+
+// Wrap value
+const wrapped = gsap.utils.wrap([0, 100], 150); // 50
+
+// Random
+const random = gsap.utils.random(0, 100);
+const randomInt = gsap.utils.random(0, 100, 1, true); // integer
+```
+
+## React Integration
+
+GSAP provides a special React hook for proper integration.
+
+### Installation
+
+```bash
+npm install gsap @gsap/react
+```
+
+### Basic Usage
+
+```jsx
+import { useRef } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(useGSAP);
+
+function AnimatedComponent() {
+  const container = useRef();
+  
+  useGSAP(() => {
+    // Animations created here will be automatically cleaned up
+    gsap.to(".box", { x: 100, rotation: 360 });
+  }, { scope: container }); // scope limits selector queries to container
+  
+  return (
+    <div ref={container}>
+      <div className="box">Animate Me!</div>
+    </div>
+  );
+}
+```
+
+### With Dependencies
+
+```jsx
+function Counter({ count }) {
+  const boxRef = useRef();
+  
+  useGSAP(() => {
+    gsap.to(boxRef.current, {
+      x: count * 10,
+      backgroundColor: count > 50 ? "red" : "blue"
+    });
+  }, { dependencies: [count] }); // re-run when count changes
+  
+  return <div ref={boxRef}>Count: {count}</div>;
+}
+```
+
+### Context-Safe Animations (Event Handlers)
+
+```jsx
+function InteractiveBox() {
+  const container = useRef();
+  const { contextSafe } = useGSAP({ scope: container });
+  
+  // Wrap event handlers with contextSafe for proper cleanup
+  const onClickGood = contextSafe(() => {
+    gsap.to(".box", { rotation: 180 });
+  });
+  
+  return (
+    <div ref={container}>
+      <button onClick={onClickGood} className="box">Click Me</button>
+    </div>
+  );
+}
+```
+
+### Timeline in React
+
+```jsx
+function SequenceAnimation() {
+  const container = useRef();
+  const tl = useRef();
+  
+  useGSAP(() => {
+    tl.current = gsap.timeline()
+      .to(".box1", { x: 100 })
+      .to(".box2", { y: 100 })
+      .to(".box3", { rotation: 360 });
+  }, { scope: container });
+  
+  return (
+    <div ref={container}>
+      <div className="box1">Box 1</div>
+      <div className="box2">Box 2</div>
+      <div className="box3">Box 3</div>
+      <button onClick={() => tl.current.restart()}>Replay</button>
+      <button onClick={() => tl.current.reverse()}>Reverse</button>
+    </div>
+  );
+}
+```
+
+## ScrollTrigger Plugin
+
+ScrollTrigger makes it easy to create scroll-based animations.
+
+### Installation
+
+```javascript
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+gsap.registerPlugin(ScrollTrigger);
+```
+
+### Basic Scroll Animation
+
+```javascript
+// Animate when element enters viewport
+gsap.to(".box", {
+  x: 100,
+  scrollTrigger: {
+    trigger: ".box",
+    start: "top 80%",      // when top of trigger hits 80% of viewport
+    end: "bottom 20%",      // when bottom of trigger hits 20% of viewport
+    scrub: true,            // link animation to scrollbar
+    markers: true           // show position markers (for debugging)
+  }
+});
+```
+
+### Pinning Elements
+
+```javascript
+// Pin element while scrolling
+gsap.to(".panel", {
+  scrollTrigger: {
+    trigger: ".panel",
+    pin: true,              // pin the trigger element
+    start: "top top",       // when top of panel hits top of viewport
+    end: "+=500",           // unpin after scrolling 500px
+    scrub: 1                // smooth scrubbing (1 second lag)
+  }
+});
+```
+
+### Toggle Classes
+
+```javascript
+ScrollTrigger.create({
+  trigger: ".box",
+  start: "top 50%",
+  end: "bottom 50%",
+  toggleClass: "active",    // toggle class on/off
+  onEnter: () => console.log("entered"),
+  onLeave: () => console.log("left"),
+  onEnterBack: () => console.log("enter back"),
+  onLeaveBack: () => console.log("leave back")
+});
+```
+
+### Horizontal Scrolling
+
+```javascript
+const sections = gsap.utils.toArray(".panel");
+
+gsap.to(sections, {
+  xPercent: -100 * (sections.length - 1),
+  ease: "none",
+  scrollTrigger: {
+    trigger: ".container",
+    pin: true,
+    scrub: 1,
+    snap: 1 / (sections.length - 1),
+    end: () => "+=" + document.querySelector(".container").offsetWidth
+  }
+});
+```
+
+## Common Use Cases
+
+### 1. Entrance Animations
+
+```javascript
+// Fade in and slide up
+gsap.from(".card", {
+  opacity: 0,
+  y: 50,
+  duration: 0.8,
+  stagger: 0.1,
+  ease: "power2.out"
+});
+```
+
+### 2. Hover Effects
+
+```javascript
+const boxes = document.querySelectorAll(".box");
+
+boxes.forEach(box => {
+  box.addEventListener("mouseenter", () => {
+    gsap.to(box, { scale: 1.1, duration: 0.3 });
+  });
+  
+  box.addEventListener("mouseleave", () => {
+    gsap.to(box, { scale: 1, duration: 0.3 });
+  });
+});
+```
+
+### 3. Loading Animation
+
+```javascript
+const tl = gsap.timeline();
+
+tl.to(".loader", { rotation: 360, duration: 1, repeat: -1, ease: "none" })
+  .to(".loader", { opacity: 0, duration: 0.5 }, "+=2")
+  .to(".content", { opacity: 1, y: 0, duration: 0.5 });
+```
+
+### 4. Page Transition
+
+```javascript
+function pageTransition() {
+  const tl = gsap.timeline();
+  
+  tl.to(".transition-overlay", {
+    scaleY: 1,
+    transformOrigin: "bottom",
+    duration: 0.5,
+    ease: "power4.inOut"
+  })
+  .to(".transition-overlay", {
+    scaleY: 0,
+    transformOrigin: "top",
+    duration: 0.5,
+    ease: "power4.inOut"
+  }, "+=0.3");
+  
+  return tl;
+}
+```
+
+### 5. Parallax Scrolling
+
+```javascript
+gsap.to(".parallax-layer-1", {
+  y: (i, target) => -ScrollTrigger.maxScroll(window) * target.dataset.speed,
+  ease: "none",
+  scrollTrigger: {
+    start: 0,
+    end: "max",
+    invalidateOnRefresh: true,
+    scrub: 0
+  }
+});
+```
+
+## Best Practices
+
+### 1. Performance
+
+✅ **Do:**
+```javascript
+// Use transform properties (x, y, rotation, scale)
+gsap.to(".box", { x: 100, rotation: 360 });
+```
+
+❌ **Don't:**
+```javascript
+// Avoid layout properties (left, top, width, height)
+gsap.to(".box", { left: "100px", top: "100px" });
+```
+
+### 2. Cleanup
+
+```javascript
+// Store animation reference
+const anim = gsap.to(".box", { x: 100 });
+
+// Kill animation when needed
+anim.kill();
+
+// Kill all animations on target
+gsap.killTweensOf(".box");
+
+// Use context for automatic cleanup
+const ctx = gsap.context(() => {
+  gsap.to(".box", { x: 100 });
+});
+
+// Cleanup when component unmounts
+ctx.revert();
+```
+
+### 3. Accessibility
+
+```javascript
+// Respect reduced motion preferences
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!prefersReducedMotion) {
+  gsap.to(".box", { x: 100, duration: 1 });
+} else {
+  // Skip animation or use instant transition
+  gsap.set(".box", { x: 100 });
+}
+```
+
+### 4. Code Organization
+
+```javascript
+// Create reusable animation functions
+function fadeIn(targets, options = {}) {
+  return gsap.from(targets, {
+    opacity: 0,
+    y: 20,
+    duration: 0.6,
+    ...options
+  });
+}
+
+// Use throughout your app
+fadeIn(".hero");
+fadeIn(".cards", { stagger: 0.1 });
+```
+
+## Advantages
+
+✅ **Industry Standard** - Used by top companies and award-winning websites
+
+✅ **Performance** - Fastest animation library available, 20x faster than jQuery
+
+✅ **Comprehensive** - Animate anything: CSS, SVG, canvas, WebGL, generic objects
+
+✅ **Timelines** - Powerful sequencing and choreography capabilities
+
+✅ **Plugins** - Rich ecosystem of plugins (ScrollTrigger, Draggable, MorphSVG, etc.)
+
+✅ **Framework Agnostic** - Works with any JavaScript framework or vanilla JS
+
+✅ **Developer Experience** - Intuitive API, excellent docs, TypeScript support
+
+✅ **Reliability** - 10+ years of development, battle-tested on millions of sites
+
+✅ **Support** - Active community, forums, and commercial support available
+
+## Disadvantages
+
+❌ **Bundle Size** - Core is ~50KB (though smaller than many alternatives with similar features)
+
+❌ **Learning Curve** - Advanced features require time to master
+
+❌ **Commercial License** - Some plugins require paid license for commercial use
+
+❌ **Overkill for Simple Animations** - Might be unnecessary for basic transitions
+
+## Pricing
+
+GSAP has a flexible licensing model:
+
+- **Core Library**: Free for all projects
+- **Free Plugins**: ScrollTrigger, ScrollTo, Draggable, MotionPath - Free
+- **Premium Plugins**: MorphSVG, SplitText, DrawSVG, GSDevTools - Require Club GreenSock membership
+  - **Shockingly Green**: $99/year (1 site)
+  - **Business Green**: $199/year (unlimited sites)
+
+## Resources
+
+### Official Resources
+
+- [GSAP Official Website](https://gsap.com/)
+- [GSAP Documentation](https://gsap.com/docs/v3/)
+- [GSAP React Integration](https://gsap.com/resources/React)
+- [GSAP Forums](https://gsap.com/community/)
+- [GSAP on CodePen](https://codepen.io/GreenSock)
+
+### Learning Resources
+
+- [Getting Started Guide](https://gsap.com/resources/get-started/)
+- [GSAP Cheat Sheet](https://gsap.com/cheatsheet/)
+- [Video Tutorials](https://gsap.com/resources/)
+- [Animation Examples](https://gsap.com/showcase/)
+
+### Community
+
+- [GitHub Repository](https://github.com/greensock/GSAP)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/gsap)
+- [Discord Community](https://gsap.com/community/)
+- [Twitter @greensock](https://twitter.com/greensock)
+
+---
+
+GSAP is the professional's choice for web animation. Its combination of performance, features, and reliability makes it the go-to solution for creating world-class animated experiences on the web.

@@ -3,7 +3,7 @@
 export type EachRoute = {
   title: string;
   href: string;
-  noLink?: true; // noLink will create a route segment (section) but cannot be navigated
+  noLink?: true;
   items?: EachRoute[];
 };
 
@@ -427,6 +427,29 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More UI Libraries",
             href: "/more-ui-libraries",
+          }
+        ]
+      },
+      {
+        title: "Animation and Effects Libraries",
+        href: "/animation-and-effects",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "GSAP (GreenSock Animation Platform)",
+            href: "/gsap",
+          },
+          {
+            title: "Framer Motion",
+            href: "/framer-motion",
+          },
+          {
+            title: "More Animation and Effects Libraries",
+            href: "/more-animation-and-effects-libraries",
           }
         ]
       }

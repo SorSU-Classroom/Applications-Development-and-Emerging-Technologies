@@ -1,0 +1,944 @@
+---
+title: Framer Motion
+description: Learn Framer Motion, the production-ready animation library for React that makes creating beautiful animations simple and intuitive.
+---
+
+# Framer Motion
+
+<img src="/images/framer-motion-logo.svg" alt="Framer Motion Logo" width="200" height="60" />
+
+Framer Motion (now Motion) is a production-ready animation library for React that combines simplicity with powerful features. It's trusted by companies like Framer, Linear, Figma, and Sanity to create smooth, engaging user interfaces.
+
+## Why Framer Motion?
+
+Framer Motion stands out as the best React animation library for several reasons:
+
+### 1. Declarative API
+
+Animations are defined as props, making them easy to read and maintain:
+
+```jsx
+<motion.div animate={{ x: 100, opacity: 1 }} />
+```
+
+No need to manage animation state, timelines, or cleanup - Framer Motion handles it all.
+
+### 2. Built for React
+
+Unlike GSAP which is framework-agnostic, Framer Motion is designed specifically for React:
+- Integrates seamlessly with React state and props
+- Automatic cleanup on unmount
+- Works with React Hooks
+- TypeScript support out of the box
+- Server-side rendering (SSR) compatible
+
+### 3. Hardware Acceleration
+
+Framer Motion leverages the Web Animations API and CSS transforms for 60fps animations, ensuring smooth performance even on mobile devices.
+
+### 4. Layout Animations
+
+Framer Motion's layout animation engine can animate between any layout changes using performant transforms:
+
+```jsx
+<motion.div layout />
+```
+
+This single prop enables smooth transitions when elements change size, position, or order.
+
+### 5. Gesture Recognition
+
+Built-in gesture recognizers that work across devices:
+- Hover (works on touch devices)
+- Tap
+- Drag
+- Pan
+- Focus
+- Viewport detection
+
+### 6. Spring Physics
+
+By default, Framer Motion uses spring physics for natural, organic motion:
+
+```jsx
+<motion.div animate={{ x: 100 }} transition={{ type: "spring" }} />
+```
+
+## Installation
+
+### Using npm
+
+```bash
+npm install motion
+```
+
+### Using yarn
+
+```bash
+yarn add motion
+```
+
+### Using pnpm
+
+```bash
+pnpm add motion
+```
+
+### Import
+
+```jsx
+import { motion } from "motion/react";
+```
+
+**Note**: The package was previously called `framer-motion`, but is now just `motion`. Both packages are maintained, but `motion` is the latest version.
+
+## Basic Concepts
+
+### 1. The motion Component
+
+Every HTML and SVG element has a `motion` equivalent:
+
+```jsx
+import { motion } from "motion/react";
+
+function App() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+    >
+      Hello World
+    </motion.div>
+  );
+}
+```
+
+Available components:
+```jsx
+<motion.div />
+<motion.button />
+<motion.span />
+<motion.p />
+<motion.a />
+<motion.img />
+<motion.svg />
+<motion.path />
+// ... and all other HTML/SVG elements
+```
+
+### 2. Animation Props
+
+Framer Motion uses specific props to control animations:
+
+- **`initial`**: Starting state (before animation)
+- **`animate`**: Target state (what to animate to)
+- **`exit`**: State when component unmounts
+- **`transition`**: How the animation behaves
+- **`whileHover`**: State while hovering
+- **`whileTap`**: State while tapping/clicking
+- **`whileDrag`**: State while dragging
+- **`whileFocus`**: State while focused
+- **`whileInView`**: State while in viewport
+
+### 3. Animatable Properties
+
+You can animate:
+- **Transform properties**: `x`, `y`, `scale`, `rotate`, `skewX`, `skewY`
+- **CSS properties**: `opacity`, `backgroundColor`, `color`, `borderRadius`, etc.
+- **SVG attributes**: `pathLength`, `pathOffset`, `cx`, `cy`, `r`, etc.
+- **Complex strings**: `boxShadow`, `transform`, etc.
+
+```jsx
+<motion.div
+  animate={{
+    x: 100,              // translateX(100px)
+    y: 50,               // translateY(50px)
+    scale: 1.5,          // scale(1.5)
+    rotate: 45,          // rotate(45deg)
+    opacity: 0.5,
+    backgroundColor: "#ff0000",
+    borderRadius: "50%"
+  }}
+/>
+```
+
+## Basic Animations
+
+### 1. Simple Animation
+
+```jsx
+import { motion } from "motion/react";
+
+function Box() {
+  return (
+    <motion.div
+      className="box"
+      animate={{ x: 100, rotate: 360 }}
+      transition={{ duration: 2 }}
+    />
+  );
+}
+```
+
+### 2. Initial and Animate
+
+```jsx
+// Fade in and slide up
+<motion.div
+  initial={{ opacity: 0, y: 50 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.5 }}
+>
+  Content
+</motion.div>
+```
+
+### 3. State-Driven Animations
+
+```jsx
+import { useState } from "react";
+import { motion } from "motion/react";
+
+function ToggleBox() {
+  const [isOpen, setIsOpen] = useState(false);
+  
+  return (
+    <motion.div
+      animate={{
+        scale: isOpen ? 1.5 : 1,
+        rotate: isOpen ? 180 : 0
+      }}
+      onClick={() => setIsOpen(!isOpen)}
+    />
+  );
+}
+```
+
+### 4. Keyframes
+
+```jsx
+// Animate through multiple values
+<motion.div
+  animate={{
+    x: [0, 100, 0],           // 0 -> 100 -> 0
+    rotate: [0, 180, 360],    // 0 -> 180 -> 360
+  }}
+  transition={{
+    duration: 2,
+    times: [0, 0.5, 1],       // custom timing for each keyframe
+    repeat: Infinity
+  }}
+/>
+```
+
+## Transitions
+
+Control how animations behave:
+
+### 1. Duration-Based
+
+```jsx
+<motion.div
+  animate={{ x: 100 }}
+  transition={{
+    duration: 1,
+    ease: "easeInOut",
+    delay: 0.5
+  }}
+/>
+```
+
+Available eases:
+- `"linear"`
+- `"easeIn"`, `"easeOut"`, `"easeInOut"`
+- `"circIn"`, `"circOut"`, `"circInOut"`
+- `"backIn"`, `"backOut"`, `"backInOut"`
+- `"anticipate"`
+- Custom bezier: `[0.17, 0.67, 0.83, 0.67]`
+
+### 2. Spring Physics
+
+```jsx
+<motion.div
+  animate={{ x: 100 }}
+  transition={{
+    type: "spring",
+    stiffness: 100,    // Higher = stiffer spring
+    damping: 10,       // Higher = less bouncy
+    mass: 1            // Higher = more sluggish
+  }}
+/>
+
+// Presets
+transition={{ type: "spring", bounce: 0.25 }}  // Bouncy
+transition={{ type: "spring", bounce: 0 }}     // No bounce
+```
+
+### 3. Inertia (Kinetic Scrolling)
+
+```jsx
+<motion.div
+  drag
+  dragConstraints={{ left: 0, right: 300 }}
+  dragElastic={0.2}
+  transition={{ type: "inertia", velocity: 50 }}
+/>
+```
+
+### 4. Different Transitions for Different Properties
+
+```jsx
+<motion.div
+  animate={{ x: 100, opacity: 1 }}
+  transition={{
+    x: { type: "spring", stiffness: 100 },
+    opacity: { duration: 0.3 }
+  }}
+/>
+```
+
+## Gestures
+
+### 1. Hover
+
+```jsx
+<motion.button
+  whileHover={{
+    scale: 1.1,
+    backgroundColor: "#4CAF50"
+  }}
+  whileTap={{ scale: 0.95 }}
+>
+  Hover Me
+</motion.button>
+```
+
+### 2. Tap/Click
+
+```jsx
+<motion.button
+  whileTap={{
+    scale: 0.9,
+    rotate: 5
+  }}
+>
+  Click Me
+</motion.button>
+```
+
+### 3. Drag
+
+```jsx
+// Free drag
+<motion.div drag />
+
+// Constrain to axis
+<motion.div drag="x" />
+<motion.div drag="y" />
+
+// Constrain to area
+<motion.div
+  drag
+  dragConstraints={{
+    top: -50,
+    left: -50,
+    right: 50,
+    bottom: 50,
+  }}
+/>
+
+// Constrain to parent
+<motion.div>
+  <motion.div drag dragConstraints={parentRef} />
+</motion.div>
+
+// With elasticity
+<motion.div
+  drag
+  dragElastic={0.2}  // 0 = no elasticity, 1 = very elastic
+/>
+```
+
+### 4. Drag Events
+
+```jsx
+<motion.div
+  drag
+  onDragStart={(event, info) => console.log("Drag start", info.point)}
+  onDrag={(event, info) => console.log("Dragging", info.point)}
+  onDragEnd={(event, info) => console.log("Drag end", info.velocity)}
+/>
+```
+
+### 5. Focus
+
+```jsx
+<motion.input
+  whileFocus={{
+    scale: 1.05,
+    borderColor: "#4CAF50"
+  }}
+/>
+```
+
+### 6. Viewport (Scroll into View)
+
+```jsx
+<motion.div
+  initial={{ opacity: 0, y: 50 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.5 }}  // once = trigger only once, amount = 50% visible
+>
+  Scroll to reveal
+</motion.div>
+```
+
+## Layout Animations
+
+One of Framer Motion's most powerful features:
+
+### 1. Basic Layout Animation
+
+```jsx
+import { useState } from "react";
+import { motion } from "motion/react";
+
+function ExpandableBox() {
+  const [isExpanded, setIsExpanded] = useState(false);
+  
+  return (
+    <motion.div
+      layout
+      onClick={() => setIsExpanded(!isExpanded)}
+      style={{
+        width: isExpanded ? 400 : 200,
+        height: isExpanded ? 300 : 100
+      }}
+    />
+  );
+}
+```
+
+### 2. Shared Layout Animations
+
+```jsx
+import { motion } from "motion/react";
+
+function Tabs({ selected }) {
+  return (
+    <div>
+      {["Tab 1", "Tab 2", "Tab 3"].map((tab, i) => (
+        <div key={i} style={{ position: "relative" }}>
+          <button>{tab}</button>
+          {selected === i && (
+            <motion.div
+              layoutId="underline"
+              style={{
+                position: "absolute",
+                bottom: -2,
+                left: 0,
+                right: 0,
+                height: 2,
+                backgroundColor: "#4CAF50"
+              }}
+            />
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+The `layoutId` prop creates a smooth animation between elements.
+
+### 3. Reordering Lists
+
+```jsx
+import { Reorder } from "motion/react";
+
+function ReorderableList() {
+  const [items, setItems] = useState([1, 2, 3, 4]);
+  
+  return (
+    <Reorder.Group values={items} onReorder={setItems}>
+      {items.map((item) => (
+        <Reorder.Item key={item} value={item}>
+          {item}
+        </Reorder.Item>
+      ))}
+    </Reorder.Group>
+  );
+}
+```
+
+## Variants
+
+Variants allow you to define animations in one place and reference them by name:
+
+### 1. Basic Variants
+
+```jsx
+const variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0 }
+};
+
+<motion.div
+  initial="hidden"
+  animate="visible"
+  variants={variants}
+/>
+```
+
+### 2. Orchestration with Variants
+
+```jsx
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { y: 0, opacity: 1 }
+};
+
+<motion.ul variants={containerVariants} initial="hidden" animate="visible">
+  <motion.li variants={itemVariants}>Item 1</motion.li>
+  <motion.li variants={itemVariants}>Item 2</motion.li>
+  <motion.li variants={itemVariants}>Item 3</motion.li>
+</motion.ul>
+```
+
+### 3. Dynamic Variants
+
+```jsx
+const variants = {
+  visible: (custom) => ({
+    opacity: 1,
+    transition: { delay: custom * 0.2 }
+  })
+};
+
+items.map((item, i) => (
+  <motion.div
+    key={i}
+    custom={i}
+    variants={variants}
+    initial="hidden"
+    animate="visible"
+  />
+));
+```
+
+## Exit Animations
+
+Animate components as they unmount:
+
+### 1. AnimatePresence
+
+```jsx
+import { AnimatePresence, motion } from "motion/react";
+
+function Modal({ isOpen, onClose }) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.8 }}
+        >
+          <h2>Modal Content</h2>
+          <button onClick={onClose}>Close</button>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+```
+
+### 2. Multiple Children
+
+```jsx
+<AnimatePresence mode="wait">
+  {selectedTab === "tab1" && <Tab1 key="tab1" />}
+  {selectedTab === "tab2" && <Tab2 key="tab2" />}
+</AnimatePresence>
+```
+
+Available modes:
+- `"sync"`: Default, children animate in/out simultaneously
+- `"wait"`: Wait for exiting child to finish before entering
+- `"popLayout"`: Exiting child is removed from layout flow
+
+## Scroll Animations
+
+### 1. useScroll Hook
+
+```jsx
+import { useScroll, motion } from "motion/react";
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  
+  return (
+    <motion.div
+      style={{
+        scaleX: scrollYProgress,
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 10,
+        backgroundColor: "#4CAF50",
+        transformOrigin: "0%"
+      }}
+    />
+  );
+}
+```
+
+### 2. Scroll-Linked Animations
+
+```jsx
+import { useScroll, useTransform, motion } from "motion/react";
+import { useRef } from "react";
+
+function ParallaxSection() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
+  
+  return (
+    <motion.div ref={ref} style={{ y, opacity }}>
+      Parallax content
+    </motion.div>
+  );
+}
+```
+
+### 3. Scroll-Triggered Animations
+
+```jsx
+<motion.div
+  initial={{ opacity: 0, y: 100 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.8 }}
+>
+  Reveal on scroll
+</motion.div>
+```
+
+## Advanced Features
+
+### 1. useAnimate Hook
+
+For imperative animations:
+
+```jsx
+import { useAnimate } from "motion/react";
+import { useEffect } from "react";
+
+function Component() {
+  const [scope, animate] = useAnimate();
+  
+  useEffect(() => {
+    const sequence = async () => {
+      await animate(scope.current, { x: 100 });
+      await animate(scope.current, { rotate: 180 });
+      await animate(scope.current, { scale: 1.5 });
+    };
+    sequence();
+  }, []);
+  
+  return <div ref={scope}>Animate me</div>;
+}
+```
+
+### 2. useMotionValue
+
+Create motion values that can be animated independently:
+
+```jsx
+import { motion, useMotionValue, useTransform } from "motion/react";
+
+function Component() {
+  const x = useMotionValue(0);
+  const opacity = useTransform(x, [-100, 0, 100], [0, 1, 0]);
+  
+  return <motion.div drag="x" style={{ x, opacity }} />;
+}
+```
+
+### 3. MotionConfig
+
+Set default transitions for all children:
+
+```jsx
+import { MotionConfig, motion } from "motion/react";
+
+<MotionConfig transition={{ duration: 0.3, ease: "easeInOut" }}>
+  <motion.div animate={{ x: 100 }} />
+  <motion.div animate={{ y: 100 }} />
+</MotionConfig>
+```
+
+### 4. Custom Components
+
+```jsx
+import { motion } from "motion/react";
+
+const MotionComponent = motion.create(CustomComponent);
+
+// Or with forwardRef
+const MotionComponent = motion(forwardRef(CustomComponent));
+```
+
+## Common Patterns
+
+### 1. Fade In on Mount
+
+```jsx
+<motion.div
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
+  Content
+</motion.div>
+```
+
+### 2. Slide In from Bottom
+
+```jsx
+<motion.div
+  initial={{ y: 50, opacity: 0 }}
+  animate={{ y: 0, opacity: 1 }}
+  transition={{ type: "spring", stiffness: 100 }}
+>
+  Content
+</motion.div>
+```
+
+### 3. Stagger Children
+
+```jsx
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0 }
+};
+
+<motion.ul variants={container} initial="hidden" animate="show">
+  {items.map(item => (
+    <motion.li key={item} variants={item}>{item}</motion.li>
+  ))}
+</motion.ul>
+```
+
+### 4. Hover Scale with Spring
+
+```jsx
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.95 }}
+  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+>
+  Button
+</motion.button>
+```
+
+### 5. Loading Spinner
+
+```jsx
+<motion.div
+  animate={{ rotate: 360 }}
+  transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+  style={{
+    width: 50,
+    height: 50,
+    border: "3px solid #ccc",
+    borderTopColor: "#4CAF50",
+    borderRadius: "50%"
+  }}
+/>
+```
+
+## Best Practices
+
+### 1. Performance
+
+✅ **Do:**
+```jsx
+// Animate transform and opacity (GPU-accelerated)
+<motion.div animate={{ x: 100, scale: 1.5, opacity: 0.5 }} />
+```
+
+❌ **Don't:**
+```jsx
+// Avoid animating layout properties
+<motion.div animate={{ width: 500, height: 300 }} />
+```
+
+### 2. Use Layout Animations for Size Changes
+
+```jsx
+// Instead of animating width/height, use layout
+<motion.div
+  layout
+  style={{ width: isExpanded ? 400 : 200 }}
+/>
+```
+
+### 3. Cleanup
+
+```jsx
+// Framer Motion automatically cleans up on unmount
+// No need for manual cleanup
+```
+
+### 4. Respect Reduced Motion
+
+```jsx
+import { useReducedMotion } from "motion/react";
+
+function Component() {
+  const shouldReduceMotion = useReducedMotion();
+  
+  return (
+    <motion.div
+      animate={{ x: 100 }}
+      transition={{
+        duration: shouldReduceMotion ? 0 : 0.5
+      }}
+    />
+  );
+}
+```
+
+### 5. Memoize Variants
+
+```jsx
+import { useMemo } from "react";
+
+function Component({ color }) {
+  const variants = useMemo(() => ({
+    visible: { opacity: 1, backgroundColor: color }
+  }), [color]);
+  
+  return <motion.div variants={variants} />;
+}
+```
+
+## Advantages
+
+✅ **React-First** - Designed specifically for React with hooks and components
+
+✅ **Declarative API** - Easy to read and maintain
+
+✅ **Layout Animations** - Unique, powerful layout animation engine
+
+✅ **Automatic Cleanup** - No memory leaks or manual cleanup needed
+
+✅ **TypeScript Support** - First-class TypeScript support
+
+✅ **Small Bundle** - ~30KB, smaller than many alternatives
+
+✅ **Gestures** - Built-in cross-device gesture recognition
+
+✅ **Spring Physics** - Natural, organic motion by default
+
+✅ **SSR Compatible** - Works with Next.js and other SSR frameworks
+
+✅ **Active Development** - Regular updates and improvements
+
+## Disadvantages
+
+❌ **React Only** - Can't be used outside of React
+
+❌ **Learning Curve** - Advanced features require time to learn
+
+❌ **Bundle Size** - Still adds ~30KB to your bundle
+
+❌ **Limited Timeline Control** - Less powerful than GSAP for complex sequences
+
+❌ **No Official Plugins** - Fewer plugins compared to GSAP
+
+## Framer Motion vs GSAP
+
+| Feature | Framer Motion | GSAP |
+|---------|---------------|------|
+| **Framework** | React only | Any framework |
+| **API Style** | Declarative | Imperative |
+| **Bundle Size** | ~30KB | ~50KB (core) |
+| **Layout Animations** | Excellent | Manual |
+| **Timeline Control** | Limited | Excellent |
+| **Learning Curve** | Easy | Moderate |
+| **Gestures** | Built-in | Requires plugin |
+| **Scroll Animations** | Good | Excellent (ScrollTrigger) |
+| **SVG Morphing** | Limited | Excellent (MorphSVG) |
+| **Community** | Large | Very Large |
+
+**Choose Framer Motion if:**
+- You're building a React app
+- You want declarative animations
+- You need layout animations
+- You want built-in gesture support
+
+**Choose GSAP if:**
+- You need framework-agnostic solution
+- You require complex timeline control
+- You need advanced SVG animations
+- You want maximum performance and features
+
+## Resources
+
+### Official Resources
+
+- [Motion Official Website](https://motion.dev/)
+- [Motion Documentation](https://motion.dev/docs/react)
+- [Motion Examples](https://motion.dev/examples)
+- [Motion Plus (Premium)](https://motion.dev/plus)
+
+### Learning Resources
+
+- [Animation Guide](https://motion.dev/docs/react-animation)
+- [Layout Animations](https://motion.dev/docs/react-layout-animations)
+- [Scroll Animations](https://motion.dev/docs/react-scroll-animations)
+- [Gestures](https://motion.dev/docs/react-gestures)
+- [Video Tutorials](https://motion.dev/tutorials)
+
+### Community
+
+- [GitHub Repository](https://github.com/motiondivision/motion)
+- [Discord Community](https://motion.dev/plus)
+- [Twitter @motiondotdev](https://twitter.com/motiondotdev)
+- [Bluesky](https://bsky.app/profile/motion.dev)
+
+---
+
+Framer Motion is the best choice for React developers who want to create beautiful, performant animations with minimal code. Its declarative API, powerful layout animations, and excellent developer experience make it the go-to solution for modern React applications.
