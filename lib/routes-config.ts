@@ -398,6 +398,17 @@ export const ROUTES: EachRoute[] = [
       },
     ],
   },
+  {
+    title: "NextJS Libraries",
+    href: "/nextjs-libraries",
+    noLink: true,
+    items: [
+      {
+        title: "Introduction",
+        href: "/introduction",
+      },
+    ],
+  }
 ];
 
 type Page = { title: string; href: string };
