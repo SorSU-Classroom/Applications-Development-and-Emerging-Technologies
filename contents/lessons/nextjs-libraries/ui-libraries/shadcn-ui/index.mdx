@@ -1,0 +1,916 @@
+---
+title: Shadcn
+description: Master Shadcn, the revolutionary approach to building component libraries that gives you full control over your components through copy-paste, not NPM packages.
+---
+
+# Shadcn
+
+<img src="https://ui.shadcn.com/apple-touch-icon.png" alt="Shadcn Logo" width="200" height="200" className="mx-auto" />
+
+Shadcn is a collection of beautifully designed, accessible components that you can copy and paste into your apps. It's not a traditional component library - it's a new way to build your component library.
+
+## What Makes Shadcn Different?
+
+### Not a Component Library
+
+Unlike traditional libraries where you install from NPM and import components, Shadcn provides the actual component code that you copy into your project. This means:
+
+**Traditional Libraries:**
+```bash
+npm install some-ui-library
+```
+```jsx
+import { Button } from 'some-ui-library'
+```
+
+**Shadcn:**
+```bash
+pnpx shadcn@latest add button
+```
+- Components are copied to your project
+- You own the code
+- Full customization control
+- No package dependency
+
+## Core Principles
+
+### 1. Open Code
+
+The top layer of your component code is completely open for modification:
+
+- **Full Transparency**: See exactly how each component is built
+- **Easy Customization**: Modify any part of a component directly
+- **No Overrides Needed**: Edit the source code instead of overriding styles
+- **AI Integration**: LLMs can read, understand, and improve your components
+
+```tsx
+// Traditional library - limited customization
+<Button sx={{ /* override styles */ }} />
+
+// Shadcn - edit the source directly
+// components/ui/button.tsx
+export function Button({ children, ...props }) {
+  // Modify anything here!
+  return <button {...props}>{children}</button>
+}
+```
+
+### 2. Composition
+
+Every component shares a common, composable interface:
+
+- **Predictable API**: Consistent patterns across all components
+- **Easy Learning**: Same approach for every component
+- **Third-party Friendly**: Integrate external components seamlessly
+- **Team Productivity**: Developers and AI understand the patterns
+
+```tsx
+// All components follow similar patterns
+<Dialog>
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Title</DialogTitle>
+      <DialogDescription>Description</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+### 3. Distribution
+
+Shadcn uses a schema-based distribution system:
+
+- **Schema**: Flat-file structure defining components and dependencies
+- **CLI**: Command-line tool for distributing and installing components
+- **Cross-framework**: Works across different frameworks
+- **Custom Distribution**: Use the schema to distribute your own components
+
+### 4. Beautiful Defaults
+
+Components come with carefully chosen default styles:
+
+- **Good Out-of-the-Box**: Clean, minimal look without configuration
+- **Unified Design**: Components naturally fit together
+- **Easily Customizable**: Simple to override and extend defaults
+- **Professional**: Designed for production applications
+
+### 5. AI-Ready
+
+Designed to work seamlessly with AI tools:
+
+- **Open Code**: AI can read and understand component structure
+- **Consistent API**: Predictable patterns for AI to learn
+- **Generate Components**: AI can create new components based on existing patterns
+- **Suggest Improvements**: AI can analyze and optimize your components
+
+## Technology Stack
+
+Shadcn is built on top of industry-leading technologies:
+
+### Radix UI
+
+- Unstyled, accessible component primitives
+- Built-in keyboard navigation
+- Screen reader support
+- Focus management
+- ARIA attributes
+
+### Tailwind CSS
+
+- Utility-first styling
+- Highly customizable
+- Responsive design
+- Dark mode support
+- Custom theming
+
+### TypeScript
+
+- Full type safety
+- IntelliSense support
+- Better developer experience
+- Catch errors early
+
+## Installation (Next.js)
+
+### Prerequisites
+
+Ensure you have a Next.js project set up:
+
+```bash
+pnpx create-next-app@latest my-app --typescript --tailwind --eslint
+cd my-app
+```
+
+### Initialize Shadcn
+
+Run the initialization command:
+
+```bash
+pnpx shadcn@latest init
+```
+
+You'll be asked to configure your project:
+
+```
+✔ Preflight checks.
+✔ Verifying framework. Found Next.js.
+✔ Validating Tailwind CSS.
+✔ Validating import alias.
+
+✔ Which style would you like to use? › New York
+✔ Which color would you like to use as base color? › Zinc
+✔ Would you like to use CSS variables for colors? › yes
+```
+
+**Configuration Options:**
+
+1. **Style**: Choose between "Default" or "New York" design
+2. **Base Color**: Select primary color (Slate, Gray, Zinc, Neutral, Stone)
+3. **CSS Variables**: Use CSS variables for theming
+
+### What Gets Configured
+
+The CLI will:
+
+1. Install dependencies:
+   ```json
+   {
+     "dependencies": {
+       "@radix-ui/react-*": "...",
+       "class-variance-authority": "...",
+       "clsx": "...",
+       "tailwind-merge": "..."
+     }
+   }
+   ```
+
+2. Create `components.json`:
+   ```json
+   {
+     "$schema": "https://ui.shadcn.com/schema.json",
+     "style": "new-york",
+     "rsc": true,
+     "tsx": true,
+     "tailwind": {
+       "config": "tailwind.config.ts",
+       "css": "app/globals.css",
+       "baseColor": "zinc",
+       "cssVariables": true
+     },
+     "aliases": {
+       "components": "@/components",
+       "utils": "@/lib/utils"
+     }
+   }
+   ```
+
+3. Update `tailwind.config.ts`
+4. Add utility functions to `lib/utils.ts`
+5. Configure global CSS with theme variables
+
+## Adding Components
+
+### Add Individual Components
+
+```bash
+pnpx shadcn@latest add button
+```
+
+This creates:
+```
+components/
+└── ui/
+    └── button.tsx
+```
+
+### Add Multiple Components
+
+```bash
+pnpx shadcn@latest add button card dialog
+```
+
+### View Available Components
+
+```bash
+pnpx shadcn@latest add
+```
+
+You'll see a list of all available components to choose from.
+
+## Basic Usage
+
+### Button Component
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Page() {
+  return (
+    <div>
+      <Button>Click me</Button>
+      <Button variant="destructive">Delete</Button>
+      <Button variant="outline">Cancel</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button size="sm">Small</Button>
+      <Button size="lg">Large</Button>
+    </div>
+  )
+}
+```
+
+### Card Component
+
+```tsx
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+
+export default function CardDemo() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Card Title</CardTitle>
+        <CardDescription>Card Description</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>Card Content</p>
+      </CardContent>
+      <CardFooter>
+        <Button>Action</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+### Dialog Component
+
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+
+export default function DialogDemo() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  )
+}
+```
+
+## Form Example with React Hook Form
+
+```tsx
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+
+const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+})
+
+export default function ProfileForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+    },
+  })
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values)
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input placeholder="email@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  )
+}
+```
+
+## Customization
+
+### Theming with CSS Variables
+
+Edit `app/globals.css` to customize colors:
+
+```css
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    /* ... more variables */
+  }
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    /* ... more variables */
+  }
+}
+```
+
+### Customizing Components
+
+Since you own the code, customize directly:
+
+```tsx
+// components/ui/button.tsx
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva, type VariantProps } from "class-variance-authority"
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline: "border border-input hover:bg-accent hover:text-accent-foreground",
+        // Add your custom variant
+        brand: "bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600",
+      },
+      size: {
+        default: "h-10 py-2 px-4",
+        sm: "h-9 px-3 rounded-md",
+        lg: "h-11 px-8 rounded-md",
+        // Add your custom size
+        xl: "h-14 px-10 text-lg rounded-lg",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button"
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = "Button"
+
+export { Button, buttonVariants }
+```
+
+Now use your custom variant:
+
+```tsx
+<Button variant="brand" size="xl">Custom Button</Button>
+```
+
+## Dark Mode
+
+Shadcn supports dark mode out of the box:
+
+### Setup with next-themes
+
+```bash
+npm install next-themes
+```
+
+```tsx
+// app/providers.tsx
+"use client"
+
+import * as React from "react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { type ThemeProviderProps } from "next-themes/dist/types"
+
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+```
+
+```tsx
+// app/layout.tsx
+import { ThemeProvider } from "@/components/providers"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+### Theme Toggle
+
+```tsx
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+import { Button } from "@/components/ui/button"
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme()
+
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+    >
+      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  )
+}
+```
+
+## Available Components
+
+Shadcn provides 50+ components:
+
+### Layout
+- Aspect Ratio
+- Container
+- Separator
+
+### Forms
+- Button
+- Checkbox
+- Input
+- Label
+- Radio Group
+- Select
+- Slider
+- Switch
+- Textarea
+- Form (with React Hook Form)
+
+### Data Display
+- Avatar
+- Badge
+- Card
+- Table
+- Tabs
+
+### Feedback
+- Alert
+- Alert Dialog
+- Dialog
+- Progress
+- Skeleton
+- Toast
+
+### Navigation
+- Breadcrumb
+- Command
+- Dropdown Menu
+- Menu
+- Navigation Menu
+- Pagination
+
+### Overlays
+- Dialog
+- Drawer
+- Popover
+- Sheet
+- Tooltip
+
+### And Many More
+- Calendar
+- Carousel
+- Collapsible
+- Context Menu
+- Data Table
+- Date Picker
+- Scroll Area
+- Sonner (Toast)
+
+## Building a Dashboard Example
+
+```tsx
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+export default function Dashboard() {
+  return (
+    <div className="container mx-auto p-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <Button>Create New</Button>
+      </div>
+
+      <Tabs defaultValue="overview" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          <TabsTrigger value="reports">Reports</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Total Revenue
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">$45,231.89</div>
+                <p className="text-xs text-muted-foreground">
+                  +20.1% from last month
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Subscriptions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">+2350</div>
+                <p className="text-xs text-muted-foreground">
+                  +180.1% from last month
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Sales</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">+12,234</div>
+                <p className="text-xs text-muted-foreground">
+                  +19% from last month
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">
+                  Active Now
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">+573</div>
+                <p className="text-xs text-muted-foreground">
+                  +201 since last hour
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  )
+}
+```
+
+## Advantages
+
+✅ **Full Code Ownership** - You own and control all component code
+
+✅ **No Package Lock-in** - Not dependent on NPM packages
+
+✅ **Easy Customization** - Modify components directly without overrides
+
+✅ **Accessible** - Built on Radix UI with full accessibility support
+
+✅ **Beautiful Defaults** - Professional design out of the box
+
+✅ **TypeScript** - Full type safety and IntelliSense
+
+✅ **Tailwind CSS** - Utility-first styling with easy customization
+
+✅ **Dark Mode** - Built-in dark mode support
+
+✅ **Composable** - Consistent API across all components
+
+✅ **AI-Ready** - Open code structure perfect for AI tools
+
+✅ **Active Development** - Regular updates and new components
+
+✅ **Great Documentation** - Comprehensive docs with examples
+
+## Disadvantages
+
+❌ **More Files** - Components are added to your codebase (not a single package)
+
+❌ **Manual Updates** - Need to manually update components (no automatic package updates)
+
+❌ **Initial Setup** - Requires Tailwind CSS and configuration
+
+❌ **Learning Curve** - Need to understand Radix UI and Tailwind CSS
+
+❌ **Version Tracking** - Harder to track which version of components you're using
+
+## When to Use Shadcn
+
+### Choose Shadcn When:
+
+✅ Building custom design systems
+✅ Need complete control over component code
+✅ Want to avoid NPM package dependencies
+✅ Working with Tailwind CSS
+✅ Building Next.js applications
+✅ Need accessible components out of the box
+✅ Want AI-friendly component structure
+✅ Prefer copy-paste over npm install
+
+### Choose Alternatives When:
+
+❌ Need automatic package updates
+❌ Don't want to manage component files
+❌ Not using Tailwind CSS
+❌ Need a complete design system (use Material UI, Ant Design)
+❌ Want minimal configuration
+❌ Building simple prototypes (use Bootstrap)
+
+## Shadcn vs. Traditional Libraries
+
+| Feature | Shadcn | Material UI | Chakra UI | Tailwind CSS |
+|---------|-----------|-------------|-----------|-------------|
+| **Installation** | Copy-paste | npm install | npm install | npm install |
+| **Code Ownership** | ✅ Full | ❌ No | ❌ No | ⚠️ Styles only |
+| **Customization** | ✅ Easy | ⚠️ Moderate | ✅ Easy | ✅ Easy |
+| **Bundle Size** | ✅ Small | ❌ Large | ⚠️ Medium | ✅ Small |
+| **Accessibility** | ✅ Built-in | ✅ Built-in | ✅ Built-in | ❌ Manual |
+| **TypeScript** | ✅ Yes | ✅ Yes | ✅ Yes | ⚠️ Config |
+| **Dark Mode** | ✅ Built-in | ✅ Built-in | ✅ Built-in | ⚠️ Manual |
+| **Updates** | ⚠️ Manual | ✅ Automatic | ✅ Automatic | ✅ Automatic |
+| **Components** | 50+ | 100+ | 50+ | 0 (utilities) |
+| **Learning Curve** | ⚠️ Moderate | ⚠️ Moderate | ✅ Easy | ⚠️ Moderate |
+
+## Best Practices
+
+### 1. Component Organization
+
+```
+components/
+├── ui/              # Shadcn components
+│   ├── button.tsx
+│   ├── card.tsx
+│   └── dialog.tsx
+├── forms/           # Custom form components
+│   └── login-form.tsx
+└── layouts/         # Layout components
+    └── dashboard-layout.tsx
+```
+
+### 2. Create Compound Components
+
+```tsx
+// components/user-card.tsx
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+
+export function UserCard({ user }) {
+  return (
+    <Card>
+      <CardHeader>
+        <Avatar>
+          <AvatarImage src={user.avatar} />
+          <AvatarFallback>{user.initials}</AvatarFallback>
+        </Avatar>
+        <CardTitle>{user.name}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <p>{user.email}</p>
+        <Button className="mt-4">View Profile</Button>
+      </CardContent>
+    </Card>
+  )
+}
+```
+
+### 3. Track Component Versions
+
+Create a `COMPONENTS.md` file:
+
+```markdown
+# Component Versions
+
+Last Updated: 2024-12-01
+
+- Button: v1.0.0
+- Card: v1.0.0
+- Dialog: v1.0.0
+```
+
+### 4. Use Consistent Theming
+
+```tsx
+// lib/theme.ts
+export const theme = {
+  colors: {
+    primary: 'hsl(221.2 83.2% 53.3%)',
+    secondary: 'hsl(210 40% 96.1%)',
+  },
+  radius: {
+    sm: '0.25rem',
+    md: '0.5rem',
+    lg: '1rem',
+  },
+}
+```
+
+### 5. Extend Components Carefully
+
+Keep the original component and create variants:
+
+```tsx
+// components/ui/button-loading.tsx
+import { Button, ButtonProps } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+
+interface LoadingButtonProps extends ButtonProps {
+  loading?: boolean
+}
+
+export function LoadingButton({ loading, children, ...props }: LoadingButtonProps) {
+  return (
+    <Button disabled={loading} {...props}>
+      {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+      {children}
+    </Button>
+  )
+}
+```
+
+## Resources
+
+### Official Resources
+
+- [Shadcn Website](https://ui.shadcn.com/)
+- [Documentation](https://ui.shadcn.com/docs)
+- [Components](https://ui.shadcn.com/docs/components/accordion)
+- [Examples](https://ui.shadcn.com/examples)
+- [GitHub Repository](https://github.com/shadcn-ui/ui)
+
+### Learning Resources
+
+- [Getting Started Guide](https://ui.shadcn.com/docs/installation/next)
+- [Theming Guide](https://ui.shadcn.com/docs/theming)
+- [Dark Mode](https://ui.shadcn.com/docs/dark-mode)
+- [CLI Reference](https://ui.shadcn.com/docs/cli)
+
+### Community
+
+- [GitHub Discussions](https://github.com/shadcn-ui/ui/discussions)
+- [Twitter](https://twitter.com/shadcn)
+- [Discord Community](https://discord.gg/shadcn)
+
+### Related Technologies
+
+- [Radix UI](https://www.radix-ui.com/) - Unstyled component primitives
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [CVA (Class Variance Authority)](https://cva.style/docs) - Variant management
+- [clsx](https://github.com/lukeed/clsx) - Class name utility
+
+---
+
+Shadcn represents a paradigm shift in how we think about component libraries. Instead of being locked into an NPM package, you get full ownership of beautiful, accessible components that you can customize to your heart's content. It's the perfect choice for teams that want the benefits of a component library without giving up control over their code.

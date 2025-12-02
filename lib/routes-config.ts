@@ -421,6 +421,10 @@ export const ROUTES: EachRoute[] = [
             href: "/tailwind-css",
           },
           {
+            title: "Shadcn UI",
+            href: "/shadcn-ui",
+          },
+          {
             title: "Material UI",
             href: "/material-ui",
           },
