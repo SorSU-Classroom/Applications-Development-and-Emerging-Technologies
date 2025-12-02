@@ -1,3 +1,4 @@
+import { Icon } from "@iconify/react";
 import { promises as fs } from "fs";
 import matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 // custom components imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+import { CheckIcon, WarningIcon, XIcon } from "@/components/icons";
 import { page_routes, ROUTES } from "./routes-config";
 
 function sluggify(text: string) {
@@ -74,6 +76,10 @@ const lessonComponents = {
   Link: Link,
   Button: Button,
   Outlet: OutletLesson,
+  Icon: Icon,
+  CheckIcon: CheckIcon,
+  XIcon: XIcon,
+  WarningIcon: WarningIcon,
   div: (
     props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
   ) => <div {...props} />,
