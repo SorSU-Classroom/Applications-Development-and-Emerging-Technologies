@@ -17,7 +17,7 @@ Unlike traditional libraries where you install from NPM and import components, S
 
 **Traditional Libraries:**
 ```bash
-npm install some-ui-library
+yarn add some-ui-library
 ```
 ```jsx
 import { Button } from 'some-ui-library'
@@ -25,7 +25,7 @@ import { Button } from 'some-ui-library'
 
 **Shadcn:**
 ```bash
-pnpx shadcn@latest add button
+yarn dlx shadcn@latest add button
 ```
 - Components are copied to your project
 - You own the code
@@ -138,7 +138,7 @@ Shadcn is built on top of industry-leading technologies:
 Ensure you have a Next.js project set up:
 
 ```bash
-pnpx create-next-app@latest my-app --typescript --tailwind --eslint
+yarn create next-app my-app --typescript --tailwind --eslint
 cd my-app
 ```
 
@@ -147,7 +147,7 @@ cd my-app
 Run the initialization command:
 
 ```bash
-pnpx shadcn@latest init
+yarn dlx shadcn@latest init
 ```
 
 You'll be asked to configure your project:
@@ -214,7 +214,7 @@ The CLI will:
 ### Add Individual Components
 
 ```bash
-pnpx shadcn@latest add button
+yarn dlx shadcn@latest add button
 ```
 
 This creates:
@@ -227,13 +227,13 @@ components/
 ### Add Multiple Components
 
 ```bash
-pnpx shadcn@latest add button card dialog
+yarn dlx shadcn@latest add button card dialog
 ```
 
 ### View Available Components
 
 ```bash
-pnpx shadcn@latest add
+yarn dlx shadcn@latest add
 ```
 
 You'll see a list of all available components to choose from.
@@ -500,7 +500,7 @@ Shadcn supports dark mode out of the box:
 ### Setup with next-themes
 
 ```bash
-npm install next-themes
+yarn add next-themes
 ```
 
 ```tsx
@@ -752,21 +752,33 @@ export default function Dashboard() {
 ### Choose Shadcn When:
 
 ✅ Building custom design systems
+
 ✅ Need complete control over component code
+
 ✅ Want to avoid NPM package dependencies
+
 ✅ Working with Tailwind CSS
+
 ✅ Building Next.js applications
+
 ✅ Need accessible components out of the box
+
 ✅ Want AI-friendly component structure
+
 ✅ Prefer copy-paste over npm install
 
 ### Choose Alternatives When:
 
 ❌ Need automatic package updates
+
 ❌ Don't want to manage component files
+
 ❌ Not using Tailwind CSS
+
 ❌ Need a complete design system (use Material UI, Ant Design)
+
 ❌ Want minimal configuration
+
 ❌ Building simple prototypes (use Bootstrap)
 
 ## Shadcn vs. Traditional Libraries

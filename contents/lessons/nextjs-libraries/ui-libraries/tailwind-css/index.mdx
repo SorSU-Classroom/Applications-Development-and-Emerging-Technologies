@@ -98,7 +98,7 @@ cd my-project
 2. **Install Tailwind CSS**
 
 ```bash
-npm install tailwindcss @tailwindcss/vite
+yarn add -D tailwindcss @tailwindcss/vite
 ```
 
 3. **Configure Vite plugin**
@@ -130,11 +130,11 @@ npm run dev
 
 ### Using Tailwind CLI
 
-1. **Install Tailwind CSS**
+### Install Tailwind CSS
 
 ```bash
-npm install -D tailwindcss
-npx tailwindcss init
+yarn add -D tailwindcss
+yarn tailwindcss init
 ```
 
 2. **Configure template paths**
@@ -162,7 +162,7 @@ module.exports = {
 4. **Start build process**
 
 ```bash
-npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
+yarn tailwindcss -i ./src/input.css -o ./dist/output.css --watch
 ```
 
 ### Using PostCSS
@@ -170,8 +170,8 @@ npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
 1. **Install dependencies**
 
 ```bash
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init
+yarn add -D tailwindcss postcss autoprefixer
+yarn tailwindcss init
 ```
 
 2. **Configure PostCSS**
