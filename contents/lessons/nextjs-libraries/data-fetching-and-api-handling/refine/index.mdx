@@ -1,923 +1,941 @@
 ---
-title: Recharts
-description: Master Recharts, the composable React charting library built on D3 that makes creating beautiful, responsive charts simple and intuitive.
+title: Refine - Framework for CRUD Applications
+description: Learn how to use Refine to build data-intensive applications with built-in authentication, access control, routing, and automatic CRUD operations for admin panels and internal tools.
 ---
 
-# Recharts
+# Refine - Framework for CRUD Applications
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi0hxOmfhUvLnVx3w0Bq0Rydp_bzrMmYb8KQ&s" alt="Recharts Logo" width="200" height="60" />
+<img src="https://refine.dev/img/refine_logo.png" alt="Refine" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
 
-Recharts is a composable charting library built with React components. It's designed to help you quickly build charts with decoupled, reusable React components while maintaining full flexibility and control.
+Refine is a React meta-framework for building CRUD-heavy web applications. It provides a complete solution for data-intensive applications like admin panels, dashboards, and internal tools with minimal boilerplate code.
 
-## Why Recharts?
+## What is Refine?
 
-Recharts stands out as one of the best React charting libraries for several reasons:
+Refine addresses enterprise use cases by providing industry-standard solutions for:
 
-### 1. Composable Architecture
+- **CRUD operations**: Automatic create, read, update, delete functionality
+- **Authentication**: Built-in auth provider system
+- **Access control**: Role-based permissions
+- **Routing**: Framework-agnostic routing integration
+- **Data provider**: Abstract data layer supporting REST, GraphQL, and more
+- **State management**: Built-in state management
+- **i18n**: Internationalization support
+- **Audit logs**: Track all data changes
 
-Recharts uses a component-based approach that feels natural in React:
+### Key Features
 
-```jsx
-<LineChart data={data}>
-  <Line dataKey="sales" />
-  <XAxis dataKey="month" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-</LineChart>
+- **Headless architecture**: Bring your own UI library or design system
+- **Backend agnostic**: Works with any REST or GraphQL API
+- **Router agnostic**: Use React Router, Next.js, or Remix
+- **UI framework integrations**: Ant Design, Material UI, Mantine, Chakra UI
+- **TypeScript first**: Full type safety
+- **Auto-generated forms**: Forms based on your data structure
+- **Real-time**: Live updates support
+- **SSR support**: Server-side rendering with Next.js
+
+## Why Use Refine?
+
+### Traditional Approach
+
+Building a typical admin panel from scratch requires:
+
+```typescript
+// Hundreds of lines for each resource...
+// - List page with table, pagination, filters
+// - Create form with validation
+// - Edit form with data loading
+// - Delete confirmation
+// - Error handling
+// - Loading states
+// - Routing
+// - Authentication
+// - Permissions
 ```
 
-Each element is a separate component that you can mix and match.
-
-### 2. Declarative API
-
-Define your charts declaratively using JSX:
-- Easy to read and understand
-- Visual structure matches component hierarchy
-- Props-driven configuration
-- No imperative chart manipulation needed
-
-### 3. Built on React and D3
-
-- **React**: Natural integration with React applications
-- **D3 Submodules**: Leverages D3's powerful calculations (scales, shapes, etc.)
-- **Lightweight**: Only uses necessary D3 modules, keeping bundle size reasonable
-
-### 4. SVG-Based Rendering
-
-- Scalable graphics (no pixelation)
-- Easy to style with CSS
-- Good for most use cases (< 1000 data points)
-- Accessible and SEO-friendly
-
-### 5. Responsive by Default
-
-Built-in responsive container makes charts adapt to any screen size:
-
-```jsx
-<ResponsiveContainer width="100%" height={400}>
-  <LineChart data={data}>
-    {/* chart components */}
-  </LineChart>
-</ResponsiveContainer>
-```
-
-### 6. Rich Customization
-
-- Custom shapes and components
-- Flexible styling options
-- Animation support
-- Event handlers
-- Custom tooltips and legends
-
-## Installation
-
-### Using npm
-
-```bash
-npm install recharts
-```
-
-### Using yarn
-
-```bash
-yarn add recharts
-```
-
-### Using pnpm
-
-```bash
-pnpm add recharts
-```
-
-## Basic Concepts
-
-### 1. Chart Components
-
-Recharts provides various chart types as container components:
-
-- `<LineChart>` - Line charts
-- `<BarChart>` - Bar charts
-- `<AreaChart>` - Area charts
-- `<PieChart>` - Pie and donut charts
-- `<RadarChart>` - Radar/spider charts
-- `<ScatterChart>` - Scatter plots
-- `<ComposedChart>` - Combine multiple chart types
-- `<RadialBarChart>` - Radial bar charts
-- `<Treemap>` - Treemap charts
-- `<Sankey>` - Sankey diagrams
-- `<Funnel>` - Funnel charts
-
-### 2. Graphical Components
-
-Components that display data:
-
-- `<Line>` - Line in a line chart
-- `<Bar>` - Bar in a bar chart
-- `<Area>` - Area in an area chart
-- `<Pie>` - Slice in a pie chart
-- `<Scatter>` - Scatter plot points
-- `<Radar>` - Radar chart polygon
-
-### 3. Axis Components
-
-Components for axes:
-
-- `<XAxis>` - X-axis
-- `<YAxis>` - Y-axis
-- `<ZAxis>` - Z-axis (for 3D scatter plots)
-
-### 4. Helper Components
-
-Utility components:
-
-- `<Tooltip>` - Interactive tooltip on hover
-- `<Legend>` - Chart legend
-- `<CartesianGrid>` - Background grid
-- `<Brush>` - Interactive data brush/zoom
-- `<ReferenceLine>` - Reference lines
-- `<ReferenceArea>` - Reference areas
-- `<ReferenceDot>` - Reference points
-- `<Label>` - Custom labels
-- `<LabelList>` - Labels on data points
-
-### 5. Container Component
-
-- `<ResponsiveContainer>` - Makes charts responsive
-
-## Basic Usage
-
-### Simple Line Chart
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-const data = [
-  { name: 'Jan', sales: 4000, revenue: 2400 },
-  { name: 'Feb', sales: 3000, revenue: 1398 },
-  { name: 'Mar', sales: 2000, revenue: 9800 },
-  { name: 'Apr', sales: 2780, revenue: 3908 },
-  { name: 'May', sales: 1890, revenue: 4800 },
-  { name: 'Jun', sales: 2390, revenue: 3800 },
-];
-
-function SimpleLineChart() {
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
-    </LineChart>
-  );
-}
-```
-
-### Responsive Line Chart
-
-```jsx
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis } from 'recharts';
-
-function ResponsiveLineChart() {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-## Chart Types
-
-### 1. Bar Chart
-
-```jsx
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-function SimpleBarChart() {
-  return (
-    <BarChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="sales" fill="#8884d8" />
-      <Bar dataKey="revenue" fill="#82ca9d" />
-    </BarChart>
-  );
-}
-```
-
-### Stacked Bar Chart
-
-```jsx
-<BarChart width={600} height={300} data={data}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="name" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-  <Bar dataKey="sales" stackId="a" fill="#8884d8" />
-  <Bar dataKey="revenue" stackId="a" fill="#82ca9d" />
-</BarChart>
-```
-
-### 2. Area Chart
-
-```jsx
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-
-function SimpleAreaChart() {
-  return (
-    <AreaChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
-    </AreaChart>
-  );
-}
-```
-
-### Stacked Area Chart
-
-```jsx
-<AreaChart width={600} height={300} data={data}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="name" />
-  <YAxis />
-  <Tooltip />
-  <Area type="monotone" dataKey="sales" stackId="1" stroke="#8884d8" fill="#8884d8" />
-  <Area type="monotone" dataKey="revenue" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-</AreaChart>
-```
-
-### 3. Pie Chart
-
-```jsx
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-
-const pieData = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-function SimplePieChart() {
-  return (
-    <PieChart width={400} height={400}>
-      <Pie
-        data={pieData}
-        cx={200}
-        cy={200}
-        labelLine={false}
-        label
-        outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
-      >
-        {pieData.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-    </PieChart>
-  );
-}
-```
-
-### Donut Chart
-
-```jsx
-<PieChart width={400} height={400}>
-  <Pie
-    data={pieData}
-    cx={200}
-    cy={200}
-    innerRadius={60}  // Add inner radius for donut
-    outerRadius={80}
-    fill="#8884d8"
-    dataKey="value"
-  >
-    {pieData.map((entry, index) => (
-      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-    ))}
-  </Pie>
-  <Tooltip />
-</PieChart>
-```
-
-### 4. Composed Chart (Multiple Chart Types)
-
-```jsx
-import { ComposedChart, Line, Bar, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-function MixedChart() {
-  return (
-    <ComposedChart width={600} height={400} data={data}>
-      <CartesianGrid stroke="#f5f5f5" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Area type="monotone" dataKey="revenue" fill="#8884d8" stroke="#8884d8" />
-      <Bar dataKey="sales" barSize={20} fill="#413ea0" />
-      <Line type="monotone" dataKey="profit" stroke="#ff7300" />
-    </ComposedChart>
-  );
-}
-```
-
-### 5. Scatter Chart
-
-```jsx
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-
-const scatterData = [
-  { x: 100, y: 200, z: 200 },
-  { x: 120, y: 100, z: 260 },
-  { x: 170, y: 300, z: 400 },
-  { x: 140, y: 250, z: 280 },
-  { x: 150, y: 400, z: 500 },
-];
-
-function SimpleScatterChart() {
-  return (
-    <ScatterChart width={600} height={400}>
-      <CartesianGrid />
-      <XAxis dataKey="x" type="number" />
-      <YAxis dataKey="y" />
-      <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-      <Scatter name="A school" data={scatterData} fill="#8884d8" />
-    </ScatterChart>
-  );
-}
-```
-
-## Customization
-
-### 1. Custom Tooltips
-
-```jsx
-function CustomTooltip({ active, payload, label }) {
-  if (active && payload && payload.length) {
-    return (
-      <div className="custom-tooltip" style={{
-        backgroundColor: 'white',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '4px'
-      }}>
-        <p className="label">{`${label}`}</p>
-        <p className="value" style={{ color: '#8884d8' }}>
-          {`Sales: $${payload[0].value}`}
-        </p>
-        <p className="desc">Additional information can go here</p>
-      </div>
-    );
-  }
-  return null;
-}
-
-// Usage
-<LineChart width={600} height={300} data={data}>
-  <Line dataKey="sales" />
-  <Tooltip content={<CustomTooltip />} />
-</LineChart>
-```
-
-### 2. Custom Legend
-
-```jsx
-function CustomLegend({ payload }) {
-  return (
-    <ul style={{ listStyle: 'none', padding: 0 }}>
-      {payload.map((entry, index) => (
-        <li key={`item-${index}`} style={{ color: entry.color }}>
-          <span style={{
-            display: 'inline-block',
-            width: 10,
-            height: 10,
-            backgroundColor: entry.color,
-            marginRight: 5
-          }} />
-          {entry.value}
-        </li>
-      ))}
-    </ul>
-  );
-}
-
-// Usage
-<LineChart width={600} height={300} data={data}>
-  <Line dataKey="sales" />
-  <Legend content={<CustomLegend />} />
-</LineChart>
-```
-
-### 3. Custom Shapes
-
-```jsx
-// Custom dot for line chart
-function CustomDot(props) {
-  const { cx, cy, value } = props;
-  
-  if (value > 2500) {
-    return (
-      <svg x={cx - 5} y={cy - 5} width={10} height={10} fill="red">
-        <circle cx={5} cy={5} r={5} />
-      </svg>
-    );
-  }
-  
-  return (
-    <svg x={cx - 2} y={cy - 2} width={4} height={4} fill="green">
-      <circle cx={2} cy={2} r={2} />
-    </svg>
-  );
-}
-
-// Usage
-<Line type="monotone" dataKey="sales" dot={<CustomDot />} />
-```
-
-### 4. Custom Axis Tick
-
-```jsx
-function CustomAxisTick({ x, y, payload }) {
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text 
-        x={0} 
-        y={0} 
-        dy={16} 
-        textAnchor="end" 
-        fill="#666" 
-        transform="rotate(-35)"
-      >
-        {payload.value}
-      </text>
-    </g>
-  );
-}
-
-// Usage
-<XAxis dataKey="name" tick={<CustomAxisTick />} />
-```
-
-### 5. Custom Bar Shape
-
-```jsx
-function CustomBar(props) {
-  const { fill, x, y, width, height } = props;
-  
-  return (
-    <g>
-      <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} />
-    </g>
-  );
-}
-
-// Usage
-<Bar dataKey="sales" shape={<CustomBar />} />
-```
-
-## Advanced Features
-
-### 1. Synchronized Charts
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { useState } from 'react';
-
-function SynchronizedCharts() {
-  const [syncId] = useState('anyId');
-  
-  return (
-    <>
-      <LineChart width={600} height={200} data={data} syncId={syncId}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-      
-      <LineChart width={600} height={200} data={data} syncId={syncId}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
-      </LineChart>
-    </>
-  );
-}
-```
-
-### 2. Brush (Zoom/Filter)
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, Tooltip, Brush } from 'recharts';
-
-function ChartWithBrush() {
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      <Brush dataKey="name" height={30} stroke="#8884d8" />
-    </LineChart>
-  );
-}
-```
-
-### 3. Reference Lines and Areas
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, ReferenceLine, ReferenceArea } from 'recharts';
-
-function ChartWithReferences() {
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      
-      {/* Reference line at y=3000 */}
-      <ReferenceLine 
-        y={3000} 
-        label="Target" 
-        stroke="red" 
-        strokeDasharray="3 3" 
-      />
-      
-      {/* Reference area between Feb and Apr */}
-      <ReferenceArea 
-        x1="Feb" 
-        x2="Apr" 
-        strokeOpacity={0.3} 
-        fill="green" 
-      />
-    </LineChart>
-  );
-}
-```
-
-### 4. Animations
-
-```jsx
-// Disable animation
-<Line type="monotone" dataKey="sales" isAnimationActive={false} />
-
-// Custom animation
-<Line 
-  type="monotone" 
-  dataKey="sales" 
-  animationDuration={2000}
-  animationEasing="ease-in-out"
+### With Refine
+
+```typescript
+// Refine handles everything automatically
+<Refine
+  dataProvider={dataProvider}
+  resources={[{
+    name: "products",
+    list: "/products",
+    create: "/products/create",
+    edit: "/products/edit/:id",
+    show: "/products/show/:id",
+  }]}
 />
 ```
 
-### 5. Event Handlers
+## Installation
 
-```jsx
-function InteractiveChart() {
-  const handleClick = (data, index) => {
-    console.log('Clicked:', data, index);
-  };
-  
-  const handleMouseEnter = (data, index) => {
-    console.log('Mouse enter:', data, index);
-  };
-  
+Install Refine with your preferred setup:
+
+```bash
+# Using create-refine-app (recommended)
+npm create refine-app@latest my-app
+
+# Manual installation
+yarn add @refinedev/core @refinedev/react-router-v6
+yarn add react-router-dom
+```
+
+### Quick Start with CLI
+
+The CLI guides you through setup:
+
+```bash
+npm create refine-app@latest my-admin-panel
+
+# Select options:
+# - Project name: my-admin-panel
+# - Package manager: yarn
+# - UI framework: Material UI
+# - Backend: REST API
+# - Authentication: Custom auth
+```
+
+## Basic Setup
+
+### Minimal Example
+
+```typescript
+// app/page.tsx
+'use client';
+
+import { Refine } from '@refinedev/core';
+import { RefineThemes, ThemedLayoutV2 } from '@refinedev/mui';
+import dataProvider from '@refinedev/simple-rest';
+import routerProvider from '@refinedev/react-router-v6';
+
+export default function App() {
   return (
-    <LineChart width={600} height={300} data={data}>
-      <Line 
-        type="monotone" 
-        dataKey="sales" 
-        stroke="#8884d8"
-        onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-      />
-    </LineChart>
+    <Refine
+      dataProvider={dataProvider('https://api.fake-rest.refine.dev')}
+      routerProvider={routerProvider}
+      resources={[
+        {
+          name: 'products',
+          list: '/products',
+          show: '/products/:id',
+          create: '/products/create',
+          edit: '/products/:id/edit',
+        },
+      ]}
+    >
+      <ThemedLayoutV2>
+        {/* Your pages will be rendered here */}
+      </ThemedLayoutV2>
+    </Refine>
   );
 }
 ```
 
-## Responsive Design
+## Data Provider
 
-### Using ResponsiveContainer
+Data providers abstract your backend API. Refine includes providers for many backends:
 
-```jsx
-import { ResponsiveContainer, LineChart, Line } from 'recharts';
+### Using Simple REST
 
-function ResponsiveChart() {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
+```typescript
+import dataProvider from '@refinedev/simple-rest';
+
+const API_URL = 'https://api.example.com';
+
+<Refine
+  dataProvider={dataProvider(API_URL)}
+  // ...
+/>
 ```
 
-### Responsive with Percentage
+### Custom Data Provider
 
-```jsx
-<ResponsiveContainer width="95%" height="90%">
-  <LineChart data={data}>
-    <Line dataKey="sales" stroke="#8884d8" />
-  </LineChart>
-</ResponsiveContainer>
-```
+```typescript
+// lib/dataProvider.ts
+import { DataProvider } from '@refinedev/core';
 
-### Min/Max Dimensions
+export const dataProvider: DataProvider = {
+  getList: async ({ resource, pagination, filters, sorters }) => {
+    const url = `${API_URL}/${resource}`;
+    const { data, headers } = await httpClient.get(url);
 
-```jsx
-<ResponsiveContainer 
-  width="100%" 
-  height={400}
-  minWidth={300}
-  minHeight={200}
->
-  <LineChart data={data}>
-    <Line dataKey="sales" stroke="#8884d8" />
-  </LineChart>
-</ResponsiveContainer>
-```
+    return {
+      data,
+      total: parseInt(headers['x-total-count']),
+    };
+  },
 
-## Best Practices
+  getOne: async ({ resource, id }) => {
+    const url = `${API_URL}/${resource}/${id}`;
+    const { data } = await httpClient.get(url);
 
-### 1. Data Format
+    return { data };
+  },
 
-<CheckIcon /> **Good**: Use consistent, clean data structures
+  create: async ({ resource, variables }) => {
+    const url = `${API_URL}/${resource}`;
+    const { data } = await httpClient.post(url, variables);
 
-```jsx
-const data = [
-  { month: 'Jan', sales: 4000, revenue: 2400 },
-  { month: 'Feb', sales: 3000, revenue: 1398 },
-  { month: 'Mar', sales: 2000, revenue: 9800 },
-];
-```
+    return { data };
+  },
 
-<XIcon /> **Bad**: Inconsistent or missing data
+  update: async ({ resource, id, variables }) => {
+    const url = `${API_URL}/${resource}/${id}`;
+    const { data } = await httpClient.patch(url, variables);
 
-```jsx
-const badData = [
-  { month: 'Jan', sales: 4000 },
-  { month: 'Feb', revenue: 1398 }, // missing sales
-  { sales: 2000, revenue: 9800 }, // missing month
-];
-```
+    return { data };
+  },
 
-### 2. Performance Optimization
+  deleteOne: async ({ resource, id }) => {
+    const url = `${API_URL}/${resource}/${id}`;
+    const { data } = await httpClient.delete(url);
 
-```jsx
-import { useMemo } from 'react';
+    return { data };
+  },
 
-function OptimizedChart({ rawData }) {
-  // Memoize processed data
-  const data = useMemo(() => {
-    return rawData.map(item => ({
-      date: formatDate(item.timestamp),
-      value: item.amount / 100
-    }));
-  }, [rawData]);
-  
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="value" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-### 3. Color Consistency
-
-```jsx
-// Define color palette
-const COLORS = {
-  primary: '#8884d8',
-  secondary: '#82ca9d',
-  accent: '#ffc658',
-  danger: '#ff0000'
+  getApiUrl: () => API_URL,
 };
-
-// Use consistently
-<Line dataKey="sales" stroke={COLORS.primary} />
-<Bar dataKey="revenue" fill={COLORS.secondary} />
 ```
 
-### 4. Accessibility
+## Resources
 
-```jsx
-// Add meaningful labels
-<LineChart 
-  data={data}
-  aria-label="Sales trend chart showing monthly performance"
->
-  <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom' }} />
-  <YAxis label={{ value: 'Sales ($)', angle: -90, position: 'insideLeft' }} />
-  <Line dataKey="sales" name="Monthly Sales" />
-  <Tooltip />
-  <Legend />
-</LineChart>
+Resources represent your data entities (users, products, orders, etc.):
+
+```typescript
+<Refine
+  dataProvider={dataProvider}
+  resources={[
+    {
+      name: 'products',
+      list: '/products',
+      create: '/products/create',
+      edit: '/products/:id/edit',
+      show: '/products/:id',
+      meta: {
+        icon: <ShoppingCart />,
+        canDelete: true,
+      },
+    },
+    {
+      name: 'categories',
+      list: '/categories',
+      create: '/categories/create',
+      edit: '/categories/:id/edit',
+    },
+    {
+      name: 'orders',
+      list: '/orders',
+      show: '/orders/:id',
+      meta: {
+        icon: <Receipt />,
+      },
+    },
+  ]}
+/>
 ```
 
-### 5. Error Handling
+## CRUD Operations with Hooks
 
-```jsx
-function SafeChart({ data }) {
-  if (!data || data.length === 0) {
-    return <div>No data available</div>;
-  }
-  
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
+Refine provides powerful hooks for data operations:
+
+### useList - Fetching Lists
+
+```typescript
+'use client';
+
+import { useList } from '@refinedev/core';
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
 }
-```
 
-## Common Patterns
+export function ProductList() {
+  const { data, isLoading } = useList<Product>({
+    resource: 'products',
+    pagination: {
+      current: 1,
+      pageSize: 10,
+    },
+    sorters: [
+      {
+        field: 'createdAt',
+        order: 'desc',
+      },
+    ],
+    filters: [
+      {
+        field: 'category',
+        operator: 'eq',
+        value: 'electronics',
+      },
+    ],
+  });
 
-### 1. Dashboard Card
+  if (isLoading) return <div>Loading...</div>;
 
-```jsx
-function ChartCard({ title, data }) {
   return (
-    <div style={{ 
-      padding: '20px', 
-      backgroundColor: 'white', 
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    }}>
-      <h3>{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
-        </LineChart>
-      </ResponsiveContainer>
+    <div>
+      {data?.data.map(product => (
+        <div key={product.id}>
+          <h3>{product.name}</h3>
+          <p>${product.price}</p>
+        </div>
+      ))}
     </div>
   );
 }
 ```
 
-### 2. Loading State
+### useOne - Fetching Single Record
 
-```jsx
-function ChartWithLoading({ data, isLoading }) {
-  if (isLoading) {
-    return (
-      <div style={{ width: '100%', height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p>Loading chart...</p>
-      </div>
-    );
-  }
-  
+```typescript
+import { useOne } from '@refinedev/core';
+
+export function ProductDetail({ id }: { id: string }) {
+  const { data, isLoading } = useOne<Product>({
+    resource: 'products',
+    id,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      <h1>{data?.data.name}</h1>
+      <p>Price: ${data?.data.price}</p>
+      <p>Category: {data?.data.category}</p>
+    </div>
   );
 }
 ```
 
-### 3. Formatted Tooltips
+### useCreate - Creating Records
 
-```jsx
-function FormattedTooltip({ active, payload, label }) {
-  if (active && payload && payload.length) {
-    return (
-      <div style={{
-        backgroundColor: 'white',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '4px'
-      }}>
-        <p style={{ margin: 0, fontWeight: 'bold' }}>{label}</p>
-        {payload.map((entry, index) => (
-          <p key={index} style={{ margin: '5px 0', color: entry.color }}>
-            {`${entry.name}: $${entry.value.toLocaleString()}`}
-          </p>
-        ))}
-      </div>
-    );
-  }
-  return null;
+```typescript
+import { useCreate } from '@refinedev/core';
+
+export function CreateProduct() {
+  const { mutate, isLoading } = useCreate();
+
+  const handleSubmit = (values: any) => {
+    mutate({
+      resource: 'products',
+      values,
+    });
+  };
+
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      handleSubmit({
+        name: formData.get('name'),
+        price: Number(formData.get('price')),
+      });
+    }}>
+      <input name="name" placeholder="Product name" required />
+      <input name="price" type="number" placeholder="Price" required />
+      <button disabled={isLoading}>
+        {isLoading ? 'Creating...' : 'Create'}
+      </button>
+    </form>
+  );
 }
 ```
 
-## Advantages
+### useUpdate - Updating Records
 
-<CheckIcon /> **React-First Design** - Built specifically for React with composable components
+```typescript
+import { useUpdate } from '@refinedev/core';
 
-<CheckIcon /> **Easy to Learn** - Intuitive, declarative API
+export function EditProduct({ id }: { id: string }) {
+  const { mutate, isLoading } = useUpdate();
 
-<CheckIcon /> **Flexible** - Highly customizable with custom components
+  const handleUpdate = (values: any) => {
+    mutate({
+      resource: 'products',
+      id,
+      values,
+    });
+  };
 
-<CheckIcon /> **Responsive** - Built-in responsive container
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      const formData = new FormData(e.currentTarget);
+      handleUpdate({
+        name: formData.get('name'),
+        price: Number(formData.get('price')),
+      });
+    }}>
+      <input name="name" placeholder="Product name" required />
+      <input name="price" type="number" placeholder="Price" required />
+      <button disabled={isLoading}>
+        {isLoading ? 'Updating...' : 'Update'}
+      </button>
+    </form>
+  );
+}
+```
 
-<CheckIcon /> **Lightweight** - Reasonable bundle size (~50KB)
+### useDelete - Deleting Records
 
-<CheckIcon /> **Well Documented** - Comprehensive documentation and examples
+```typescript
+import { useDelete } from '@refinedev/core';
 
-<CheckIcon /> **Active Community** - Large community and regular updates
+export function DeleteProduct({ id }: { id: string }) {
+  const { mutate, isLoading } = useDelete();
 
-<CheckIcon /> **TypeScript Support** - Full TypeScript definitions
+  const handleDelete = () => {
+    if (confirm('Are you sure?')) {
+      mutate({
+        resource: 'products',
+        id,
+      });
+    }
+  };
 
-<CheckIcon /> **Free and Open Source** - MIT license
+  return (
+    <button onClick={handleDelete} disabled={isLoading}>
+      {isLoading ? 'Deleting...' : 'Delete'}
+    </button>
+  );
+}
+```
 
-## Disadvantages
+## Authentication
 
-<XIcon /> **React Only** - Cannot be used outside of React
+Refine provides a flexible authentication system:
 
-<XIcon /> **SVG Performance** - Can be slow with large datasets (>1000 points)
+```typescript
+// lib/authProvider.ts
+import { AuthProvider } from '@refinedev/core';
 
-<XIcon /> **Limited 3D** - No built-in 3D chart support
+export const authProvider: AuthProvider = {
+  login: async ({ email, password }) => {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-<XIcon /> **Animation Control** - Less control over animations compared to libraries like GSAP
+    if (response.ok) {
+      const { token } = await response.json();
+      localStorage.setItem('auth_token', token);
+      return { success: true, redirectTo: '/' };
+    }
 
-<XIcon /> **Learning Curve** - Component composition requires understanding React patterns
+    return { success: false, error: { message: 'Login failed' } };
+  },
 
-## When to Use Recharts
+  logout: async () => {
+    localStorage.removeItem('auth_token');
+    return { success: true, redirectTo: '/login' };
+  },
 
-### Choose Recharts When:
+  check: async () => {
+    const token = localStorage.getItem('auth_token');
+    return { authenticated: !!token };
+  },
 
-<CheckIcon /> Building a React application
+  getIdentity: async () => {
+    const token = localStorage.getItem('auth_token');
+    if (!token) return null;
 
-<CheckIcon /> Need composable, reusable chart components
+    const response = await fetch('/api/auth/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-<CheckIcon /> Want declarative chart definitions
+    return response.json();
+  },
 
-<CheckIcon /> Have datasets under 1000 points
+  onError: async (error) => {
+    if (error.status === 401) {
+      return { logout: true, redirectTo: '/login' };
+    }
+    return {};
+  },
+};
+```
 
-<CheckIcon /> Need responsive charts
+### Using Auth Provider
 
-<CheckIcon /> Want good TypeScript support
+```typescript
+<Refine
+  dataProvider={dataProvider}
+  authProvider={authProvider}
+  resources={[...]}
+/>
+```
 
-<CheckIcon /> Prefer component-based architecture
+### Protected Routes
 
-### Choose Alternatives When:
+```typescript
+import { Authenticated } from '@refinedev/core';
 
-<XIcon /> Not using React (use ApexCharts, Chart.js)
+export function Dashboard() {
+  return (
+    <Authenticated fallback={<div>Loading...</div>}>
+      <div>Protected Dashboard Content</div>
+    </Authenticated>
+  );
+}
+```
 
-<XIcon /> Need to render 10,000+ data points (use canvas-based libraries)
+## UI Framework Integration
 
-<XIcon /> Require advanced 3D visualizations (use Plotly.js)
+### With Material UI
 
-<XIcon /> Need maximum customization (use D3.js)
+```typescript
+import { Refine } from '@refinedev/core';
+import {
+  ThemedLayoutV2,
+  RefineThemes,
+  useNotificationProvider,
+} from '@refinedev/mui';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
-<XIcon /> Building commercial products needing support (consider Highcharts)
+export default function App() {
+  return (
+    <ThemeProvider theme={RefineThemes.Blue}>
+      <CssBaseline />
+      <Refine
+        dataProvider={dataProvider}
+        notificationProvider={useNotificationProvider}
+        resources={[...]}
+      >
+        <ThemedLayoutV2>
+          {/* Your routes */}
+        </ThemedLayoutV2>
+      </Refine>
+    </ThemeProvider>
+  );
+}
+```
 
-## Resources
+### With Ant Design
 
-### Official Resources
+```typescript
+import { Refine } from '@refinedev/core';
+import { ThemedLayoutV2, useNotificationProvider } from '@refinedev/antd';
+import '@refinedev/antd/dist/reset.css';
 
-- [Recharts Website](https://recharts.github.io/)
-- [Documentation](https://recharts.github.io/en-US/)
-- [Examples](https://recharts.github.io/en-US/storybook/)
-- [GitHub Repository](https://github.com/recharts/recharts)
+export default function App() {
+  return (
+    <Refine
+      dataProvider={dataProvider}
+      notificationProvider={useNotificationProvider}
+      resources={[...]}
+    >
+      <ThemedLayoutV2>
+        {/* Your routes */}
+      </ThemedLayoutV2>
+    </Refine>
+  );
+}
+```
 
-### Learning Resources
+## Tables and Forms
 
-- [API Reference](https://recharts.github.io/en-US/api/)
-- [Storybook Examples](https://recharts.github.io/en-US/storybook/)
-- [GitHub Wiki](https://github.com/recharts/recharts/wiki)
+### Auto-generated Table
 
-### Community
+```typescript
+import { useTable } from '@refinedev/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 
-- [GitHub Issues](https://github.com/recharts/recharts/issues)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/recharts)
-- [npm Package](https://www.npmjs.com/package/recharts)
+export function ProductsTable() {
+  const columns: ColumnDef<Product>[] = [
+    {
+      id: 'name',
+      header: 'Name',
+      accessorKey: 'name',
+    },
+    {
+      id: 'price',
+      header: 'Price',
+      accessorKey: 'price',
+    },
+    {
+      id: 'actions',
+      header: 'Actions',
+      cell: ({ row }) => (
+        <>
+          <button onClick={() => edit(row.original.id)}>Edit</button>
+          <button onClick={() => remove(row.original.id)}>Delete</button>
+        </>
+      ),
+    },
+  ];
 
----
+  const {
+    getHeaderGroups,
+    getRowModel,
+    refineCore: { setCurrent, pageCount, current },
+  } = useTable({
+    columns,
+  });
 
-Recharts is the perfect choice for React developers who want to create beautiful, responsive charts with a composable, declarative API. Its component-based architecture feels natural in React applications and provides the flexibility to create both simple and complex visualizations.
+  return (
+    <div>
+      <table>
+        <thead>
+          {getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th key={header.id}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {getRowModel().rows.map((row) => (
+            <tr key={row.id}>
+              {row.getVisibleCells().map((cell) => (
+                <td key={cell.id}>
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div>
+        <button onClick={() => setCurrent(1)} disabled={current === 1}>
+          First
+        </button>
+        <button onClick={() => setCurrent(current - 1)} disabled={current === 1}>
+          Previous
+        </button>
+        <span>
+          Page {current} of {pageCount}
+        </span>
+        <button
+          onClick={() => setCurrent(current + 1)}
+          disabled={current === pageCount}
+        >
+          Next
+        </button>
+        <button
+          onClick={() => setCurrent(pageCount)}
+          disabled={current === pageCount}
+        >
+          Last
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+### Auto-generated Forms
+
+```typescript
+import { useForm } from '@refinedev/react-hook-form';
+
+export function ProductForm() {
+  const {
+    refineCore: { onFinish, formLoading },
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  return (
+    <form onSubmit={handleSubmit(onFinish)}>
+      <div>
+        <label>Name</label>
+        <input
+          {...register('name', { required: 'Name is required' })}
+        />
+        {errors.name && <span>{errors.name.message}</span>}
+      </div>
+
+      <div>
+        <label>Price</label>
+        <input
+          type="number"
+          {...register('price', { required: 'Price is required' })}
+        />
+        {errors.price && <span>{errors.price.message}</span>}
+      </div>
+
+      <button type="submit" disabled={formLoading}>
+        {formLoading ? 'Saving...' : 'Save'}
+      </button>
+    </form>
+  );
+}
+```
+
+## Access Control
+
+Define permissions for resources and actions:
+
+```typescript
+import { AccessControlProvider } from '@refinedev/core';
+
+export const accessControlProvider: AccessControlProvider = {
+  can: async ({ resource, action, params }) => {
+    const user = await getCurrentUser();
+
+    if (resource === 'products') {
+      if (action === 'delete') {
+        return { can: user.role === 'admin' };
+      }
+      if (action === 'create' || action === 'edit') {
+        return { can: ['admin', 'editor'].includes(user.role) };
+      }
+      return { can: true }; // Anyone can list/show
+    }
+
+    return { can: true };
+  },
+};
+
+// Use in Refine
+<Refine
+  dataProvider={dataProvider}
+  accessControlProvider={accessControlProvider}
+  resources={[...]}
+/>
+```
+
+### Conditional Rendering
+
+```typescript
+import { useCan } from '@refinedev/core';
+
+export function ProductActions({ product }: { product: Product }) {
+  const { data: canEdit } = useCan({
+    resource: 'products',
+    action: 'edit',
+    params: { id: product.id },
+  });
+
+  const { data: canDelete } = useCan({
+    resource: 'products',
+    action: 'delete',
+    params: { id: product.id },
+  });
+
+  return (
+    <div>
+      {canEdit?.can && <button>Edit</button>}
+      {canDelete?.can && <button>Delete</button>}
+    </div>
+  );
+}
+```
+
+## Real-time Updates
+
+Enable live updates for your data:
+
+```typescript
+import { LiveProvider } from '@refinedev/core';
+
+const liveProvider: LiveProvider = {
+  subscribe: ({ channel, types, callback }) => {
+    // Subscribe to WebSocket or SSE
+    const ws = new WebSocket(`wss://api.example.com/${channel}`);
+
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      callback(data);
+    };
+
+    return ws;
+  },
+
+  unsubscribe: (subscription) => {
+    subscription.close();
+  },
+
+  publish: ({ channel, type, payload }) => {
+    // Publish events if needed
+  },
+};
+
+<Refine
+  dataProvider={dataProvider}
+  liveProvider={liveProvider}
+  options={{ liveMode: 'auto' }}
+  resources={[...]}
+/>
+```
+
+## Complete Example
+
+Here's a complete admin panel example:
+
+```typescript
+'use client';
+
+import { Refine, Authenticated } from '@refinedev/core';
+import { ThemedLayoutV2, RefineThemes } from '@refinedev/mui';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import dataProvider from '@refinedev/simple-rest';
+import routerProvider from '@refinedev/react-router-v6';
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { authProvider } from './authProvider';
+
+import { ProductList, ProductCreate, ProductEdit, ProductShow } from './products';
+import { CategoryList, CategoryCreate, CategoryEdit } from './categories';
+import { Login } from './auth/login';
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ThemeProvider theme={RefineThemes.Blue}>
+        <CssBaseline />
+        <Refine
+          dataProvider={dataProvider('https://api.example.com')}
+          routerProvider={routerProvider}
+          authProvider={authProvider}
+          resources={[
+            {
+              name: 'products',
+              list: '/products',
+              create: '/products/create',
+              edit: '/products/:id/edit',
+              show: '/products/:id',
+              meta: {
+                canDelete: true,
+              },
+            },
+            {
+              name: 'categories',
+              list: '/categories',
+              create: '/categories/create',
+              edit: '/categories/:id/edit',
+            },
+          ]}
+        >
+          <Routes>
+            <Route
+              element={
+                <Authenticated fallback={<Login />}>
+                  <ThemedLayoutV2>
+                    <Outlet />
+                  </ThemedLayoutV2>
+                </Authenticated>
+              }
+            >
+              <Route path="/products">
+                <Route index element={<ProductList />} />
+                <Route path="create" element={<ProductCreate />} />
+                <Route path=":id" element={<ProductShow />} />
+                <Route path=":id/edit" element={<ProductEdit />} />
+              </Route>
+
+              <Route path="/categories">
+                <Route index element={<CategoryList />} />
+                <Route path="create" element={<CategoryCreate />} />
+                <Route path=":id/edit" element={<CategoryEdit />} />
+              </Route>
+            </Route>
+          </Routes>
+        </Refine>
+      </ThemeProvider>
+    </BrowserRouter>
+  );
+}
+```
+
+## Best Practices
+
+### 1. Use TypeScript
+
+```typescript
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: Category;
+}
+
+const { data } = useList<Product>({
+  resource: 'products',
+});
+// data is typed correctly
+```
+
+### 2. Organize by Feature
+
+```
+src/
+  features/
+    products/
+      list.tsx
+      create.tsx
+      edit.tsx
+      show.tsx
+    categories/
+      list.tsx
+      create.tsx
+  lib/
+    dataProvider.ts
+    authProvider.ts
+```
+
+### 3. Use Meta for Extra Information
+
+```typescript
+resources={[
+  {
+    name: 'products',
+    list: '/products',
+    meta: {
+      label: 'Products',
+      icon: <ShoppingCart />,
+      canDelete: true,
+      priority: 1,
+    },
+  },
+]}
+```
+
+### 4. Leverage DevTools
+
+```typescript
+import { DevtoolsPanel, DevtoolsProvider } from '@refinedev/devtools';
+
+<DevtoolsProvider>
+  <Refine {...}>
+    {/* Your app */}
+  </Refine>
+  <DevtoolsPanel />
+</DevtoolsProvider>
+```
+
+## Summary
+
+Refine is a powerful framework for building CRUD applications quickly. Key advantages:
+
+- **Rapid development**: Build admin panels in hours, not weeks
+- **Minimal boilerplate**: Focus on business logic, not plumbing
+- **Backend agnostic**: Works with any API
+- **UI flexibility**: Bring your own UI or use integrations
+- **Enterprise ready**: Authentication, access control, audit logs
+- **Type safe**: Full TypeScript support
+- **Extensible**: Customize every aspect
+
+Perfect for:
+- Admin panels
+- Internal tools
+- Dashboards
+- Data management applications
+- B2B applications
+
+In the next lesson, we'll explore more data fetching libraries and compare different solutions for various use cases.

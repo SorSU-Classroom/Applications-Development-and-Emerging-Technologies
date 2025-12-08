@@ -431,8 +431,8 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More UI Libraries",
             href: "/more-ui-libraries",
-          }
-        ]
+          },
+        ],
       },
       {
         title: "Animation and Effects Libraries",
@@ -454,8 +454,8 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More Animation and Effects Libraries",
             href: "/more-animation-and-effects-libraries",
-          }
-        ]
+          },
+        ],
       },
       {
         title: "Charts and Data Visualization Libraries",
@@ -477,8 +477,8 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More Charts and Data Visualization Libraries",
             href: "/more-charts-and-data-visualization-libraries",
-          }
-        ]
+          },
+        ],
       },
       {
         title: "Forms and Validation Libraries",
@@ -500,8 +500,8 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More Forms and Validation Libraries",
             href: "/more-forms-and-validation-libraries",
-          }
-        ]
+          },
+        ],
       },
       {
         title: "Rich Text Editor",
@@ -519,8 +519,8 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More Rich Text Editor Libraries",
             href: "/more-rich-text-editor-libraries",
-          }
-        ]
+          },
+        ],
       },
       {
         title: "File Upload and Management",
@@ -534,8 +534,8 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More File Upload and Management Libraries",
             href: "/more-file-upload-and-management-libraries",
-          }
-        ]
+          },
+        ],
       },
       {
         title: "Maps and Geolocation",
@@ -557,11 +557,38 @@ export const ROUTES: EachRoute[] = [
           {
             title: "More Maps and Geolocation Libraries",
             href: "/more-maps-and-geolocation-libraries",
-          }
-        ]
-      }
+          },
+        ],
+      },
+      {
+        title: "Data Fetching and API Handling",
+        href: "/data-fetching-and-api-handling",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "Axios",
+            href: "/axios",
+          },
+          {
+            title: "TanStack Query",
+            href: "/tanstack-query",
+          },
+          {
+            title: "Refine",
+            href: "/refine",
+          },
+          {
+            title: "More Data Fetching and API Handling Libraries",
+            href: "/more-data-fetching-and-api-handling-libraries",
+          },
+        ],
+      },
     ],
-  }
+  },
 ];
 
 type Page = { title: string; href: string };

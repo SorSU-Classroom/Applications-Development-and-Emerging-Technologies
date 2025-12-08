@@ -1,923 +1,915 @@
 ---
-title: Recharts
-description: Master Recharts, the composable React charting library built on D3 that makes creating beautiful, responsive charts simple and intuitive.
+title: TanStack Query (React Query) - Powerful Async State Management
+description: Learn how to use TanStack Query for data fetching, caching, synchronization, and server state management in React and Next.js applications with automatic background updates and optimistic UI.
 ---
 
-# Recharts
+# TanStack Query (React Query)
 
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi0hxOmfhUvLnVx3w0Bq0Rydp_bzrMmYb8KQ&s" alt="Recharts Logo" width="200" height="60" />
+<img src="https://images.seeklogo.com/logo-png/43/1/react-query-logo-png_seeklogo-435661.png" alt="TanStack Query" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
 
-Recharts is a composable charting library built with React components. It's designed to help you quickly build charts with decoupled, reusable React components while maintaining full flexibility and control.
+TanStack Query (formerly React Query) is a powerful library for fetching, caching, synchronizing, and updating server state in React applications. It eliminates the need for manual state management, loading states, and cache invalidation logic.
 
-## Why Recharts?
+## What is TanStack Query?
 
-Recharts stands out as one of the best React charting libraries for several reasons:
+TanStack Query is not just a data fetching library - it's a comprehensive async state management solution that makes fetching, caching, synchronizing and updating server state a breeze.
 
-### 1. Composable Architecture
+### Key Features
 
-Recharts uses a component-based approach that feels natural in React:
+- **Automatic caching**: Intelligent caching with automatic garbage collection
+- **Background refetching**: Keep data fresh without blocking UI
+- **Request deduplication**: Prevent duplicate requests automatically
+- **Optimistic updates**: Update UI before server confirms
+- **Pagination & infinite scroll**: Built-in support for paginated data
+- **Parallel & dependent queries**: Advanced query orchestration
+- **DevTools**: Powerful debugging and inspection tools
+- **TypeScript support**: Full type safety
+- **SSR compatible**: Works with Next.js server components
 
-```jsx
-<LineChart data={data}>
-  <Line dataKey="sales" />
-  <XAxis dataKey="month" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-</LineChart>
-```
+### Why TanStack Query?
 
-Each element is a separate component that you can mix and match.
+Traditional state management libraries (Redux, MobX) are designed for **client state**, not **server state**. Server state has unique challenges:
 
-### 2. Declarative API
+- Data is stored remotely (you don't own it)
+- Requires asynchronous APIs
+- Can be changed by others without your knowledge
+- Can become stale
+- Needs caching, deduplication, and background updates
 
-Define your charts declaratively using JSX:
-- Easy to read and understand
-- Visual structure matches component hierarchy
-- Props-driven configuration
-- No imperative chart manipulation needed
-
-### 3. Built on React and D3
-
-- **React**: Natural integration with React applications
-- **D3 Submodules**: Leverages D3's powerful calculations (scales, shapes, etc.)
-- **Lightweight**: Only uses necessary D3 modules, keeping bundle size reasonable
-
-### 4. SVG-Based Rendering
-
-- Scalable graphics (no pixelation)
-- Easy to style with CSS
-- Good for most use cases (< 1000 data points)
-- Accessible and SEO-friendly
-
-### 5. Responsive by Default
-
-Built-in responsive container makes charts adapt to any screen size:
-
-```jsx
-<ResponsiveContainer width="100%" height={400}>
-  <LineChart data={data}>
-    {/* chart components */}
-  </LineChart>
-</ResponsiveContainer>
-```
-
-### 6. Rich Customization
-
-- Custom shapes and components
-- Flexible styling options
-- Animation support
-- Event handlers
-- Custom tooltips and legends
+TanStack Query handles all of these concerns automatically.
 
 ## Installation
 
-### Using npm
+Install TanStack Query in your Next.js project:
 
 ```bash
-npm install recharts
+yarn add @tanstack/react-query
+yarn add -D @tanstack/react-query-devtools
 ```
 
-### Using yarn
+## Setup
 
-```bash
-yarn add recharts
+### App Router Setup (Next.js 13+)
+
+```typescript
+// app/providers.tsx
+'use client';
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useState } from 'react';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000, // 1 minute
+        refetchOnWindowFocus: false,
+      },
+    },
+  }));
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}
 ```
 
-### Using pnpm
+```typescript
+// app/layout.tsx
+import { Providers } from './providers';
 
-```bash
-pnpm add recharts
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body>
+        <Providers>{children}</Providers>
+      </body>
+    </html>
+  );
+}
 ```
-
-## Basic Concepts
-
-### 1. Chart Components
-
-Recharts provides various chart types as container components:
-
-- `<LineChart>` - Line charts
-- `<BarChart>` - Bar charts
-- `<AreaChart>` - Area charts
-- `<PieChart>` - Pie and donut charts
-- `<RadarChart>` - Radar/spider charts
-- `<ScatterChart>` - Scatter plots
-- `<ComposedChart>` - Combine multiple chart types
-- `<RadialBarChart>` - Radial bar charts
-- `<Treemap>` - Treemap charts
-- `<Sankey>` - Sankey diagrams
-- `<Funnel>` - Funnel charts
-
-### 2. Graphical Components
-
-Components that display data:
-
-- `<Line>` - Line in a line chart
-- `<Bar>` - Bar in a bar chart
-- `<Area>` - Area in an area chart
-- `<Pie>` - Slice in a pie chart
-- `<Scatter>` - Scatter plot points
-- `<Radar>` - Radar chart polygon
-
-### 3. Axis Components
-
-Components for axes:
-
-- `<XAxis>` - X-axis
-- `<YAxis>` - Y-axis
-- `<ZAxis>` - Z-axis (for 3D scatter plots)
-
-### 4. Helper Components
-
-Utility components:
-
-- `<Tooltip>` - Interactive tooltip on hover
-- `<Legend>` - Chart legend
-- `<CartesianGrid>` - Background grid
-- `<Brush>` - Interactive data brush/zoom
-- `<ReferenceLine>` - Reference lines
-- `<ReferenceArea>` - Reference areas
-- `<ReferenceDot>` - Reference points
-- `<Label>` - Custom labels
-- `<LabelList>` - Labels on data points
-
-### 5. Container Component
-
-- `<ResponsiveContainer>` - Makes charts responsive
 
 ## Basic Usage
 
-### Simple Line Chart
+### useQuery - Fetching Data
 
-```jsx
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+The `useQuery` hook fetches and caches data:
 
-const data = [
-  { name: 'Jan', sales: 4000, revenue: 2400 },
-  { name: 'Feb', sales: 3000, revenue: 1398 },
-  { name: 'Mar', sales: 2000, revenue: 9800 },
-  { name: 'Apr', sales: 2780, revenue: 3908 },
-  { name: 'May', sales: 1890, revenue: 4800 },
-  { name: 'Jun', sales: 2390, revenue: 3800 },
-];
+```typescript
+'use client';
 
-function SimpleLineChart() {
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
-    </LineChart>
-  );
-}
-```
+import { useQuery } from '@tanstack/react-query';
 
-### Responsive Line Chart
-
-```jsx
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis } from 'recharts';
-
-function ResponsiveLineChart() {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-## Chart Types
-
-### 1. Bar Chart
-
-```jsx
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-function SimpleBarChart() {
-  return (
-    <BarChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="sales" fill="#8884d8" />
-      <Bar dataKey="revenue" fill="#82ca9d" />
-    </BarChart>
-  );
-}
-```
-
-### Stacked Bar Chart
-
-```jsx
-<BarChart width={600} height={300} data={data}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="name" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-  <Bar dataKey="sales" stackId="a" fill="#8884d8" />
-  <Bar dataKey="revenue" stackId="a" fill="#82ca9d" />
-</BarChart>
-```
-
-### 2. Area Chart
-
-```jsx
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-
-function SimpleAreaChart() {
-  return (
-    <AreaChart width={600} height={300} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Area type="monotone" dataKey="sales" stroke="#8884d8" fill="#8884d8" />
-    </AreaChart>
-  );
-}
-```
-
-### Stacked Area Chart
-
-```jsx
-<AreaChart width={600} height={300} data={data}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="name" />
-  <YAxis />
-  <Tooltip />
-  <Area type="monotone" dataKey="sales" stackId="1" stroke="#8884d8" fill="#8884d8" />
-  <Area type="monotone" dataKey="revenue" stackId="1" stroke="#82ca9d" fill="#82ca9d" />
-</AreaChart>
-```
-
-### 3. Pie Chart
-
-```jsx
-import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-
-const pieData = [
-  { name: 'Group A', value: 400 },
-  { name: 'Group B', value: 300 },
-  { name: 'Group C', value: 300 },
-  { name: 'Group D', value: 200 },
-];
-
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
-
-function SimplePieChart() {
-  return (
-    <PieChart width={400} height={400}>
-      <Pie
-        data={pieData}
-        cx={200}
-        cy={200}
-        labelLine={false}
-        label
-        outerRadius={80}
-        fill="#8884d8"
-        dataKey="value"
-      >
-        {pieData.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-    </PieChart>
-  );
-}
-```
-
-### Donut Chart
-
-```jsx
-<PieChart width={400} height={400}>
-  <Pie
-    data={pieData}
-    cx={200}
-    cy={200}
-    innerRadius={60}  // Add inner radius for donut
-    outerRadius={80}
-    fill="#8884d8"
-    dataKey="value"
-  >
-    {pieData.map((entry, index) => (
-      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-    ))}
-  </Pie>
-  <Tooltip />
-</PieChart>
-```
-
-### 4. Composed Chart (Multiple Chart Types)
-
-```jsx
-import { ComposedChart, Line, Bar, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-
-function MixedChart() {
-  return (
-    <ComposedChart width={600} height={400} data={data}>
-      <CartesianGrid stroke="#f5f5f5" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Area type="monotone" dataKey="revenue" fill="#8884d8" stroke="#8884d8" />
-      <Bar dataKey="sales" barSize={20} fill="#413ea0" />
-      <Line type="monotone" dataKey="profit" stroke="#ff7300" />
-    </ComposedChart>
-  );
-}
-```
-
-### 5. Scatter Chart
-
-```jsx
-import { ScatterChart, Scatter, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
-
-const scatterData = [
-  { x: 100, y: 200, z: 200 },
-  { x: 120, y: 100, z: 260 },
-  { x: 170, y: 300, z: 400 },
-  { x: 140, y: 250, z: 280 },
-  { x: 150, y: 400, z: 500 },
-];
-
-function SimpleScatterChart() {
-  return (
-    <ScatterChart width={600} height={400}>
-      <CartesianGrid />
-      <XAxis dataKey="x" type="number" />
-      <YAxis dataKey="y" />
-      <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-      <Scatter name="A school" data={scatterData} fill="#8884d8" />
-    </ScatterChart>
-  );
-}
-```
-
-## Customization
-
-### 1. Custom Tooltips
-
-```jsx
-function CustomTooltip({ active, payload, label }) {
-  if (active && payload && payload.length) {
-    return (
-      <div className="custom-tooltip" style={{
-        backgroundColor: 'white',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '4px'
-      }}>
-        <p className="label">{`${label}`}</p>
-        <p className="value" style={{ color: '#8884d8' }}>
-          {`Sales: $${payload[0].value}`}
-        </p>
-        <p className="desc">Additional information can go here</p>
-      </div>
-    );
-  }
-  return null;
+interface User {
+  id: string;
+  name: string;
+  email: string;
 }
 
-// Usage
-<LineChart width={600} height={300} data={data}>
-  <Line dataKey="sales" />
-  <Tooltip content={<CustomTooltip />} />
-</LineChart>
-```
+function UsersPage() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await fetch('/api/users');
+      if (!response.ok) throw new Error('Failed to fetch users');
+      return response.json() as Promise<User[]>;
+    }
+  });
 
-### 2. Custom Legend
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
-```jsx
-function CustomLegend({ payload }) {
   return (
-    <ul style={{ listStyle: 'none', padding: 0 }}>
-      {payload.map((entry, index) => (
-        <li key={`item-${index}`} style={{ color: entry.color }}>
-          <span style={{
-            display: 'inline-block',
-            width: 10,
-            height: 10,
-            backgroundColor: entry.color,
-            marginRight: 5
-          }} />
-          {entry.value}
-        </li>
+    <div>
+      <h1>Users</h1>
+      {data?.map(user => (
+        <div key={user.id}>
+          {user.name} - {user.email}
+        </div>
       ))}
-    </ul>
-  );
-}
-
-// Usage
-<LineChart width={600} height={300} data={data}>
-  <Line dataKey="sales" />
-  <Legend content={<CustomLegend />} />
-</LineChart>
-```
-
-### 3. Custom Shapes
-
-```jsx
-// Custom dot for line chart
-function CustomDot(props) {
-  const { cx, cy, value } = props;
-  
-  if (value > 2500) {
-    return (
-      <svg x={cx - 5} y={cy - 5} width={10} height={10} fill="red">
-        <circle cx={5} cy={5} r={5} />
-      </svg>
-    );
-  }
-  
-  return (
-    <svg x={cx - 2} y={cy - 2} width={4} height={4} fill="green">
-      <circle cx={2} cy={2} r={2} />
-    </svg>
-  );
-}
-
-// Usage
-<Line type="monotone" dataKey="sales" dot={<CustomDot />} />
-```
-
-### 4. Custom Axis Tick
-
-```jsx
-function CustomAxisTick({ x, y, payload }) {
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text 
-        x={0} 
-        y={0} 
-        dy={16} 
-        textAnchor="end" 
-        fill="#666" 
-        transform="rotate(-35)"
-      >
-        {payload.value}
-      </text>
-    </g>
-  );
-}
-
-// Usage
-<XAxis dataKey="name" tick={<CustomAxisTick />} />
-```
-
-### 5. Custom Bar Shape
-
-```jsx
-function CustomBar(props) {
-  const { fill, x, y, width, height } = props;
-  
-  return (
-    <g>
-      <rect x={x} y={y} width={width} height={height} fill={fill} rx={8} />
-    </g>
-  );
-}
-
-// Usage
-<Bar dataKey="sales" shape={<CustomBar />} />
-```
-
-## Advanced Features
-
-### 1. Synchronized Charts
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { useState } from 'react';
-
-function SynchronizedCharts() {
-  const [syncId] = useState('anyId');
-  
-  return (
-    <>
-      <LineChart width={600} height={200} data={data} syncId={syncId}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-      
-      <LineChart width={600} height={200} data={data} syncId={syncId}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Line type="monotone" dataKey="revenue" stroke="#82ca9d" />
-      </LineChart>
-    </>
-  );
-}
-```
-
-### 2. Brush (Zoom/Filter)
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, Tooltip, Brush } from 'recharts';
-
-function ChartWithBrush() {
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      <Brush dataKey="name" height={30} stroke="#8884d8" />
-    </LineChart>
-  );
-}
-```
-
-### 3. Reference Lines and Areas
-
-```jsx
-import { LineChart, Line, XAxis, YAxis, ReferenceLine, ReferenceArea } from 'recharts';
-
-function ChartWithReferences() {
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Line type="monotone" dataKey="sales" stroke="#8884d8" />
-      
-      {/* Reference line at y=3000 */}
-      <ReferenceLine 
-        y={3000} 
-        label="Target" 
-        stroke="red" 
-        strokeDasharray="3 3" 
-      />
-      
-      {/* Reference area between Feb and Apr */}
-      <ReferenceArea 
-        x1="Feb" 
-        x2="Apr" 
-        strokeOpacity={0.3} 
-        fill="green" 
-      />
-    </LineChart>
-  );
-}
-```
-
-### 4. Animations
-
-```jsx
-// Disable animation
-<Line type="monotone" dataKey="sales" isAnimationActive={false} />
-
-// Custom animation
-<Line 
-  type="monotone" 
-  dataKey="sales" 
-  animationDuration={2000}
-  animationEasing="ease-in-out"
-/>
-```
-
-### 5. Event Handlers
-
-```jsx
-function InteractiveChart() {
-  const handleClick = (data, index) => {
-    console.log('Clicked:', data, index);
-  };
-  
-  const handleMouseEnter = (data, index) => {
-    console.log('Mouse enter:', data, index);
-  };
-  
-  return (
-    <LineChart width={600} height={300} data={data}>
-      <Line 
-        type="monotone" 
-        dataKey="sales" 
-        stroke="#8884d8"
-        onClick={handleClick}
-        onMouseEnter={handleMouseEnter}
-      />
-    </LineChart>
-  );
-}
-```
-
-## Responsive Design
-
-### Using ResponsiveContainer
-
-```jsx
-import { ResponsiveContainer, LineChart, Line } from 'recharts';
-
-function ResponsiveChart() {
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-### Responsive with Percentage
-
-```jsx
-<ResponsiveContainer width="95%" height="90%">
-  <LineChart data={data}>
-    <Line dataKey="sales" stroke="#8884d8" />
-  </LineChart>
-</ResponsiveContainer>
-```
-
-### Min/Max Dimensions
-
-```jsx
-<ResponsiveContainer 
-  width="100%" 
-  height={400}
-  minWidth={300}
-  minHeight={200}
->
-  <LineChart data={data}>
-    <Line dataKey="sales" stroke="#8884d8" />
-  </LineChart>
-</ResponsiveContainer>
-```
-
-## Best Practices
-
-### 1. Data Format
-
-<CheckIcon /> **Good**: Use consistent, clean data structures
-
-```jsx
-const data = [
-  { month: 'Jan', sales: 4000, revenue: 2400 },
-  { month: 'Feb', sales: 3000, revenue: 1398 },
-  { month: 'Mar', sales: 2000, revenue: 9800 },
-];
-```
-
-<XIcon /> **Bad**: Inconsistent or missing data
-
-```jsx
-const badData = [
-  { month: 'Jan', sales: 4000 },
-  { month: 'Feb', revenue: 1398 }, // missing sales
-  { sales: 2000, revenue: 9800 }, // missing month
-];
-```
-
-### 2. Performance Optimization
-
-```jsx
-import { useMemo } from 'react';
-
-function OptimizedChart({ rawData }) {
-  // Memoize processed data
-  const data = useMemo(() => {
-    return rawData.map(item => ({
-      date: formatDate(item.timestamp),
-      value: item.amount / 100
-    }));
-  }, [rawData]);
-  
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="value" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-### 3. Color Consistency
-
-```jsx
-// Define color palette
-const COLORS = {
-  primary: '#8884d8',
-  secondary: '#82ca9d',
-  accent: '#ffc658',
-  danger: '#ff0000'
-};
-
-// Use consistently
-<Line dataKey="sales" stroke={COLORS.primary} />
-<Bar dataKey="revenue" fill={COLORS.secondary} />
-```
-
-### 4. Accessibility
-
-```jsx
-// Add meaningful labels
-<LineChart 
-  data={data}
-  aria-label="Sales trend chart showing monthly performance"
->
-  <XAxis dataKey="month" label={{ value: 'Month', position: 'insideBottom' }} />
-  <YAxis label={{ value: 'Sales ($)', angle: -90, position: 'insideLeft' }} />
-  <Line dataKey="sales" name="Monthly Sales" />
-  <Tooltip />
-  <Legend />
-</LineChart>
-```
-
-### 5. Error Handling
-
-```jsx
-function SafeChart({ data }) {
-  if (!data || data.length === 0) {
-    return <div>No data available</div>;
-  }
-  
-  return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
-  );
-}
-```
-
-## Common Patterns
-
-### 1. Dashboard Card
-
-```jsx
-function ChartCard({ title, data }) {
-  return (
-    <div style={{ 
-      padding: '20px', 
-      backgroundColor: 'white', 
-      borderRadius: '8px',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-    }}>
-      <h3>{title}</h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Line type="monotone" dataKey="value" stroke="#8884d8" />
-        </LineChart>
-      </ResponsiveContainer>
     </div>
   );
 }
 ```
 
-### 2. Loading State
+### Query Keys
 
-```jsx
-function ChartWithLoading({ data, isLoading }) {
-  if (isLoading) {
-    return (
-      <div style={{ width: '100%', height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p>Loading chart...</p>
-      </div>
-    );
-  }
-  
+Query keys uniquely identify queries for caching:
+
+```typescript
+// Simple key
+useQuery({ queryKey: ['users'], queryFn: fetchUsers });
+
+// Key with parameters
+useQuery({ 
+  queryKey: ['user', userId], 
+  queryFn: () => fetchUser(userId) 
+});
+
+// Complex key with multiple parameters
+useQuery({
+  queryKey: ['users', { page, limit, sort }],
+  queryFn: () => fetchUsers({ page, limit, sort })
+});
+```
+
+### Query with TypeScript
+
+```typescript
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+}
+
+function ProductList() {
+  const { data, isLoading, error } = useQuery<Product[], Error>({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const res = await fetch('/api/products');
+      return res.json();
+    }
+  });
+
+  // data is typed as Product[] | undefined
+  // error is typed as Error | null
+}
+```
+
+## Query States
+
+TanStack Query provides detailed state information:
+
+```typescript
+function DataComponent() {
+  const {
+    data,
+    error,
+    isLoading,      // Initial loading state
+    isFetching,     // Loading or refetching
+    isSuccess,      // Query succeeded
+    isError,        // Query failed
+    isPending,      // Query is pending
+    isRefetching,   // Background refetch
+    status,         // 'pending' | 'error' | 'success'
+    fetchStatus,    // 'fetching' | 'paused' | 'idle'
+  } = useQuery({
+    queryKey: ['data'],
+    queryFn: fetchData
+  });
+
+  if (isPending) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
   return (
-    <ResponsiveContainer width="100%" height={400}>
-      <LineChart data={data}>
-        <Line dataKey="sales" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
+    <div>
+      {isFetching && <div>Updating...</div>}
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>
   );
 }
 ```
 
-### 3. Formatted Tooltips
+## useMutation - Modifying Data
 
-```jsx
-function FormattedTooltip({ active, payload, label }) {
-  if (active && payload && payload.length) {
-    return (
-      <div style={{
-        backgroundColor: 'white',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '4px'
-      }}>
-        <p style={{ margin: 0, fontWeight: 'bold' }}>{label}</p>
-        {payload.map((entry, index) => (
-          <p key={index} style={{ margin: '5px 0', color: entry.color }}>
-            {`${entry.name}: $${entry.value.toLocaleString()}`}
-          </p>
-        ))}
-      </div>
-    );
-  }
-  return null;
+The `useMutation` hook handles POST, PUT, PATCH, DELETE operations:
+
+```typescript
+'use client';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
+interface CreateUserData {
+  name: string;
+  email: string;
+}
+
+function CreateUserForm() {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (newUser: CreateUserData) => {
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser)
+      });
+      return response.json();
+    },
+    onSuccess: () => {
+      // Invalidate and refetch users query
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+    }
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    mutation.mutate({
+      name: formData.get('name') as string,
+      email: formData.get('email') as string
+    });
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" placeholder="Name" required />
+      <input name="email" type="email" placeholder="Email" required />
+      <button disabled={mutation.isPending}>
+        {mutation.isPending ? 'Creating...' : 'Create User'}
+      </button>
+      {mutation.isError && <div>Error: {mutation.error.message}</div>}
+      {mutation.isSuccess && <div>User created successfully!</div>}
+    </form>
+  );
 }
 ```
 
-## Advantages
+## Cache Management
 
-<CheckIcon /> **React-First Design** - Built specifically for React with composable components
+### Invalidating Queries
 
-<CheckIcon /> **Easy to Learn** - Intuitive, declarative API
+Tell TanStack Query that data is stale and needs refetching:
 
-<CheckIcon /> **Flexible** - Highly customizable with custom components
+```typescript
+const queryClient = useQueryClient();
 
-<CheckIcon /> **Responsive** - Built-in responsive container
+// Invalidate specific query
+queryClient.invalidateQueries({ queryKey: ['users'] });
 
-<CheckIcon /> **Lightweight** - Reasonable bundle size (~50KB)
+// Invalidate multiple queries
+queryClient.invalidateQueries({ queryKey: ['users'] });
+queryClient.invalidateQueries({ queryKey: ['posts'] });
 
-<CheckIcon /> **Well Documented** - Comprehensive documentation and examples
+// Invalidate all queries starting with 'user'
+queryClient.invalidateQueries({ queryKey: ['user'] });
+```
 
-<CheckIcon /> **Active Community** - Large community and regular updates
+### Updating Cache Manually
 
-<CheckIcon /> **TypeScript Support** - Full TypeScript definitions
+```typescript
+const queryClient = useQueryClient();
 
-<CheckIcon /> **Free and Open Source** - MIT license
+// Set data in cache
+queryClient.setQueryData(['user', userId], newUserData);
 
-## Disadvantages
+// Update data in cache
+queryClient.setQueryData(['user', userId], (oldData) => ({
+  ...oldData,
+  name: 'Updated Name'
+}));
 
-<XIcon /> **React Only** - Cannot be used outside of React
+// Get data from cache
+const cachedUser = queryClient.getQueryData(['user', userId]);
+```
 
-<XIcon /> **SVG Performance** - Can be slow with large datasets (>1000 points)
+### Optimistic Updates
 
-<XIcon /> **Limited 3D** - No built-in 3D chart support
+Update UI immediately, then sync with server:
 
-<XIcon /> **Animation Control** - Less control over animations compared to libraries like GSAP
+```typescript
+const mutation = useMutation({
+  mutationFn: updateUser,
+  onMutate: async (newUser) => {
+    // Cancel outgoing refetches
+    await queryClient.cancelQueries({ queryKey: ['user', newUser.id] });
 
-<XIcon /> **Learning Curve** - Component composition requires understanding React patterns
+    // Snapshot previous value
+    const previousUser = queryClient.getQueryData(['user', newUser.id]);
 
-## When to Use Recharts
+    // Optimistically update
+    queryClient.setQueryData(['user', newUser.id], newUser);
 
-### Choose Recharts When:
+    // Return context for rollback
+    return { previousUser };
+  },
+  onError: (err, newUser, context) => {
+    // Rollback on error
+    if (context?.previousUser) {
+      queryClient.setQueryData(
+        ['user', newUser.id],
+        context.previousUser
+      );
+    }
+  },
+  onSettled: (newUser) => {
+    // Always refetch after error or success
+    queryClient.invalidateQueries({ queryKey: ['user', newUser?.id] });
+  }
+});
+```
 
-<CheckIcon /> Building a React application
+## Advanced Patterns
 
-<CheckIcon /> Need composable, reusable chart components
+### Dependent Queries
 
-<CheckIcon /> Want declarative chart definitions
+Fetch data that depends on previous queries:
 
-<CheckIcon /> Have datasets under 1000 points
+```typescript
+function UserPosts({ userId }: { userId: string }) {
+  // First query - get user
+  const { data: user } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => fetchUser(userId)
+  });
 
-<CheckIcon /> Need responsive charts
+  // Second query - depends on first query
+  const { data: posts } = useQuery({
+    queryKey: ['posts', user?.id],
+    queryFn: () => fetchUserPosts(user!.id),
+    enabled: !!user // Only run when user is available
+  });
 
-<CheckIcon /> Want good TypeScript support
+  return <div>{/* Render user and posts */}</div>;
+}
+```
 
-<CheckIcon /> Prefer component-based architecture
+### Parallel Queries
 
-### Choose Alternatives When:
+Fetch multiple resources simultaneously:
 
-<XIcon /> Not using React (use ApexCharts, Chart.js)
+```typescript
+function Dashboard() {
+  const usersQuery = useQuery({
+    queryKey: ['users'],
+    queryFn: fetchUsers
+  });
 
-<XIcon /> Need to render 10,000+ data points (use canvas-based libraries)
+  const postsQuery = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts
+  });
 
-<XIcon /> Require advanced 3D visualizations (use Plotly.js)
+  const commentsQuery = useQuery({
+    queryKey: ['comments'],
+    queryFn: fetchComments
+  });
 
-<XIcon /> Need maximum customization (use D3.js)
+  const isLoading = usersQuery.isLoading || 
+                    postsQuery.isLoading || 
+                    commentsQuery.isLoading;
 
-<XIcon /> Building commercial products needing support (consider Highcharts)
+  if (isLoading) return <div>Loading...</div>;
 
-## Resources
+  return (
+    <div>
+      <UsersList data={usersQuery.data} />
+      <PostsList data={postsQuery.data} />
+      <CommentsList data={commentsQuery.data} />
+    </div>
+  );
+}
+```
 
-### Official Resources
+### Using useQueries for Dynamic Parallel Queries
 
-- [Recharts Website](https://recharts.github.io/)
-- [Documentation](https://recharts.github.io/en-US/)
-- [Examples](https://recharts.github.io/en-US/storybook/)
-- [GitHub Repository](https://github.com/recharts/recharts)
+```typescript
+function UserProfiles({ userIds }: { userIds: string[] }) {
+  const userQueries = useQueries({
+    queries: userIds.map(id => ({
+      queryKey: ['user', id],
+      queryFn: () => fetchUser(id)
+    }))
+  });
 
-### Learning Resources
+  const isLoading = userQueries.some(query => query.isLoading);
+  const allData = userQueries.map(query => query.data);
 
-- [API Reference](https://recharts.github.io/en-US/api/)
-- [Storybook Examples](https://recharts.github.io/en-US/storybook/)
-- [GitHub Wiki](https://github.com/recharts/recharts/wiki)
+  return <div>{/* Render all users */}</div>;
+}
+```
 
-### Community
+## Pagination
 
-- [GitHub Issues](https://github.com/recharts/recharts/issues)
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/recharts)
-- [npm Package](https://www.npmjs.com/package/recharts)
+### Traditional Pagination
 
----
+```typescript
+'use client';
 
-Recharts is the perfect choice for React developers who want to create beautiful, responsive charts with a composable, declarative API. Its component-based architecture feels natural in React applications and provides the flexibility to create both simple and complex visualizations.
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+
+function ProductsList() {
+  const [page, setPage] = useState(1);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['products', page],
+    queryFn: () => fetchProducts(page),
+    placeholderData: (previousData) => previousData, // Keep old data while fetching
+  });
+
+  return (
+    <div>
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <>
+          {data?.products.map(product => (
+            <div key={product.id}>{product.name}</div>
+          ))}
+          <button 
+            onClick={() => setPage(p => p - 1)} 
+            disabled={page === 1}
+          >
+            Previous
+          </button>
+          <span>Page {page}</span>
+          <button 
+            onClick={() => setPage(p => p + 1)}
+            disabled={!data?.hasMore}
+          >
+            Next
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+```
+
+### Infinite Queries (Infinite Scroll)
+
+```typescript
+'use client';
+
+import { useInfiniteQuery } from '@tanstack/react-query';
+
+interface PostsResponse {
+  posts: Post[];
+  nextCursor?: number;
+}
+
+function InfinitePostsList() {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ['posts'],
+    queryFn: async ({ pageParam = 0 }) => {
+      const response = await fetch(`/api/posts?cursor=${pageParam}`);
+      return response.json() as Promise<PostsResponse>;
+    },
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    initialPageParam: 0,
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      {data?.pages.map((page, i) => (
+        <div key={i}>
+          {page.posts.map(post => (
+            <div key={post.id}>
+              <h3>{post.title}</h3>
+              <p>{post.content}</p>
+            </div>
+          ))}
+        </div>
+      ))}
+
+      <button
+        onClick={() => fetchNextPage()}
+        disabled={!hasNextPage || isFetchingNextPage}
+      >
+        {isFetchingNextPage
+          ? 'Loading more...'
+          : hasNextPage
+          ? 'Load More'
+          : 'Nothing more to load'}
+      </button>
+    </div>
+  );
+}
+```
+
+## Prefetching
+
+Load data before it's needed:
+
+```typescript
+'use client';
+
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
+function ProductCard({ productId }: { productId: string }) {
+  const queryClient = useQueryClient();
+
+  // Prefetch on hover
+  const handleMouseEnter = () => {
+    queryClient.prefetchQuery({
+      queryKey: ['product', productId],
+      queryFn: () => fetchProduct(productId),
+      staleTime: 60 * 1000, // Cache for 1 minute
+    });
+  };
+
+  return (
+    <div onMouseEnter={handleMouseEnter}>
+      <Link href={`/products/${productId}`}>
+        View Product
+      </Link>
+    </div>
+  );
+}
+```
+
+### Server-Side Prefetching (Next.js)
+
+```typescript
+// app/products/page.tsx
+import { 
+  dehydrate, 
+  HydrationBoundary,
+  QueryClient 
+} from '@tanstack/react-query';
+import { ProductsList } from './products-list';
+
+export default async function ProductsPage() {
+  const queryClient = new QueryClient();
+
+  // Prefetch on server
+  await queryClient.prefetchQuery({
+    queryKey: ['products'],
+    queryFn: fetchProducts,
+  });
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ProductsList />
+    </HydrationBoundary>
+  );
+}
+```
+
+## Background Refetching
+
+TanStack Query automatically refetches data in the background:
+
+```typescript
+const { data } = useQuery({
+  queryKey: ['posts'],
+  queryFn: fetchPosts,
+  staleTime: 60 * 1000, // Consider fresh for 1 minute
+  refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
+  refetchOnWindowFocus: true, // Refetch when window regains focus
+  refetchOnReconnect: true, // Refetch when internet reconnects
+  refetchOnMount: true, // Refetch when component mounts
+});
+```
+
+## Error Handling
+
+### Query-Level Error Handling
+
+```typescript
+function UserProfile({ userId }: { userId: string }) {
+  const { data, error, isError } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => fetchUser(userId),
+    retry: 3, // Retry failed requests 3 times
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+
+  if (isError) {
+    return (
+      <div>
+        <h2>Error loading user</h2>
+        <p>{error.message}</p>
+        <button onClick={() => refetch()}>Try Again</button>
+      </div>
+    );
+  }
+
+  return <div>{/* Render user */}</div>;
+}
+```
+
+### Global Error Handling
+
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      onError: (error) => {
+        console.error('Query error:', error);
+        toast.error('Failed to load data');
+      },
+    },
+    mutations: {
+      onError: (error) => {
+        console.error('Mutation error:', error);
+        toast.error('Failed to save changes');
+      },
+    },
+  },
+});
+```
+
+## Real-World Examples
+
+### Complete CRUD Example
+
+```typescript
+'use client';
+
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+interface Todo {
+  id: string;
+  title: string;
+  completed: boolean;
+}
+
+function TodoApp() {
+  const queryClient = useQueryClient();
+
+  // Fetch todos
+  const { data: todos, isLoading } = useQuery({
+    queryKey: ['todos'],
+    queryFn: async () => {
+      const res = await fetch('/api/todos');
+      return res.json() as Promise<Todo[]>;
+    },
+  });
+
+  // Create todo
+  const createMutation = useMutation({
+    mutationFn: async (title: string) => {
+      const res = await fetch('/api/todos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title }),
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+
+  // Update todo
+  const updateMutation = useMutation({
+    mutationFn: async (todo: Todo) => {
+      const res = await fetch(`/api/todos/${todo.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(todo),
+      });
+      return res.json();
+    },
+    onMutate: async (updatedTodo) => {
+      await queryClient.cancelQueries({ queryKey: ['todos'] });
+      const previousTodos = queryClient.getQueryData(['todos']);
+
+      queryClient.setQueryData<Todo[]>(['todos'], (old) =>
+        old?.map(todo =>
+          todo.id === updatedTodo.id ? updatedTodo : todo
+        )
+      );
+
+      return { previousTodos };
+    },
+    onError: (_err, _todo, context) => {
+      queryClient.setQueryData(['todos'], context?.previousTodos);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+
+  // Delete todo
+  const deleteMutation = useMutation({
+    mutationFn: async (id: string) => {
+      await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h1>Todos</h1>
+      
+      <form onSubmit={(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        createMutation.mutate(formData.get('title') as string);
+        e.currentTarget.reset();
+      }}>
+        <input name="title" placeholder="New todo" required />
+        <button disabled={createMutation.isPending}>Add</button>
+      </form>
+
+      <ul>
+        {todos?.map(todo => (
+          <li key={todo.id}>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() =>
+                updateMutation.mutate({
+                  ...todo,
+                  completed: !todo.completed
+                })
+              }
+            />
+            <span style={{
+              textDecoration: todo.completed ? 'line-through' : 'none'
+            }}>
+              {todo.title}
+            </span>
+            <button onClick={() => deleteMutation.mutate(todo.id)}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+## DevTools
+
+TanStack Query DevTools provide powerful debugging:
+
+```typescript
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+
+export function Providers({ children }: { children: React.ReactNode }) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+      <ReactQueryDevtools 
+        initialIsOpen={false}
+        position="bottom-right"
+      />
+    </QueryClientProvider>
+  );
+}
+```
+
+DevTools features:
+- View all queries and their states
+- Inspect query data
+- Manually trigger refetches
+- View query timeline
+- Debug cache behavior
+
+## Best Practices
+
+### 1. Use Query Keys Consistently
+
+```typescript
+// Good - consistent key structure
+const todoKeys = {
+  all: ['todos'] as const,
+  lists: () => [...todoKeys.all, 'list'] as const,
+  list: (filters: string) => [...todoKeys.lists(), { filters }] as const,
+  details: () => [...todoKeys.all, 'detail'] as const,
+  detail: (id: string) => [...todoKeys.details(), id] as const,
+};
+
+// Usage
+useQuery({ queryKey: todoKeys.detail(id), queryFn: () => fetchTodo(id) });
+```
+
+### 2. Configure Sensible Defaults
+
+```typescript
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 60 * 1000, // 1 minute
+      refetchOnWindowFocus: false,
+      retry: 1,
+    },
+  },
+});
+```
+
+### 3. Separate Concerns
+
+```typescript
+// hooks/useTodos.ts
+export function useTodos() {
+  return useQuery({
+    queryKey: ['todos'],
+    queryFn: fetchTodos,
+  });
+}
+
+export function useCreateTodo() {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: createTodo,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['todos'] });
+    },
+  });
+}
+
+// Component
+function TodoList() {
+  const { data } = useTodos();
+  const createTodo = useCreateTodo();
+  
+  return <div>{/* ... */}</div>;
+}
+```
+
+### 4. Handle Loading and Error States
+
+```typescript
+function DataComponent() {
+  const { data, isLoading, isError, error, refetch } = useQuery({
+    queryKey: ['data'],
+    queryFn: fetchData,
+  });
+
+  if (isLoading) return <LoadingSkeleton />;
+  
+  if (isError) {
+    return (
+      <ErrorState 
+        message={error.message}
+        onRetry={refetch}
+      />
+    );
+  }
+
+  return <DataDisplay data={data} />;
+}
+```
+
+## Summary
+
+TanStack Query is a game-changer for data fetching in React applications. It provides:
+
+- **Automatic caching** with intelligent invalidation
+- **Background updates** to keep data fresh
+- **Optimistic updates** for instant UI feedback
+- **Request deduplication** to prevent redundant calls
+- **Pagination & infinite scroll** out of the box
+- **DevTools** for debugging
+- **TypeScript support** for type safety
+
+By handling all the complexities of server state management, TanStack Query lets you focus on building features instead of managing boilerplate code. It's especially powerful when combined with Axios for HTTP requests or used with Next.js API routes.
+
+In the next lesson, we'll explore Refine, a complete framework that builds on these concepts to provide full CRUD application scaffolding.

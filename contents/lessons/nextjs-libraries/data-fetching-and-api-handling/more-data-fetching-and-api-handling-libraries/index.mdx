@@ -1,900 +1,672 @@
 ---
-title: More Charts and Data Visualization Libraries
-description: Explore additional charting and data visualization libraries including Chart.js, D3.js, Nivo, Victory, Plotly.js, and more options for creating stunning visualizations.
+title: More Data Fetching and API Handling Libraries
+description: Explore additional data fetching libraries and tools including SWR, Apollo Client, tRPC, and fetch alternatives for various use cases in modern web development.
 ---
 
-# More Charts and Data Visualization Libraries
+# More Data Fetching and API Handling Libraries
 
-While Recharts and ApexCharts are excellent choices, there are many other powerful visualization libraries worth considering. Each has unique strengths and use cases.
+Beyond Axios, TanStack Query, and Refine, the JavaScript ecosystem offers many other powerful data fetching and API handling solutions. This lesson explores popular alternatives and specialized tools for different use cases.
 
-## 1. Chart.js
+## SWR - Stale-While-Revalidate
 
-<img src="https://www.chartjs.org/img/chartjs-logo.svg" alt="Chart.js Logo" width="180" height="50" />
+SWR is a lightweight React Hooks library for data fetching created by Vercel (the team behind Next.js).
 
-Chart.js is a simple yet flexible JavaScript charting library for designers and developers.
+### What is SWR?
 
-### Overview
-
-- **Size**: ~60KB
-- **Rendering**: Canvas-based
-- **Framework**: Framework-agnostic
-- **License**: MIT (Free)
-- **Best For**: Simple charts, canvas performance
+SWR implements the "stale-while-revalidate" HTTP caching strategy:
+1. Return cached data (stale)
+2. Fetch new data (revalidate)
+3. Update with fresh data
 
 ### Key Features
 
-- **Simple API**: Easy to learn and use
-- **8 Chart Types**: Line, bar, radar, doughnut, pie, polar area, bubble, scatter
-- **Canvas-Based**: Better performance with large datasets
-- **Responsive**: Built-in responsive design
-- **Animations**: Smooth, customizable animations
-- **Plugins**: Extensible plugin system
+- **Lightweight**: Only ~4KB gzipped
+- **Fast**: Returns cached data immediately
+- **Automatic revalidation**: Keeps data fresh
+- **Built-in cache**: No additional setup needed
+- **TypeScript support**: Full type safety
+- **SSR/SSG compatible**: Works with Next.js
+- **Real-time**: Built-in polling and focus revalidation
 
 ### Installation
 
 ```bash
-npm install chart.js
+yarn add swr
 ```
 
 ### Basic Usage
 
-```javascript
-import { Chart } from 'chart.js/auto';
+```typescript
+'use client';
 
-const ctx = document.getElementById('myChart');
-const myChart = new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.2)',
-        'rgba(54, 162, 235, 0.2)',
-        'rgba(255, 206, 86, 0.2)',
-        'rgba(75, 192, 192, 0.2)',
-        'rgba(153, 102, 255, 0.2)',
-        'rgba(255, 159, 64, 0.2)'
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)'
-      ],
-      borderWidth: 1
-    }]
-  },
-  options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
-    }
-  }
-});
+import useSWR from 'swr';
+
+const fetcher = (url: string) => fetch(url).then(r => r.json());
+
+function Profile() {
+  const { data, error, isLoading } = useSWR('/api/user', fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (isLoading) return <div>Loading...</div>;
+
+  return <div>Hello {data.name}!</div>;
+}
 ```
 
-### React Integration
+### Advanced SWR Features
 
-```bash
-npm install react-chartjs-2 chart.js
-```
+```typescript
+import useSWR from 'swr';
 
-```jsx
-import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-function LineChart() {
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    datasets: [
-      {
-        label: 'Sales',
-        data: [65, 59, 80, 81, 56, 55, 40],
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1
-      }
-    ]
-  };
-
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top',
+function Users() {
+  const { data, error, isLoading, mutate } = useSWR(
+    '/api/users',
+    fetcher,
+    {
+      refreshInterval: 3000, // Poll every 3 seconds
+      revalidateOnFocus: true, // Refetch when window gains focus
+      revalidateOnReconnect: true, // Refetch when internet reconnects
+      dedupingInterval: 2000, // Dedupe requests within 2 seconds
+      onSuccess: (data) => {
+        console.log('Data loaded:', data);
       },
-      title: {
-        display: true,
-        text: 'Monthly Sales'
+      onError: (error) => {
+        console.error('Error:', error);
       }
     }
-  };
-
-  return <Line data={data} options={options} />;
-}
-```
-
-### Advantages
-
-<CheckIcon /> Very simple and easy to learn
-
-<CheckIcon /> Canvas-based (good performance)
-
-<CheckIcon /> Lightweight and fast
-
-<CheckIcon /> Great documentation
-
-<CheckIcon /> Active community
-
-<CheckIcon /> Free and open source
-
-### Disadvantages
-
-<XIcon /> Limited chart types (8 basic types)
-
-<XIcon /> Less customization than competitors
-
-<XIcon /> Canvas-based (harder to style)
-
-<XIcon /> No built-in advanced features (zoom, pan)
-
-### Use Cases
-
-- Simple business charts
-- Performance-critical applications
-- Projects with strict bundle size limits
-- Quick prototypes and demos
-
-### Resources
-
-- [Official Website](https://www.chartjs.org/)
-- [Documentation](https://www.chartjs.org/docs/)
-- [Samples](https://www.chartjs.org/samples/)
-- [GitHub](https://github.com/chartjs/Chart.js)
-
----
-
-## 2. D3.js (Data-Driven Documents)
-
-<img src="https://i0.wp.com/ahex.co/wp-content/uploads/2022/06/d3.png?fit=400%2C400&ssl=1" alt="D3.js Logo" width="180" height="50" />
-
-D3.js is a JavaScript library for manipulating documents based on data.
-
-### Overview
-
-- **Size**: ~240KB (tree-shakeable)
-- **Rendering**: SVG-based
-- **Framework**: Framework-agnostic
-- **License**: BSD (Free)
-- **Best For**: Custom visualizations, maximum control
-
-### Key Features
-
-- **Maximum Flexibility**: Create any visualization you can imagine
-- **Data Binding**: Powerful data-to-DOM binding
-- **Transitions**: Smooth, physics-based animations
-- **Selections**: jQuery-like DOM manipulation
-- **Scales**: Transform data to visual properties
-- **Layouts**: Pre-built layouts (force, tree, chord, etc.)
-
-### Installation
-
-```bash
-npm install d3
-```
-
-### Basic Usage
-
-```javascript
-import * as d3 from 'd3';
-
-const data = [30, 86, 168, 281, 303, 365];
-
-d3.select(".chart")
-  .selectAll("div")
-  .data(data)
-  .enter()
-  .append("div")
-  .style("width", d => d + "px")
-  .text(d => d);
-```
-
-### Bar Chart Example
-
-```javascript
-import * as d3 from 'd3';
-
-const data = [30, 86, 168, 281, 303, 365];
-
-const width = 420;
-const barHeight = 20;
-
-const x = d3.scaleLinear()
-  .domain([0, d3.max(data)])
-  .range([0, width]);
-
-const chart = d3.select(".chart")
-  .attr("width", width)
-  .attr("height", barHeight * data.length);
-
-const bar = chart.selectAll("g")
-  .data(data)
-  .enter().append("g")
-  .attr("transform", (d, i) => `translate(0,${i * barHeight})`);
-
-bar.append("rect")
-  .attr("width", x)
-  .attr("height", barHeight - 1);
-
-bar.append("text")
-  .attr("x", d => x(d) - 3)
-  .attr("y", barHeight / 2)
-  .attr("dy", ".35em")
-  .text(d => d);
-```
-
-### React Integration (with Visx)
-
-Visx provides low-level React components for D3:
-
-```bash
-npm install @visx/visx
-```
-
-```jsx
-import { BarChart } from '@visx/shape';
-import { Group } from '@visx/group';
-import { scaleLinear, scaleBand } from '@visx/scale';
-
-function VisxBarChart({ width, height, data }) {
-  const xMax = width;
-  const yMax = height;
-
-  const xScale = scaleBand({
-    range: [0, xMax],
-    domain: data.map(d => d.label),
-    padding: 0.4,
-  });
-
-  const yScale = scaleLinear({
-    range: [yMax, 0],
-    domain: [0, Math.max(...data.map(d => d.value))],
-  });
-
-  return (
-    <svg width={width} height={height}>
-      <Group>
-        {data.map(d => {
-          const barHeight = yMax - yScale(d.value);
-          return (
-            <rect
-              key={d.label}
-              x={xScale(d.label)}
-              y={yMax - barHeight}
-              height={barHeight}
-              width={xScale.bandwidth()}
-              fill="#8884d8"
-            />
-          );
-        })}
-      </Group>
-    </svg>
   );
-}
-```
 
-### Advantages
+  // Manual revalidation
+  const handleRefresh = () => mutate();
 
-<CheckIcon /> Maximum flexibility and control
-
-<CheckIcon /> Create any visualization imaginable
-
-<CheckIcon /> Powerful data manipulation
-
-<CheckIcon /> Rich ecosystem of examples
-
-<CheckIcon /> Tree-shakeable (import only what you need)
-
-<CheckIcon /> Industry standard for custom viz
-
-### Disadvantages
-
-<XIcon /> Steep learning curve
-
-<XIcon /> Low-level API (more code needed)
-
-<XIcon /> No pre-built charts
-
-<XIcon /> Requires understanding of SVG
-
-<XIcon /> Time-consuming for simple charts
-
-### Use Cases
-
-- Custom, unique visualizations
-- Complex data relationships
-- Interactive data exploration
-- Academic and scientific visualizations
-- When you need complete control
-
-### Resources
-
-- [Official Website](https://d3js.org/)
-- [Documentation](https://github.com/d3/d3/wiki)
-- [Examples Gallery](https://observablehq.com/@d3/gallery)
-- [GitHub](https://github.com/d3/d3)
-- [Visx (React + D3)](https://airbnb.io/visx/)
-
----
-
-## 3. Nivo
-
-<img src="https://raw.githubusercontent.com/plouc/nivo/master/nivo.png" alt="Nivo Logo" width="180" height="50" />
-
-Nivo provides a rich set of dataviz components built on top of D3 and React.
-
-### Overview
-
-- **Size**: ~35KB (per chart component)
-- **Rendering**: SVG and Canvas
-- **Framework**: React only
-- **License**: MIT (Free)
-- **Best For**: Beautiful defaults, React apps
-
-### Key Features
-
-- **Beautiful Defaults**: Professional-looking charts out of the box
-- **Rich Features**: 20+ chart types
-- **Responsive**: Built-in responsiveness
-- **Customizable**: Extensive theming options
-- **Animations**: Smooth transitions
-- **TypeScript**: Full TypeScript support
-
-### Installation
-
-```bash
-npm install @nivo/core @nivo/line @nivo/bar
-```
-
-### Basic Usage
-
-```jsx
-import { ResponsiveLine } from '@nivo/line';
-
-const data = [
-  {
-    id: 'sales',
-    data: [
-      { x: 'Jan', y: 7 },
-      { x: 'Feb', y: 5 },
-      { x: 'Mar', y: 11 },
-      { x: 'Apr', y: 9 },
-      { x: 'May', y: 12 },
-    ]
-  }
-];
-
-function LineChart() {
   return (
-    <div style={{ height: 400 }}>
-      <ResponsiveLine
-        data={data}
-        margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
-        xScale={{ type: 'point' }}
-        yScale={{ type: 'linear', min: 'auto', max: 'auto' }}
-        axisBottom={{
-          legend: 'Month',
-          legendOffset: 36,
-          legendPosition: 'middle'
-        }}
-        axisLeft={{
-          legend: 'Value',
-          legendOffset: -40,
-          legendPosition: 'middle'
-        }}
-        pointSize={10}
-        pointColor={{ theme: 'background' }}
-        pointBorderWidth={2}
-        pointBorderColor={{ from: 'serieColor' }}
-        enableSlices="x"
-      />
+    <div>
+      <button onClick={handleRefresh}>Refresh</button>
+      {/* Render users */}
     </div>
   );
 }
 ```
 
-### Advantages
-
-<CheckIcon /> Beautiful, professional defaults
-
-<CheckIcon /> Rich set of chart types
-
-<CheckIcon /> Great React integration
-
-<CheckIcon /> Excellent documentation
-
-<CheckIcon /> Interactive examples
-
-<CheckIcon /> TypeScript support
-
-### Disadvantages
-
-<XIcon /> React only
-
-<XIcon /> Larger bundle size (each chart separate)
-
-<XIcon /> Less popular than alternatives
-
-<XIcon /> Can be complex to customize
-
-### Use Cases
-
-- React applications
-- Design-focused projects
-- Dashboards requiring beautiful charts
-- Projects valuing aesthetics
-
-### Resources
-
-- [Official Website](https://nivo.rocks/)
-- [Storybook](https://nivo.rocks/storybook/)
-- [Components](https://nivo.rocks/components/)
-- [GitHub](https://github.com/plouc/nivo)
-
----
-
-## 4. Victory
-
-<img src="https://raw.githubusercontent.com/FormidableLabs/formidable-oss-badges/master/src/assets/featuredLogos/victory.svg?sanitize=true" alt="Victory Logo" width="180" height="50" />
-
-Victory is a collection of composable React components for building interactive data visualizations.
-
-### Overview
-
-- **Size**: ~55KB
-- **Rendering**: SVG-based
-- **Framework**: React and React Native
-- **License**: MIT (Free)
-- **Best For**: Animated charts, React/React Native
-
-### Key Features
-
-- **Composable**: Build complex charts from simple components
-- **Animations**: Rich animation support
-- **Cross-Platform**: Works on web and React Native
-- **Modular**: Import only what you need
-- **Theming**: Comprehensive theming system
-
-### Installation
-
-```bash
-npm install victory
-```
-
-### Basic Usage
-
-```jsx
-import { VictoryChart, VictoryLine, VictoryAxis } from 'victory';
-
-function LineChart() {
-  const data = [
-    { x: 1, y: 2 },
-    { x: 2, y: 3 },
-    { x: 3, y: 5 },
-    { x: 4, y: 4 },
-    { x: 5, y: 7 }
-  ];
-
-  return (
-    <VictoryChart height={400} width={400}>
-      <VictoryLine
-        data={data}
-        style={{
-          data: { stroke: "#c43a31" },
-          parent: { border: "1px solid #ccc" }
-        }}
-      />
-      <VictoryAxis />
-      <VictoryAxis dependentAxis />
-    </VictoryChart>
-  );
-}
-```
-
-### Advantages
-
-<CheckIcon /> React and React Native support
-
-<CheckIcon /> Great animation support
-
-<CheckIcon /> Composable architecture
-
-<CheckIcon /> Good documentation
-
-<CheckIcon /> Active development
-
-### Disadvantages
-
-<XIcon /> React only
-
-<XIcon /> Verbose API
-
-<XIcon /> Smaller community
-
-<XIcon /> Bundle size can grow
-
-### Use Cases
-
-- React applications
-- React Native mobile apps
-- Animated visualizations
-- Cross-platform projects
-
-### Resources
-
-- [Official Website](https://commerce.nearform.com/open-source/victory/)
-- [Documentation](https://commerce.nearform.com/open-source/victory/docs/)
-- [Gallery](https://commerce.nearform.com/open-source/victory/gallery/)
-- [GitHub](https://github.com/FormidableLabs/victory)
-
----
-
-## 5. Plotly.js
-
-<img src="https://ia803101.us.archive.org/35/items/github.com-plotly-dash_-_2019-11-01_19-17-12/cover.jpg" alt="Plotly.js Logo" width="180" height="50" />
-
-Plotly.js is a high-level, declarative charting library built on D3.js and stack.gl.
-
-### Overview
-
-- **Size**: ~3MB (can be reduced with custom builds)
-- **Rendering**: SVG, Canvas, and WebGL
-- **Framework**: Framework-agnostic
-- **License**: MIT (Free)
-- **Best For**: Scientific charts, 3D plots, statistical analysis
-
-### Key Features
-
-- **40+ Chart Types**: Including 3D charts and scientific plots
-- **WebGL**: Hardware-accelerated rendering
-- **Statistical**: Built-in statistical charts
-- **3D Visualizations**: 3D scatter, surface, mesh plots
-- **Interactive**: Zoom, pan, hover, click events
-- **Export**: Export to PNG, SVG, PDF
-
-### Installation
-
-```bash
-npm install plotly.js-dist-min
-# Or for React
-npm install react-plotly.js plotly.js
-```
-
-### Basic Usage (React)
-
-```jsx
-import Plot from 'react-plotly.js';
-
-function ScatterPlot() {
-  return (
-    <Plot
-      data={[
-        {
-          x: [1, 2, 3, 4],
-          y: [10, 15, 13, 17],
-          type: 'scatter',
-          mode: 'lines+markers',
-          marker: { color: 'red' },
-        },
-        {
-          x: [1, 2, 3, 4],
-          y: [12, 9, 15, 12],
-          type: 'bar'
-        },
-      ]}
-      layout={{ width: 600, height: 400, title: 'A Plotly Chart' }}
-    />
-  );
-}
-```
-
-### Advantages
-
-<CheckIcon /> Extensive chart types (40+)
-
-<CheckIcon /> 3D visualization support
-
-<CheckIcon /> Scientific and statistical charts
-
-<CheckIcon /> WebGL for performance
-
-<CheckIcon /> Export capabilities
-
-### Disadvantages
-
-<XIcon /> Very large bundle size (3MB)
-
-<XIcon /> Complex API
-
-<XIcon /> Overkill for simple charts
-
-<XIcon /> Slower initial load
-
-### Use Cases
-
-- Scientific visualizations
-- 3D charts and plots
-- Statistical analysis
-- Research and academia
-- Complex data exploration
-
-### Resources
-
-- [Official Website](https://plotly.com/javascript/)
-- [Documentation](https://plotly.com/javascript/)
-- [React Plotly](https://plotly.com/javascript/react/)
-- [GitHub](https://github.com/plotly/plotly.js)
-
----
-
-## 6. ECharts (Apache ECharts)
-
-<img src="https://raw.githubusercontent.com/nuxt/modules/main/icons/echarts.svg" alt="ECharts Logo" width="180" height="50" />
-
-ECharts is a powerful charting and visualization library offering an easy way to add interactive charts to web applications.
-
-### Overview
-
-- **Size**: ~400KB (tree-shakeable)
-- **Rendering**: Canvas and SVG
-- **Framework**: Framework-agnostic
-- **License**: Apache 2.0 (Free)
-- **Best For**: Complex visualizations, large datasets
-
-### Key Features
-
-- **Rich Chart Types**: 20+ chart types
-- **Large Data**: Handles millions of data points
-- **Canvas Rendering**: Better performance
-- **Dataset**: Built-in data management
-- **Responsive**: Auto-resize and responsive
-- **Visual Encoding**: Map data to visual channels
-
-### Installation
-
-```bash
-npm install echarts
-```
-
-### Basic Usage
-
-```javascript
-import * as echarts from 'echarts';
-
-const chartDom = document.getElementById('main');
-const myChart = echarts.init(chartDom);
-
-const option = {
-  title: {
-    text: 'ECharts Example'
-  },
-  tooltip: {},
-  xAxis: {
-    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-  },
-  yAxis: {},
-  series: [
-    {
-      name: 'Sales',
-      type: 'bar',
-      data: [5, 20, 36, 10, 10, 20, 4]
-    }
-  ]
-};
-
-myChart.setOption(option);
-```
-
-### React Integration
-
-```bash
-npm install echarts-for-react
-```
-
-```jsx
-import ReactECharts from 'echarts-for-react';
-
-function EChartsExample() {
-  const option = {
-    title: { text: 'Sales Data' },
-    tooltip: {},
-    xAxis: {
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    },
-    yAxis: {},
-    series: [{
-      name: 'Sales',
-      type: 'bar',
-      data: [5, 20, 36, 10, 10, 20, 4]
-    }]
+### SWR with Mutations
+
+```typescript
+import useSWR, { useSWRConfig } from 'swr';
+
+function UserProfile() {
+  const { mutate } = useSWRConfig();
+  const { data } = useSWR('/api/user', fetcher);
+
+  const updateUser = async (newData: any) => {
+    // Optimistic update
+    mutate('/api/user', newData, false);
+
+    // Send request
+    await fetch('/api/user', {
+      method: 'PUT',
+      body: JSON.stringify(newData)
+    });
+
+    // Revalidate
+    mutate('/api/user');
   };
 
-  return <ReactECharts option={option} />;
+  return <div>{/* UI */}</div>;
 }
 ```
 
-### Advantages
+### When to Use SWR
 
-<CheckIcon /> Handles large datasets well
+<CheckIcon /> **Use SWR when:**
+- You want a lightweight solution
+- Working with Next.js
+- Need simple caching with automatic revalidation
+- Want minimal configuration
 
-<CheckIcon /> Rich feature set
+<XIcon /> **Avoid SWR when:**
+- Need complex query orchestration
+- Require advanced mutations
+- Want comprehensive DevTools
+- Need infinite queries out of the box
 
-<CheckIcon /> Great performance (Canvas)
+## Apollo Client - GraphQL Client
 
-<CheckIcon /> Beautiful default designs
+Apollo Client is the most popular GraphQL client for React applications.
 
-<CheckIcon /> Good documentation
+### What is Apollo Client?
 
-<CheckIcon /> Free and open source
+Apollo Client is a comprehensive state management library for JavaScript that enables you to manage both local and remote data with GraphQL.
 
-### Disadvantages
+### Key Features
 
-<XIcon /> Large bundle size
+- **Declarative data fetching**: Request exactly what you need
+- **Normalized cache**: Intelligent caching system
+- **Optimistic UI**: Update UI before server responds
+- **Pagination**: Built-in pagination support
+- **Subscriptions**: Real-time updates via WebSocket
+- **Local state management**: Manage local state with GraphQL
+- **DevTools**: Powerful Apollo DevTools browser extension
 
-<XIcon /> Complex API
+### Installation
 
-<XIcon /> Learning curve
+```bash
+yarn add @apollo/client graphql
+```
 
-<XIcon /> Primarily Chinese community
+### Setup
 
-### Use Cases
+```typescript
+// lib/apollo-client.ts
+import { ApolloClient, InMemoryCache, HttpLink } from '@apollo/client';
 
-- Large-scale dashboards
-- Big data visualization
-- Complex charts
-- Enterprise applications
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://api.example.com/graphql',
+  }),
+  cache: new InMemoryCache(),
+});
 
-### Resources
+export default client;
+```
 
-- [Official Website](https://echarts.apache.org/)
-- [Documentation](https://echarts.apache.org/en/option.html)
-- [Examples](https://echarts.apache.org/examples/)
-- [GitHub](https://github.com/apache/echarts)
+```typescript
+// app/layout.tsx
+'use client';
 
----
+import { ApolloProvider } from '@apollo/client';
+import client from '@/lib/apollo-client';
 
-## Comparison Table
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        <ApolloProvider client={client}>
+          {children}
+        </ApolloProvider>
+      </body>
+    </html>
+  );
+}
+```
 
-| Library | Size | Rendering | Framework | Chart Types | Learning Curve | Best For |
-|---------|------|-----------|-----------|-------------|----------------|----------|
-| **Chart.js** | 60KB | Canvas | Any | 8 | Easy | Simple charts, performance |
-| **D3.js** | 240KB | SVG | Any | Custom | Hard | Custom visualizations |
-| **Recharts** | 50KB | SVG | React | 12+ | Easy | React apps, composable |
-| **ApexCharts** | 140KB | Canvas/SVG | Any | 20+ | Easy | Feature-rich, modern |
-| **Nivo** | 35KB | SVG/Canvas | React | 20+ | Moderate | Beautiful defaults |
-| **Victory** | 55KB | SVG | React/RN | 15+ | Moderate | Animations, React Native |
-| **Plotly.js** | 3MB | WebGL/SVG | Any | 40+ | Moderate | 3D, scientific charts |
-| **ECharts** | 400KB | Canvas/SVG | Any | 20+ | Moderate | Big data, complex viz |
+### Basic Queries
 
-## Choosing Guide
+```typescript
+'use client';
 
-### By Framework
+import { useQuery, gql } from '@apollo/client';
 
-**React:**
-- Recharts (easiest)
-- Nivo (beautiful)
-- Victory (animations)
-- ApexCharts (feature-rich)
+const GET_USERS = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+    }
+  }
+`;
 
-**Vue/Angular:**
-- ApexCharts
-- Chart.js
-- ECharts
+function UsersList() {
+  const { loading, error, data } = useQuery(GET_USERS);
 
-**Vanilla JS:**
-- Chart.js (simplest)
-- ApexCharts (modern)
-- D3.js (custom)
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
-### By Use Case
+  return (
+    <ul>
+      {data.users.map((user: any) => (
+        <li key={user.id}>
+          {user.name} - {user.email}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
 
-**Simple Business Charts:**
-- Chart.js
-- Recharts
+### Mutations
 
-**Dashboards:**
-- ApexCharts
-- ECharts
-- Nivo
+```typescript
+import { useMutation, gql } from '@apollo/client';
 
-**Scientific/3D:**
-- Plotly.js
-- D3.js
+const CREATE_USER = gql`
+  mutation CreateUser($name: String!, $email: String!) {
+    createUser(name: $name, email: $email) {
+      id
+      name
+      email
+    }
+  }
+`;
 
-**Custom Visualizations:**
-- D3.js
-- Visx (React + D3)
+function CreateUserForm() {
+  const [createUser, { loading, error }] = useMutation(CREATE_USER, {
+    refetchQueries: [{ query: GET_USERS }],
+  });
 
-**Large Datasets:**
-- ECharts
-- Chart.js
-- Plotly.js (WebGL)
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
 
-**Mobile (React Native):**
-- Victory
-- react-native-svg-charts
+    await createUser({
+      variables: {
+        name: formData.get('name'),
+        email: formData.get('email'),
+      },
+    });
+  };
 
-### By Priority
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="name" placeholder="Name" required />
+      <input name="email" type="email" placeholder="Email" required />
+      <button disabled={loading}>
+        {loading ? 'Creating...' : 'Create User'}
+      </button>
+      {error && <div>Error: {error.message}</div>}
+    </form>
+  );
+}
+```
 
-**Smallest Bundle:**
-1. Nivo (~35KB per component)
-2. Chart.js (~60KB)
-3. Victory (~55KB)
+### When to Use Apollo Client
 
-**Easiest:**
-1. Chart.js
-2. Recharts
-3. ApexCharts
+<CheckIcon /> **Use Apollo when:**
+- Your API is GraphQL
+- Need powerful caching
+- Want real-time subscriptions
+- Require normalized cache
 
-**Most Flexible:**
-1. D3.js
-2. Visx
-3. ECharts
+<XIcon /> **Avoid Apollo when:**
+- Using REST APIs (use Axios or TanStack Query instead)
+- Want minimal bundle size
+- Don't need GraphQL features
 
-**Best Performance:**
-1. Chart.js (Canvas)
-2. ECharts (Canvas)
-3. Plotly.js (WebGL)
+## tRPC - End-to-End Type Safety
 
-**Best Free Option:**
-1. ApexCharts (feature-rich)
-2. Recharts (React)
-3. Chart.js (simple)
+tRPC enables you to build fully type-safe APIs without schemas or code generation.
 
-## Resources
+### What is tRPC?
 
-### Learning Resources
+tRPC allows you to create type-safe API routes and consume them from your frontend with full TypeScript inference - no code generation required.
 
-- [Observable](https://observablehq.com/) - Interactive notebooks for D3
-- [Data Viz Project](https://datavizproject.com/) - Chart type reference
-- [Chart Chooser](https://depictdatastudio.com/charts/) - Help choosing chart types
+### Key Features
 
-### Tools
+- **End-to-end type safety**: Types automatically inferred
+- **No code generation**: Direct TypeScript inference
+- **RPC-style**: Call backend functions like local functions
+- **Lightweight**: Minimal runtime overhead
+- **Framework agnostic**: Works with Express, Fastify, Next.js
+- **Subscriptions**: Real-time support via WebSockets
 
-- [RAWGraphs](https://www.rawgraphs.io/) - Visual data exploration
-- [Flourish](https://flourish.studio/) - No-code visualizations
-- [Datawrapper](https://www.datawrapper.de/) - Quick charts and maps
+### Installation
 
-### Communities
+```bash
+yarn add @trpc/server @trpc/client @trpc/react-query @trpc/next
+yarn add @tanstack/react-query
+```
 
-- [r/dataisbeautiful](https://www.reddit.com/r/dataisbeautiful/)
-- [Data Visualization Society](https://www.datavisualizationsociety.org/)
-- [Observable Community](https://observablehq.com/)
+### Setup
 
----
+```typescript
+// server/trpc.ts
+import { initTRPC } from '@trpc/server';
 
-The charting library landscape is rich and diverse. While Recharts and ApexCharts are excellent choices for most projects, these alternatives offer unique benefits for specific use cases. Choose based on your framework, chart complexity, performance needs, and team expertise.
+const t = initTRPC.create();
+
+export const router = t.router;
+export const publicProcedure = t.procedure;
+```
+
+```typescript
+// server/routers/_app.ts
+import { router, publicProcedure } from '../trpc';
+import { z } from 'zod';
+
+export const appRouter = router({
+  hello: publicProcedure
+    .input(z.object({ name: z.string() }))
+    .query(({ input }) => {
+      return { greeting: `Hello ${input.name}!` };
+    }),
+
+  getUsers: publicProcedure.query(async () => {
+    const users = await db.user.findMany();
+    return users;
+  }),
+
+  createUser: publicProcedure
+    .input(z.object({
+      name: z.string(),
+      email: z.string().email(),
+    }))
+    .mutation(async ({ input }) => {
+      const user = await db.user.create({ data: input });
+      return user;
+    }),
+});
+
+export type AppRouter = typeof appRouter;
+```
+
+```typescript
+// lib/trpc.ts (client)
+import { createTRPCReact } from '@trpc/react-query';
+import type { AppRouter } from '@/server/routers/_app';
+
+export const trpc = createTRPCReact<AppRouter>();
+```
+
+### Using tRPC
+
+```typescript
+'use client';
+
+import { trpc } from '@/lib/trpc';
+
+function UsersList() {
+  // Fully typed!
+  const { data, isLoading } = trpc.getUsers.useQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+
+  return (
+    <ul>
+      {data?.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+function CreateUser() {
+  const utils = trpc.useContext();
+  
+  const createUser = trpc.createUser.useMutation({
+    onSuccess: () => {
+      // Invalidate and refetch
+      utils.getUsers.invalidate();
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget as HTMLFormElement);
+    
+    createUser.mutate({
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+    });
+  };
+
+  return <form onSubmit={handleSubmit}>{/* form fields */}</form>;
+}
+```
+
+### When to Use tRPC
+
+<CheckIcon /> **Use tRPC when:**
+- Full-stack TypeScript project
+- Want end-to-end type safety
+- Control both frontend and backend
+- Using Next.js or similar framework
+
+<XIcon /> **Avoid tRPC when:**
+- Backend is not TypeScript
+- Need public REST API
+- Third-party API integration
+- Team prefers GraphQL
+
+## Fetch Alternatives
+
+### ky - Modern Fetch Wrapper
+
+Ky is a tiny and elegant HTTP client based on the Fetch API.
+
+```bash
+yarn add ky
+```
+
+```typescript
+import ky from 'ky';
+
+// Simple usage
+const users = await ky.get('https://api.example.com/users').json();
+
+// With options
+const user = await ky.post('https://api.example.com/users', {
+  json: { name: 'John', email: 'john@example.com' },
+  headers: { Authorization: 'Bearer token' },
+  timeout: 5000,
+  retry: 3,
+}).json();
+
+// Error handling
+try {
+  await ky.post('https://api.example.com/users', { json: userData });
+} catch (error) {
+  if (error.name === 'HTTPError') {
+    const errorJson = await error.response.json();
+    console.error(errorJson);
+  }
+}
+```
+
+**Use when:** You want a modern, lightweight fetch wrapper with better defaults.
+
+### ofetch - Fetch with Better Defaults
+
+Created by Nuxt team, ofetch provides a better fetch experience.
+
+```bash
+yarn add ofetch
+```
+
+```typescript
+import { ofetch } from 'ofetch';
+
+// Automatic JSON parsing
+const users = await ofetch('https://api.example.com/users');
+
+// With base URL
+const api = ofetch.create({
+  baseURL: 'https://api.example.com',
+  headers: { Authorization: 'Bearer token' }
+});
+
+const users = await api('/users');
+const user = await api('/users', {
+  method: 'POST',
+  body: { name: 'John' }
+});
+```
+
+**Use when:** You want a fetch-like API with automatic JSON parsing and better error handling.
+
+## Comparison Matrix
+
+| Library | Size | Type | Best For | Learning Curve |
+|---------|------|------|----------|----------------|
+| **Axios** | ~15KB | HTTP Client | REST APIs, request/response interceptors | Easy |
+| **TanStack Query** | ~40KB | State Management | Caching, background updates, complex state | Moderate |
+| **SWR** | ~4KB | React Hooks | Simple caching, Next.js apps | Easy |
+| **Apollo Client** | ~33KB | GraphQL Client | GraphQL APIs, normalized cache | Moderate-Hard |
+| **tRPC** | ~10KB | Type-safe RPC | Full-stack TypeScript, type safety | Moderate |
+| **Refine** | ~100KB+ | Framework | Admin panels, CRUD apps | Moderate |
+| **ky** | ~2KB | Fetch Wrapper | Modern fetch alternative | Easy |
+| **ofetch** | ~3KB | Fetch Wrapper | Universal fetch with JSON parsing | Easy |
+
+## Decision Guide
+
+### Choose Axios when:
+- Need robust HTTP client
+- Want request/response interceptors
+- Prefer promise-based API
+- Support older browsers
+
+### Choose TanStack Query when:
+- Need sophisticated caching
+- Want automatic background updates
+- Building complex data-driven apps
+- Need optimistic updates
+
+### Choose SWR when:
+- Using Next.js
+- Want lightweight solution
+- Need simple caching
+- Prefer minimal configuration
+
+### Choose Apollo Client when:
+- API is GraphQL
+- Need normalized caching
+- Want real-time subscriptions
+- Require advanced GraphQL features
+
+### Choose tRPC when:
+- Full-stack TypeScript project
+- Want end-to-end type safety
+- Control both frontend and backend
+- No need for public REST API
+
+### Choose Refine when:
+- Building admin panel or dashboard
+- Need complete CRUD solution
+- Want rapid development
+- Require authentication and permissions
+
+### Choose ky/ofetch when:
+- Need lightweight fetch alternative
+- Want better defaults than native fetch
+- Don't need caching or state management
+- Prefer modern, simple API
+
+## Combining Libraries
+
+You can combine libraries for more power:
+
+### Axios + TanStack Query
+
+```typescript
+import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
+
+const api = axios.create({
+  baseURL: 'https://api.example.com'
+});
+
+function Users() {
+  const { data } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await api.get('/users');
+      return response.data;
+    }
+  });
+
+  return <div>{/* Render users */}</div>;
+}
+```
+
+### SWR + Axios
+
+```typescript
+import useSWR from 'swr';
+import axios from 'axios';
+
+const fetcher = (url: string) => axios.get(url).then(res => res.data);
+
+function Profile() {
+  const { data } = useSWR('/api/user', fetcher);
+  return <div>{data?.name}</div>;
+}
+```
+
+### tRPC + TanStack Query
+
+tRPC is built on TanStack Query, so you get both benefits automatically:
+
+```typescript
+const { data } = trpc.getUsers.useQuery();
+// Uses TanStack Query under the hood with full type safety
+```
+
+## Best Practices
+
+### 1. Choose Based on Project Needs
+
+Don't over-engineer. For simple projects:
+```typescript
+// Simple project - just fetch
+const data = await fetch('/api/users').then(r => r.json());
+```
+
+For complex projects, use appropriate tools.
+
+### 2. Consider Bundle Size
+
+Check bundle sizes with Bundle Analyzer:
+```bash
+yarn add -D @next/bundle-analyzer
+```
+
+### 3. Use TypeScript
+
+All modern libraries support TypeScript. Use it:
+```typescript
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+const { data } = useQuery<User[]>({
+  queryKey: ['users'],
+  queryFn: fetchUsers
+});
+```
+
+### 4. Implement Error Boundaries
+
+```typescript
+import { ErrorBoundary } from 'react-error-boundary';
+
+function App() {
+  return (
+    <ErrorBoundary fallback={<ErrorFallback />}>
+      <DataComponent />
+    </ErrorBoundary>
+  );
+}
+```
+
+### 5. Monitor Performance
+
+Use React DevTools Profiler and browser DevTools to monitor:
+- Request timing
+- Re-render frequency
+- Bundle size impact
+- Cache hit rates
+
+## Summary
+
+The JavaScript ecosystem offers diverse data fetching solutions:
+
+- **Axios**: Robust HTTP client with interceptors
+- **TanStack Query**: Powerful caching and state management
+- **SWR**: Lightweight with smart defaults
+- **Apollo Client**: Comprehensive GraphQL solution
+- **tRPC**: End-to-end type safety
+- **Refine**: Complete CRUD framework
+- **ky/ofetch**: Modern fetch alternatives
+
+Choose based on:
+1. **API type** (REST vs GraphQL)
+2. **Project scale** (simple vs complex)
+3. **Bundle size** constraints
+4. **Type safety** requirements
+5. **Team expertise**
+6. **Specific features** needed
+
+Most projects will benefit from combining multiple libraries - for example, using Axios for HTTP calls with TanStack Query for caching and state management, or tRPC with its built-in TanStack Query integration for full-stack TypeScript applications.
+
+The key is understanding your project's requirements and choosing tools that solve your specific problems without unnecessary complexity.
