@@ -1,0 +1,1229 @@
+---
+title: Google Maps Integration
+description: Complete guide to integrating Google Maps JavaScript API in Next.js applications with React components and TypeScript support.
+---
+
+## Introduction to Google Maps JavaScript API
+
+The Google Maps JavaScript API is the industry-leading mapping platform, powering millions of websites worldwide. With comprehensive global coverage, rich ecosystem of services, and familiar user experience, Google Maps provides unmatched capabilities for location-based applications.
+
+<img src="https://static.vecteezy.com/system/resources/previews/016/716/478/non_2x/google-maps-icon-free-png.png" alt="Google Maps" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+### Key Features
+
+**Comprehensive Data**
+- Global coverage with detailed mapping data
+- Points of Interest (POI) information
+- Traffic data and real-time conditions
+- Business listings and reviews
+- Street View imagery
+
+**Rich Ecosystem**
+- Places API for location search
+- Geocoding and reverse geocoding
+- Directions API for routing
+- Distance Matrix API
+- Elevation API
+
+**Familiar Experience**
+- Interface users already know
+- Consistent across platforms
+- Mobile-optimized controls
+- Accessibility features built-in
+
+**Advanced Capabilities**
+- Custom map styling
+- 3D buildings and terrain
+- Drawing tools
+- Heatmaps and overlays
+- Data visualization layers
+
+### Getting Started
+
+#### Obtaining an API Key
+
+1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+2. Create a new project or select existing one
+3. Enable Google Maps JavaScript API
+4. Create credentials (API Key)
+5. Restrict API key to your domain(s)
+
+**Environment Setup**
+```bash
+# .env.local
+NEXT_PUBLIC_GOOGLE_MAPS_KEY=your_google_maps_api_key_here
+```
+
+**API Key Restrictions (Recommended)**
+- HTTP referrer restrictions
+- API restrictions (only enable needed APIs)
+- Usage quotas and alerts
+
+### Installation
+
+#### Using @react-google-maps/api
+
+This is the recommended library for React integration:
+
+```bash
+yarn add @react-google-maps/api
+```
+
+For TypeScript support (types are included):
+```bash
+yarn add @react-google-maps/api @types/google.maps
+```
+
+#### Alternative: @googlemaps/react-wrapper
+
+Official Google wrapper (more lightweight):
+
+```bash
+yarn add @googlemaps/react-wrapper
+```
+
+### Basic Setup
+
+#### Simple Map Component
+
+```typescript
+'use client';
+
+import { useLoadScript, GoogleMap } from '@react-google-maps/api';
+import { useMemo } from 'react';
+
+const mapContainerStyle = {
+  width: '100%',
+  height: '600px'
+};
+
+const center = {
+  lat: 40.7128,
+  lng: -74.0060
+};
+
+export default function SimpleMap() {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  const options = useMemo<google.maps.MapOptions>(
+    () => ({
+      disableDefaultUI: false,
+      clickableIcons: true,
+      scrollwheel: true,
+    }),
+    []
+  );
+
+  if (loadError) {
+    return <div>Error loading maps</div>;
+  }
+
+  if (!isLoaded) {
+    return <div>Loading maps...</div>;
+  }
+
+  return (
+    <GoogleMap
+      mapContainerStyle={mapContainerStyle}
+      center={center}
+      zoom={12}
+      options={options}
+    />
+  );
+}
+```
+
+#### Controlled Map State
+
+```typescript
+'use client';
+
+import { useState, useCallback } from 'react';
+import { useLoadScript, GoogleMap } from '@react-google-maps/api';
+
+interface MapState {
+  center: google.maps.LatLngLiteral;
+  zoom: number;
+}
+
+export default function ControlledMap() {
+  const [mapState, setMapState] = useState<MapState>({
+    center: { lat: 40.7128, lng: -74.0060 },
+    zoom: 12
+  });
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  const onLoad = useCallback((map: google.maps.Map) => {
+    console.log('Map loaded:', map);
+  }, []);
+
+  const onCenterChanged = useCallback(() => {
+    // Called when map center changes
+  }, []);
+
+  const onZoomChanged = useCallback(() => {
+    // Called when zoom level changes
+  }, []);
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px' }}>
+        <p>Center: {mapState.center.lat.toFixed(4)}, {mapState.center.lng.toFixed(4)}</p>
+        <p>Zoom: {mapState.zoom}</p>
+      </div>
+
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '600px' }}
+        center={mapState.center}
+        zoom={mapState.zoom}
+        onLoad={onLoad}
+        onCenterChanged={onCenterChanged}
+        onZoomChanged={onZoomChanged}
+      />
+    </div>
+  );
+}
+```
+
+### Adding Markers
+
+#### Basic Markers
+
+```typescript
+'use client';
+
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+interface Location {
+  id: number;
+  name: string;
+  position: google.maps.LatLngLiteral;
+}
+
+const locations: Location[] = [
+  { id: 1, name: 'Empire State Building', position: { lat: 40.7484, lng: -73.9857 } },
+  { id: 2, name: 'Central Park', position: { lat: 40.7829, lng: -73.9654 } },
+  { id: 3, name: 'Times Square', position: { lat: 40.7580, lng: -73.9855 } },
+];
+
+export default function MapWithMarkers() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7484, lng: -73.9857 }}
+      zoom={12}
+    >
+      {locations.map(location => (
+        <Marker
+          key={location.id}
+          position={location.position}
+          title={location.name}
+        />
+      ))}
+    </GoogleMap>
+  );
+}
+```
+
+#### Interactive Markers with Info Windows
+
+```typescript
+'use client';
+
+import { useState } from 'react';
+import { useLoadScript, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+
+interface Location {
+  id: number;
+  name: string;
+  description: string;
+  position: google.maps.LatLngLiteral;
+}
+
+const locations: Location[] = [
+  {
+    id: 1,
+    name: 'Empire State Building',
+    description: 'Iconic 102-story Art Deco skyscraper',
+    position: { lat: 40.7484, lng: -73.9857 }
+  },
+  {
+    id: 2,
+    name: 'Central Park',
+    description: 'Urban park in Manhattan, NYC',
+    position: { lat: 40.7829, lng: -73.9654 }
+  },
+  {
+    id: 3,
+    name: 'Times Square',
+    description: 'Major commercial intersection and tourist destination',
+    position: { lat: 40.7580, lng: -73.9855 }
+  },
+];
+
+export default function InteractiveMarkers() {
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7580, lng: -73.9755 }}
+      zoom={ 12}
+      onClick={() => setSelectedLocation(null)}
+    >
+      {locations.map(location => (
+        <Marker
+          key={location.id}
+          position={location.position}
+          onClick={() => setSelectedLocation(location)}
+        />
+      ))}
+
+      {selectedLocation && (
+        <InfoWindow
+          position={selectedLocation.position}
+          onCloseClick={() => setSelectedLocation(null)}
+        >
+          <div style={{ maxWidth: '200px' }}>
+            <h3 style={{ margin: '0 0 8px 0' }}>{selectedLocation.name}</h3>
+            <p style={{ margin: 0 }}>{selectedLocation.description}</p>
+          </div>
+        </InfoWindow>
+      )}
+    </GoogleMap>
+  );
+}
+```
+
+#### Custom Marker Icons
+
+```typescript
+'use client';
+
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+interface CustomLocation {
+  id: number;
+  name: string;
+  type: 'restaurant' | 'hotel' | 'attraction';
+  position: google.maps.LatLngLiteral;
+}
+
+const locations: CustomLocation[] = [
+  { id: 1, name: 'Italian Restaurant', type: 'restaurant', position: { lat: 40.7484, lng: -73.9857 } },
+  { id: 2, name: 'Grand Hotel', type: 'hotel', position: { lat: 40.7829, lng: -73.9654 } },
+  { id: 3, name: 'Museum', type: 'attraction', position: { lat: 40.7580, lng: -73.9855 } },
+];
+
+const markerIcons: Record<string, google.maps.Icon> = {
+  restaurant: {
+    url: '/icons/restaurant-marker.png',
+    scaledSize: new google.maps.Size(40, 40),
+  },
+  hotel: {
+    url: '/icons/hotel-marker.png',
+    scaledSize: new google.maps.Size(40, 40),
+  },
+  attraction: {
+    url: '/icons/attraction-marker.png',
+    scaledSize: new google.maps.Size(40, 40),
+  },
+};
+
+export default function CustomMarkers() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7631, lng: -73.9789 }}
+      zoom: 12
+    >
+      {locations.map(location => (
+        <Marker
+          key={location.id}
+          position={location.position}
+          icon={markerIcons[location.type]}
+          title={location.name}
+        />
+      ))}
+    </GoogleMap>
+  );
+}
+```
+
+### Drawing Shapes
+
+#### Polylines (Routes)
+
+```typescript
+'use client';
+
+import { useLoadScript, GoogleMap, Polyline } from '@react-google-maps/api';
+
+const routePath: google.maps.LatLngLiteral[] = [
+  { lat: 40.7484, lng: -73.9857 },
+  { lat: 40.7589, lng: -73.9851 },
+  { lat: 40.7614, lng: -73.9776 },
+  { lat: 40.7580, lng: -73.9855 },
+];
+
+const polylineOptions: google.maps.PolylineOptions = {
+  strokeColor: '#0088FF',
+  strokeOpacity: 0.8,
+  strokeWeight: 4,
+  geodesic: true,
+};
+
+export default function RouteMap() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7580, lng: -73.9800 }}
+      zoom: 13
+    >
+      <Polyline
+        path={routePath}
+        options={polylineOptions}
+      />
+    </GoogleMap>
+  );
+}
+```
+
+#### Polygons (Areas)
+
+```typescript
+'use client';
+
+import { useLoadScript, GoogleMap, Polygon } from '@react-google-maps/api';
+
+const areaPath: google.maps.LatLngLiteral[] = [
+  { lat: 40.7484, lng: -73.9857 },
+  { lat: 40.7589, lng: -73.9851 },
+  { lat: 40.7614, lng: -73.9776 },
+  { lat: 40.7580, lng: -73.9855 },
+];
+
+const polygonOptions: google.maps.PolygonOptions = {
+  fillColor: '#0088FF',
+  fillOpacity: 0.35,
+  strokeColor: '#0088FF',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+};
+
+export default function AreaMap() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7580, lng: -73.9800 }}
+      zoom: 13
+    >
+      <Polygon
+        paths={areaPath}
+        options={polygonOptions}
+      />
+    </GoogleMap>
+  );
+}
+```
+
+#### Circles
+
+```typescript
+'use client';
+
+import { useLoadScript, GoogleMap, Circle } from '@react-google-maps/api';
+
+const circleOptions: google.maps.CircleOptions = {
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+  radius: 1000, // meters
+};
+
+export default function CircleMap() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7580, lng: -73.9855 }}
+      zoom: 13
+    >
+      <Circle
+        center={{ lat: 40.7580, lng: -73.9855 }}
+        options={circleOptions}
+      />
+    </GoogleMap>
+  );
+}
+```
+
+### Geocoding
+
+#### Address to Coordinates
+
+```typescript
+'use client';
+
+import { useState } from 'react';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+export default function GeocodingMap() {
+  const [address, setAddress] = useState('');
+  const [result, setResult] = useState<google.maps.LatLngLiteral | null>(null);
+  const [error, setError] = useState<string>('');
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  const geocodeAddress = async () => {
+    if (!address || !isLoaded) return;
+
+    const geocoder = new google.maps.Geocoder();
+    
+    try {
+      const response = await geocoder.geocode({ address });
+      
+      if (response.results[0]) {
+        const location = response.results[0].geometry.location;
+        setResult({
+          lat: location.lat(),
+          lng: location.lng()
+        });
+        setError('');
+      } else {
+        setError('No results found');
+      }
+    } catch (err) {
+      setError('Geocoding failed');
+      console.error(err);
+    }
+  };
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px', display: 'flex', gap: '10px' }}>
+        <input
+          type="text"
+          value={address}
+          onChange={e => setAddress(e.target.value)}
+          onKeyPress={e => e.key === 'Enter' && geocodeAddress()}
+          placeholder="Enter an address..."
+          style={{
+            flex: 1,
+            padding: '8px',
+            border: '1px solid #ccc',
+            borderRadius: '4px'
+          }}
+        />
+        <button onClick={geocodeAddress}>Search</button>
+      </div>
+
+      {error && (
+        <div style={{ color: 'red', marginBottom: '10px' }}>{error}</div>
+      )}
+
+      {result && (
+        <div style={{ marginBottom: '10px' }}>
+          Found: {result.lat.toFixed(4)}, {result.lng.toFixed(4)}
+        </div>
+      )}
+
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '600px' }}
+        center={result || { lat: 40.7128, lng: -74.0060 }}
+        zoom={result ? 15 : 12}
+      >
+        {result && <Marker position={result} />}
+      </GoogleMap>
+    </div>
+  );
+}
+```
+
+#### Reverse Geocoding
+
+```typescript
+'use client';
+
+import { useState } from 'react';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+export default function ReverseGeocodingMap() {
+  const [clickedPosition, setClickedPosition] = useState<google.maps.LatLngLiteral | null>(null);
+  const [address, setAddress] = useState<string>('');
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  const handleMapClick = async (e: google.maps.MapMouseEvent) => {
+    if (!e.latLng) return;
+
+    const position = {
+      lat: e.latLng.lat(),
+      lng: e.latLng.lng()
+    };
+
+    setClickedPosition(position);
+
+    // Reverse geocode
+    const geocoder = new google.maps.Geocoder();
+    try {
+      const response = await geocoder.geocode({ location: position });
+      
+      if (response.results[0]) {
+        setAddress(response.results[0].formatted_address);
+      }
+    } catch (err) {
+      console.error('Reverse geocoding failed:', err);
+    }
+  };
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px' }}>
+        <p><strong>Click on the map to get the address</strong></p>
+        {address && (
+          <div style={{
+            padding: '10px',
+            backgroundColor: '#f5f5f5',
+            borderRadius: '4px'
+          }}>
+            <strong>Address:</strong> {address}
+          </div>
+        )}
+      </div>
+
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '600px' }}
+        center={{ lat: 40.7128, lng: -74.0060 }}
+        zoom={12}
+        onClick={handleMapClick}
+      >
+        {clickedPosition && <Marker position={clickedPosition} />}
+      </GoogleMap>
+    </div>
+  );
+}
+```
+
+### Places API Integration
+
+```typescript
+'use client';
+
+import { useState, useCallback } from 'react';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+const libraries: ('places')[] = ['places'];
+
+interface Place {
+  name: string;
+  position: google.maps.LatLngLiteral;
+  placeId: string;
+}
+
+export default function PlacesSearchMap() {
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+    libraries,
+  });
+
+  const onLoad = useCallback((mapInstance: google.maps.Map) => {
+    setMap(mapInstance);
+  }, []);
+
+  const searchPlaces = () => {
+    if (!map || !searchQuery) return;
+
+    const service = new google.maps.places.PlacesService(map);
+    const center = map.getCenter();
+
+    if (!center) return;
+
+    const request: google.maps.places.TextSearchRequest = {
+      query: searchQuery,
+      location: center,
+      radius: 5000,
+    };
+
+    service.textSearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        const newPlaces: Place[] = results.slice(0, 10).map(result => ({
+          name: result.name || 'Unknown',
+          position: {
+            lat: result.geometry?.location?.lat() || 0,
+            lng: result.geometry?.location?.lng() || 0,
+          },
+          placeId: result.place_id || '',
+        }));
+        
+        setPlaces(newPlaces);
+      }
+    });
+  };
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px', display: 'flex', gap: '10px' }}>
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          onKeyPress={e => e.key === 'Enter' && searchPlaces()}
+          placeholder="Search for places (e.g., 'restaurants near me')"
+          style={{
+            flex: 1,
+            padding: '8px',
+            border: '1px solid #ccc',
+            borderRadius: '4px'
+          }}
+        />
+        <button onClick={searchPlaces}>Search</button>
+      </div>
+
+      {places.length > 0 && (
+        <div style={{ marginBottom: '10px' }}>
+          Found {places.length} places
+        </div>
+      )}
+
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '600px' }}
+        center={{ lat: 40.7128, lng: -74.0060 }}
+        zoom={ 13}
+        onLoad={onLoad}
+      >
+        {places.map(place => (
+          <Marker
+            key={place.placeId}
+            position={place.position}
+            title={place.name}
+          />
+        ))}
+      </GoogleMap>
+    </div>
+  );
+}
+```
+
+### Directions API
+
+```typescript
+'use client';
+
+import { useState, useCallback } from 'react';
+import { useLoadScript, GoogleMap, DirectionsRenderer } from '@react-google-maps/api';
+
+export default function DirectionsMap() {
+  const [directions, setDirections] = useState<google.maps.DirectionsResult | null>(null);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+  const [error, setError] = useState('');
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  const calculateRoute = useCallback(async () => {
+    if (!origin || !destination) {
+      setError('Please enter both origin and destination');
+      return;
+    }
+
+    const directionsService = new google.maps.DirectionsService();
+
+    try {
+      const result = await directionsService.route({
+        origin,
+        destination,
+        travelMode: google.maps.TravelMode.DRIVING,
+      });
+
+      setDirections(result);
+      setError('');
+    } catch (err) {
+      setError('Failed to calculate route');
+      console.error(err);
+    }
+  }, [origin, destination]);
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
+          <input
+            type="text"
+            value={origin}
+            onChange={e => setOrigin(e.target.value)}
+            placeholder="Origin"
+            style={{
+              flex: 1,
+              padding: '8px',
+              border: '1px solid #ccc',
+              borderRadius: '4px'
+            }}
+          />
+          <input
+            type="text"
+            value={destination}
+            onChange={e => setDestination(e.target.value)}
+            placeholder="Destination"
+            style={{
+              flex: 1,
+              padding: '8px',
+              border: '1px solid #ccc',
+              borderRadius: '4px'
+            }}
+          />
+          <button onClick={calculateRoute}>Get Directions</button>
+        </div>
+
+        {error && <div style={{ color: 'red' }}>{error}</div>}
+
+        {directions && (
+          <div style={{
+            padding: '10px',
+            backgroundColor: '#f5f5f5',
+            borderRadius: '4px'
+          }}>
+            <strong>Distance:</strong> {directions.routes[0].legs[0].distance?.text}<br />
+            <strong>Duration:</strong> {directions.routes[0].legs[0].duration?.text}
+          </div>
+        )}
+      </div>
+
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '600px' }}
+        center={{ lat: 40.7128, lng: -74.0060 }}
+        zoom={12}
+      >
+        {directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              polylineOptions: {
+                strokeColor: '#0088FF',
+                strokeWeight: 5,
+              },
+            }}
+          />
+        )}
+      </GoogleMap>
+    </div>
+  );
+}
+```
+
+### Map Styling
+
+```typescript
+'use client';
+
+import { useState } from 'react';
+import { useLoadScript, GoogleMap } from '@react-google-maps/api';
+
+// Custom map styles (Silver theme example)
+const silverStyle: google.maps.MapTypeStyle[] = [
+  {
+    elementType: 'geometry',
+    stylers: [{ color: '#f5f5f5' }],
+  },
+  {
+    elementType: 'labels.icon',
+    stylers: [{ visibility: 'off' }],
+  },
+  {
+    elementType: 'labels.text.fill',
+    stylers: [{ color: '#616161' }],
+  },
+  {
+    elementType: 'labels.text.stroke',
+    stylers: [{ color: '#f5f5f5' }],
+  },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [{ color: '#c9c9c9' }],
+  },
+];
+
+// Dark theme
+const darkStyle: google.maps.MapTypeStyle[] = [
+  { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
+  {
+    featureType: 'water',
+    elementType: 'geometry',
+    stylers: [{ color: '#17263c' }],
+  },
+];
+
+const styles = {
+  default: [],
+  silver: silverStyle,
+  dark: darkStyle,
+};
+
+export default function StyledMap() {
+  const [currentStyle, setCurrentStyle] = useState<keyof typeof styles>('default');
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <div style={{ marginBottom: '10px', display: 'flex', gap: '5px' }}>
+        {Object.keys(styles).map(style => (
+          <button
+            key={style}
+            onClick={() => setCurrentStyle(style as keyof typeof styles)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: currentStyle === style ? '#0080ff' : '#f5f5f5',
+              color: currentStyle === style ? 'white' : 'black',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              textTransform: 'capitalize'
+            }}
+          >
+            {style}
+          </button>
+        ))}
+      </div>
+
+      <GoogleMap
+        mapContainerStyle={{ width: '100%', height: '600px' }}
+        center={{ lat: 40.7128, lng: -74.0060 }}
+        zoom={12}
+        options={{
+          styles: styles[currentStyle],
+        }}
+      />
+    </div>
+  );
+}
+```
+
+### Heatmap Layer
+
+```typescript
+'use client';
+
+import { useMemo } from 'react';
+import { useLoadScript, GoogleMap } from '@react-google-maps/api';
+
+const libraries: ('visualization')[] = ['visualization'];
+
+export default function HeatmapExample() {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+    libraries,
+  });
+
+  const heatmapData = useMemo(() => {
+    // Generate random points
+    return Array.from({ length: 500 }, () => {
+      return new google.maps.LatLng(
+        40.7128 + (Math.random() - 0.5) * 0.1,
+        -74.0060 + (Math.random() - 0.5) * 0.1
+      );
+    });
+  }, []);
+
+  const onLoad = (map: google.maps.Map) => {
+    const heatmap = new google.maps.visualization.HeatmapLayer({
+      data: heatmapData,
+      map: map,
+    });
+
+    heatmap.setOptions({
+      radius: 20,
+      opacity: 0.6,
+    });
+  };
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={{ lat: 40.7128, lng: -74.0060 }}
+      zoom={ 13}
+      onLoad={onLoad}
+    />
+  );
+}
+```
+
+### Performance Optimization
+
+#### Memoization and useCallback
+
+```typescript
+'use client';
+
+import { useState, useMemo, useCallback } from 'react';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
+export default function OptimizedMap({ locations }: { locations: any[] }) {
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  // Memoize map options
+  const mapOptions = useMemo<google.maps.MapOptions>(
+    () => ({
+      disableDefaultUI: false,
+      clickableIcons: false,
+      scrollwheel: true,
+    }),
+    []
+  );
+
+  // Memoize marker click handler
+  const handleMarkerClick = useCallback((id: number) => {
+    setSelectedId(id);
+  }, []);
+
+  // Memoize map center
+  const center = useMemo(() => {
+    if (locations.length === 0) {
+      return { lat: 40.7128, lng: -74.0060 };
+    }
+    return {
+      lat: locations[0].lat,
+      lng: locations[0].lng,
+    };
+  }, [locations]);
+
+  if (!isLoaded) return <div>Loading...</div>;
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={center}
+      zoom={12}
+      options={mapOptions}
+    >
+      {locations.map(location => (
+        <Marker
+          key={location.id}
+          position={{ lat: location.lat, lng: location.lng }}
+          onClick={() => handleMarkerClick(location.id)}
+        />
+      ))}
+    </GoogleMap>
+  );
+}
+```
+
+#### Lazy Loading
+
+```typescript
+// app/map-page/page.tsx
+'use client';
+
+import dynamic from 'next/dynamic';
+
+const GoogleMapComponent = dynamic(
+  () => import('@/components/GoogleMapComponent'),
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{
+        width: '100%',
+        height: '600px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f5f5f5'
+      }}>
+        Loading Google Maps...
+      </div>
+    )
+  }
+);
+
+export default function MapPage() {
+  return (
+    <div>
+      <h1>Google Maps Integration</h1>
+      <GoogleMapComponent />
+    </div>
+  );
+}
+```
+
+### TypeScript Best Practices
+
+```typescript
+// types/google-maps.ts
+export interface MapLocation {
+  id: number;
+  name: string;
+  position: google.maps.LatLngLiteral;
+  type: 'restaurant' | 'hotel' | 'attraction';
+}
+
+export interface MapComponentProps {
+  locations: MapLocation[];
+  center?: google.maps.LatLngLiteral;
+  zoom?: number;
+  onLocationClick?: (location: MapLocation) => void;
+}
+
+// components/TypedGoogleMap.tsx
+'use client';
+
+import { useCallback } from 'react';
+import { useLoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import type { MapComponentProps } from '@/types/google-maps';
+
+export default function TypedGoogleMap({
+  locations,
+  center = { lat: 40.7128, lng: -74.0060 },
+  zoom = 12,
+  onLocationClick
+}: MapComponentProps) {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+  });
+
+  const handleMarkerClick = useCallback((location: MapLocation) => {
+    if (onLocationClick) {
+      onLocationClick(location);
+    }
+  }, [onLocationClick]);
+
+  if (loadError) {
+    return <div>Error loading maps: {loadError.message}</div>;
+  }
+
+  if (!isLoaded) {
+    return <div>Loading maps...</div>;
+  }
+
+  return (
+    <GoogleMap
+      mapContainerStyle={{ width: '100%', height: '600px' }}
+      center={center}
+      zoom={zoom}
+    >
+      {locations.map(location => (
+        <Marker
+          key={location.id}
+          position={location.position}
+          onClick={() => handleMarkerClick(location)}
+          title={location.name}
+        />
+      ))}
+    </GoogleMap>
+  );
+}
+```
+
+### Best Practices
+
+**1. Secure API Key Management**
+```bash
+NEXT_PUBLIC_GOOGLE_MAPS_KEY=your_api_key
+```
+
+**2. Restrict API Keys**
+- Add HTTP referrer restrictions
+- Enable only required APIs
+- Set usage quotas
+
+**3. Lazy Load Maps**
+```typescript
+const Map = dynamic(() => import('./Map'), { ssr: false });
+```
+
+**4. Memoize Options**
+```typescript
+const options = useMemo(() => ({ /* options */ }), []);
+```
+
+**5. Handle Loading States**
+```typescript
+if (!isLoaded) return <div>Loading...</div>;
+if (loadError) return <div>Error loading maps</div>;
+```
+
+**6. Use useCallback for Event Handlers**
+```typescript
+const handleClick = useCallback(() => { /* ... */ }, [deps]);
+```
+
+**7. Monitor API Usage**
+- Set up billing alerts
+- Track API calls in Cloud Console
+- Optimize marker clustering for large datasets
+
+Google Maps provides the most comprehensive mapping solution with unmatched global coverage, rich services ecosystem, and familiar user experience, making it ideal for location-based applications requiring high-quality data and advanced features.

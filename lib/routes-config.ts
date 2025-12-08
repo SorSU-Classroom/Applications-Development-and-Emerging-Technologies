@@ -536,6 +536,29 @@ export const ROUTES: EachRoute[] = [
             href: "/more-file-upload-and-management-libraries",
           }
         ]
+      },
+      {
+        title: "Maps and Geolocation",
+        href: "/maps-and-geolocation",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "React Map GL",
+            href: "/react-map-gl",
+          },
+          {
+            title: "Google Maps",
+            href: "/google-maps",
+          },
+          {
+            title: "More Maps and Geolocation Libraries",
+            href: "/more-maps-and-geolocation-libraries",
+          }
+        ]
       }
     ],
   }
