@@ -479,6 +479,29 @@ export const ROUTES: EachRoute[] = [
             href: "/more-charts-and-data-visualization-libraries",
           }
         ]
+      },
+      {
+        title: "Forms and Validation Libraries",
+        href: "/forms-and-validation",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "React Hook Form",
+            href: "/react-hook-form",
+          },
+          {
+            title: "Zod and Yup",
+            href: "/zod-and-yup",
+          },
+          {
+            title: "More Forms and Validation Libraries",
+            href: "/more-forms-and-validation-libraries",
+          }
+        ]
       }
     ],
   }
@@ -486,16 +509,16 @@ export const ROUTES: EachRoute[] = [
 
 type Page = { title: string; href: string };
 
-function getRecurrsiveAllLinks(node: EachRoute) {
+function getRecursiveAllLinks(node: EachRoute) {
   const ans: Page[] = [];
   if (!node.noLink) {
     ans.push({ title: node.title, href: node.href });
   }
   node.items?.forEach((subNode) => {
     const temp = { ...subNode, href: `${node.href}${subNode.href}` };
-    ans.push(...getRecurrsiveAllLinks(temp));
+    ans.push(...getRecursiveAllLinks(temp));
   });
   return ans;
 }
 
-export const page_routes = ROUTES.map((it) => getRecurrsiveAllLinks(it)).flat();
+export const page_routes = ROUTES.map((it) => getRecursiveAllLinks(it)).flat();

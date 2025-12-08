@@ -1,0 +1,950 @@
+---
+title: Zod and Yup
+description: Learn about Zod and Yup, two powerful schema validation libraries for building type-safe, robust form validation in Next.js applications.
+---
+
+## Introduction to Schema Validation
+
+Schema validation libraries provide a declarative way to define the structure and constraints of your data. Instead of writing imperative validation logic, you define a schema that describes what valid data looks like, and the library handles the validation, type inference, and error messages.
+
+## Zod
+
+<img src="https://zod.dev/logo.svg" alt="Zod" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Zod** is a TypeScript-first schema validation library designed with developer experience in mind. It provides static type inference, meaning your TypeScript types are automatically derived from your schemas, ensuring your validation logic and types are always in sync.
+
+### Key Features
+
+- **TypeScript-First**: Native TypeScript support with automatic type inference
+- **Zero Dependencies**: No external dependencies, keeping bundle size minimal (~8kB)
+- **Composable**: Chain methods to build complex schemas
+- **Immutable**: Methods return new schema instances
+- **Rich Validation**: Extensive built-in validators
+- **Custom Error Messages**: Easy to customize validation messages
+- **Async Support**: Built-in async validation
+- **Schema Transformation**: Transform data during validation
+
+### Installation
+
+```bash
+yarn add zod
+```
+
+### Basic Usage
+
+#### Defining Schemas
+
+```typescript
+import { z } from 'zod';
+
+// Primitive types
+const stringSchema = z.string();
+const numberSchema = z.number();
+const booleanSchema = z.boolean();
+const dateSchema = z.date();
+
+// Object schema
+const userSchema = z.object({
+  name: z.string(),
+  email: z.string().email(),
+  age: z.number().min(18)
+});
+
+// Array schema
+const numbersSchema = z.array(z.number());
+const usersSchema = z.array(userSchema);
+
+// Tuple schema
+const coordinatesSchema = z.tuple([z.number(), z.number()]);
+
+// Union types
+const idSchema = z.union([z.string(), z.number()]);
+// or using shorthand
+const idSchema2 = z.string().or(z.number());
+
+// Enum
+const roleSchema = z.enum(['admin', 'user', 'guest']);
+
+// Literal values
+const statusSchema = z.literal('active');
+```
+
+#### Type Inference
+
+```typescript
+import { z } from 'zod';
+
+const userSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string().email(),
+  role: z.enum(['admin', 'user']),
+  createdAt: z.date()
+});
+
+// Extract the TypeScript type
+type User = z.infer<typeof userSchema>;
+// Result:
+// {
+//   id: number;
+//   name: string;
+//   email: string;
+//   role: 'admin' | 'user';
+//   createdAt: Date;
+// }
+```
+
+### String Validations
+
+```typescript
+const schema = z.string()
+  .min(3, 'Must be at least 3 characters')
+  .max(50, 'Must be at most 50 characters')
+  .email('Invalid email address')
+  .url('Invalid URL')
+  .uuid('Invalid UUID')
+  .regex(/^[a-zA-Z0-9_]+$/, 'Only alphanumeric and underscore')
+  .startsWith('https://', 'Must start with https://')
+  .endsWith('.com', 'Must end with .com')
+  .trim()  // Remove whitespace
+  .toLowerCase()  // Convert to lowercase
+  .toUpperCase(); // Convert to uppercase
+
+// IP addresses
+const ipv4Schema = z.string().ip({ version: 'v4' });
+const ipv6Schema = z.string().ip({ version: 'v6' });
+
+// Date/Time strings
+const datetimeSchema = z.string().datetime();
+const dateSchema = z.string().date();
+const timeSchema = z.string().time();
+
+// Length
+const exactLength = z.string().length(10, 'Must be exactly 10 characters');
+```
+
+### Number Validations
+
+```typescript
+const schema = z.number()
+  .min(0, 'Must be at least 0')
+  .max(100, 'Must be at most 100')
+  .int('Must be an integer')
+  .positive('Must be positive')
+  .negative('Must be negative')
+  .nonnegative('Must be non-negative')
+  .nonpositive('Must be non-positive')
+  .multipleOf(5, 'Must be multiple of 5')
+  .finite('Must be finite')
+  .safe('Must be safe integer');
+
+// Greater than / Less than
+const gtSchema = z.number().gt(10);  // Greater than 10
+const ltSchema = z.number().lt(100); // Less than 100
+const gteSchema = z.number().gte(10);  // Greater than or equal to 10
+const lteSchema = z.number().lte(100); // Less than or equal to 100
+```
+
+### Object Validations
+
+```typescript
+const addressSchema = z.object({
+  street: z.string(),
+  city: z.string(),
+  zipCode: z.string().regex(/^\d{5}$/)
+});
+
+const userSchema = z.object({
+  name: z.string(),
+  age: z.number(),
+  email: z.string().email(),
+  address: addressSchema,
+  // Optional fields
+  phone: z.string().optional(),
+  // Nullable fields
+  middleName: z.string().nullable(),
+  // Optional and nullable
+  nickname: z.string().optional().nullable()
+});
+
+// Partial - make all fields optional
+const partialUserSchema = userSchema.partial();
+
+// Pick - select specific fields
+const nameEmailSchema = userSchema.pick({ name: true, email: true });
+
+// Omit - exclude specific fields
+const userWithoutEmailSchema = userSchema.omit({ email: true });
+
+// Extend - add new fields
+const extendedUserSchema = userSchema.extend({
+  role: z.enum(['admin', 'user'])
+});
+
+// Merge - combine two object schemas
+const mergedSchema = userSchema.merge(addressSchema);
+
+// Passthrough - allow unknown keys
+const passthroughSchema = userSchema.passthrough();
+
+// Strict - disallow unknown keys
+const strictSchema = userSchema.strict();
+
+// Catchall - handle unknown keys
+const catchallSchema = userSchema.catchall(z.string());
+```
+
+### Array Validations
+
+```typescript
+const schema = z.array(z.string())
+  .min(1, 'At least one item required')
+  .max(10, 'Maximum 10 items')
+  .length(5, 'Must have exactly 5 items')
+  .nonempty('Array cannot be empty');
+
+// Transform arrays
+const uniqueArraySchema = z.array(z.string())
+  .transform((arr) => [...new Set(arr)]);
+```
+
+### Advanced Features
+
+#### Optional and Nullable
+
+```typescript
+// Optional - can be undefined
+const optionalString = z.string().optional();
+// Type: string | undefined
+
+// Nullable - can be null
+const nullableString = z.string().nullable();
+// Type: string | null
+
+// Both
+const optionalNullableString = z.string().optional().nullable();
+// Type: string | null | undefined
+
+// Default values
+const stringWithDefault = z.string().default('default value');
+```
+
+#### Refinements (Custom Validation)
+
+```typescript
+const passwordSchema = z.string()
+  .min(8)
+  .refine((val) => /[A-Z]/.test(val), {
+    message: 'Must contain uppercase letter'
+  })
+  .refine((val) => /[a-z]/.test(val), {
+    message: 'Must contain lowercase letter'
+  })
+  .refine((val) => /[0-9]/.test(val), {
+    message: 'Must contain number'
+  });
+
+// Multiple refinements
+const userSchema = z.object({
+  password: z.string(),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword']  // Error path
+});
+```
+
+#### Transformations
+
+```typescript
+// Transform string to number
+const stringToNumber = z.string().transform((val) => parseInt(val, 10));
+
+// Transform and validate
+const trimmedEmail = z.string()
+  .transform((val) => val.trim().toLowerCase())
+  .pipe(z.string().email());
+
+// Parse dates
+const dateSchema = z.string()
+  .transform((str) => new Date(str))
+  .refine((date) => !isNaN(date.getTime()), {
+    message: 'Invalid date'
+  });
+```
+
+#### Async Validation
+
+```typescript
+const usernameSchema = z.string()
+  .min(3)
+  .refine(async (username) => {
+    const response = await fetch(`/api/check-username/${username}`);
+    return response.ok;
+  }, {
+    message: 'Username already taken'
+  });
+
+// Use with parseAsync
+const result = await usernameSchema.parseAsync('johndoe');
+```
+
+### Parsing and Validation
+
+```typescript
+const userSchema = z.object({
+  name: z.string(),
+  age: z.number()
+});
+
+// parse - throws error on failure
+try {
+  const user = userSchema.parse({ name: 'John', age: 30 });
+  console.log(user); // { name: 'John', age: 30 }
+} catch (error) {
+  console.error(error); // ZodError
+}
+
+// safeParse - returns result object
+const result = userSchema.safeParse({ name: 'John', age: '30' });
+
+if (result.success) {
+  console.log(result.data); // Validated data
+} else {
+  console.log(result.error); // ZodError with details
+}
+
+// Async parsing
+const asyncResult = await userSchema.parseAsync(data);
+const asyncSafeResult = await userSchema.safeParseAsync(data);
+```
+
+### Error Handling
+
+```typescript
+const schema = z.object({
+  email: z.string().email(),
+  age: z.number().min(18)
+});
+
+const result = schema.safeParse({
+  email: 'invalid',
+  age: 15
+});
+
+if (!result.success) {
+  // Access all errors
+  console.log(result.error.issues);
+  
+  // Format errors
+  const formatted = result.error.format();
+  /*
+  {
+    email: { _errors: ['Invalid email'] },
+    age: { _errors: ['Must be at least 18'] }
+  }
+  */
+  
+  // Flatten errors
+  const flattened = result.error.flatten();
+  /*
+  {
+    formErrors: [],
+    fieldErrors: {
+      email: ['Invalid email'],
+      age: ['Must be at least 18']
+    }
+  }
+  */
+}
+```
+
+### With React Hook Form
+
+```tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+
+const registrationSchema = z.object({
+  username: z.string().min(3).max(20),
+  email: z.string().email(),
+  password: z.string().min(8),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ['confirmPassword']
+});
+
+type RegistrationData = z.infer<typeof registrationSchema>;
+
+function RegistrationForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<RegistrationData>({
+    resolver: zodResolver(registrationSchema)
+  });
+
+  const onSubmit = (data: RegistrationData) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('username')} />
+      {errors.username && <span>{errors.username.message}</span>}
+      
+      <input {...register('email')} />
+      {errors.email && <span>{errors.email.message}</span>}
+      
+      <input {...register('password')} type="password" />
+      {errors.password && <span>{errors.password.message}</span>}
+      
+      <input {...register('confirmPassword')} type="password" />
+      {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+      
+      <button type="submit">Register</button>
+    </form>
+  );
+}
+```
+
+---
+
+## Yup
+
+<img src="https://github.com/jquense/yup/raw/master/yup-logo.png" alt="Yup" width="128px" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+**Yup** is a mature, feature-rich schema validation library that has been the standard in the React ecosystem for years. It provides an expressive API for defining validation schemas with excellent support for complex validation scenarios.
+
+### Key Features
+
+- **Mature & Stable**: Battle-tested in production
+- **Expressive API**: Chainable, intuitive method calls
+- **Rich Validators**: Extensive built-in validation methods
+- **Async Support**: Built-in async validation
+- **Internationalization**: Easy to localize error messages
+- **Transformations**: Transform values during validation
+- **Custom Methods**: Extend with custom validation logic
+- **Cross-Field Validation**: Validate fields based on other fields
+
+### Installation
+
+```bash
+yarn add yup
+```
+
+### Basic Usage
+
+#### Defining Schemas
+
+```javascript
+import * as yup from 'yup';
+
+// Primitive types
+const stringSchema = yup.string();
+const numberSchema = yup.number();
+const booleanSchema = yup.boolean();
+const dateSchema = yup.date();
+
+// Object schema
+const userSchema = yup.object({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  age: yup.number().positive().integer().min(18)
+});
+
+// Array schema
+const numbersSchema = yup.array().of(yup.number());
+const usersSchema = yup.array().of(userSchema);
+
+// Tuple schema
+const coordinatesSchema = yup.tuple([
+  yup.number().required(),
+  yup.number().required()
+]);
+
+// Mixed (any type)
+const mixedSchema = yup.mixed();
+
+// OneOf (enum-like)
+const roleSchema = yup.string().oneOf(['admin', 'user', 'guest']);
+```
+
+#### Type Inference
+
+```typescript
+import * as yup from 'yup';
+import { InferType } from 'yup';
+
+const userSchema = yup.object({
+  id: yup.number().required(),
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  role: yup.string().oneOf(['admin', 'user'] as const).required()
+});
+
+// Extract the TypeScript type
+type User = InferType<typeof userSchema>;
+```
+
+### String Validations
+
+```javascript
+const schema = yup.string()
+  .required('Required field')
+  .min(3, 'Minimum 3 characters')
+  .max(50, 'Maximum 50 characters')
+  .length(10, 'Must be exactly 10 characters')
+  .email('Invalid email')
+  .url('Invalid URL')
+  .uuid('Invalid UUID')
+  .matches(/^[a-zA-Z0-9_]+$/, 'Only alphanumeric and underscore')
+  .trim()  // Remove whitespace
+  .lowercase()  // Convert to lowercase
+  .uppercase(); // Convert to uppercase
+
+// Ensure (never undefined/null)
+const ensuredString = yup.string().ensure();
+```
+
+### Number Validations
+
+```javascript
+const schema = yup.number()
+  .required()
+  .min(0, 'Must be at least 0')
+  .max(100, 'Must be at most 100')
+  .lessThan(100, 'Must be less than 100')
+  .moreThan(0, 'Must be more than 0')
+  .positive('Must be positive')
+  .negative('Must be negative')
+  .integer('Must be an integer')
+  .truncate()  // Truncate decimal
+  .round('floor'); // Round: floor, ceil, trunc, round
+```
+
+### Object Validations
+
+```javascript
+const addressSchema = yup.object({
+  street: yup.string().required(),
+  city: yup.string().required(),
+  zipCode: yup.string().matches(/^\d{5}$/).required()
+});
+
+const userSchema = yup.object({
+  name: yup.string().required(),
+  age: yup.number().required(),
+  email: yup.string().email().required(),
+  address: addressSchema,
+  // Optional fields (not required)
+  phone: yup.string(),
+  // Nullable fields
+  middleName: yup.string().nullable(),
+  // Optional and nullable
+  nickname: yup.string().nullable().notRequired()
+});
+
+// Pick specific fields
+const nameEmailSchema = userSchema.pick(['name', 'email']);
+
+// Omit fields
+const userWithoutEmailSchema = userSchema.omit(['email']);
+
+// Partial - make all fields optional
+const partialUserSchema = userSchema.partial();
+
+// Concat - merge schemas
+const extendedUserSchema = userSchema.concat(
+  yup.object({
+    role: yup.string().oneOf(['admin', 'user']).required()
+  })
+);
+
+// NoUnknown - disallow extra keys
+const strictSchema = userSchema.noUnknown();
+
+// CamelCase - transform keys to camelCase
+const camelCaseSchema = userSchema.camelCase();
+```
+
+### Array Validations
+
+```javascript
+const schema = yup.array()
+  .of(yup.string())
+  .min(1, 'At least one item')
+  .max(10, 'Maximum 10 items')
+  .length(5, 'Exactly 5 items')
+  .ensure()  // Always return array (never undefined/null)
+  .compact(); // Remove falsy values
+
+// Unique items
+const uniqueArraySchema = yup.array()
+  .of(yup.string())
+  .test('unique', 'Items must be unique', (arr) => {
+    return arr.length === new Set(arr).size;
+  });
+```
+
+### Advanced Features
+
+#### Required and Optional
+
+```javascript
+// Required (not undefined/null)
+const requiredString = yup.string().required('This field is required');
+
+// Optional (can be undefined)
+const optionalString = yup.string().notRequired();
+
+// Nullable (can be null)
+const nullableString = yup.string().nullable();
+
+// Both
+const optionalNullableString = yup.string().nullable().notRequired();
+
+// Default values
+const stringWithDefault = yup.string().default('default value');
+```
+
+#### Custom Validation (Test)
+
+```javascript
+const passwordSchema = yup.string()
+  .min(8)
+  .test('has-uppercase', 'Must contain uppercase', (val) => {
+    return /[A-Z]/.test(val);
+  })
+  .test('has-lowercase', 'Must contain lowercase', (val) => {
+    return /[a-z]/.test(val);
+  })
+  .test('has-number', 'Must contain number', (val) => {
+    return /[0-9]/.test(val);
+  });
+
+// Access other fields
+const schema = yup.object({
+  password: yup.string().required(),
+  confirmPassword: yup.string()
+    .required()
+    .test('passwords-match', 'Passwords must match', function(value) {
+      return value === this.parent.password;
+    })
+});
+```
+
+#### Transformations
+
+```javascript
+// Transform string to number
+const stringToNumber = yup.string()
+  .transform((value, originalValue) => {
+    return originalValue === '' ? undefined : Number(originalValue);
+  });
+
+// Trim and lowercase email
+const emailSchema = yup.string()
+  .transform((value) => value.trim().toLowerCase())
+  .email();
+
+// Parse date
+const dateSchema = yup.date()
+  .transform((value, originalValue) => {
+    return originalValue ? new Date(originalValue) : value;
+  });
+```
+
+#### When (Conditional Validation)
+
+```javascript
+const schema = yup.object({
+  isBusiness: yup.boolean(),
+  companyName: yup.string()
+    .when('isBusiness', {
+      is: true,
+      then: (schema) => schema.required('Company name required for business'),
+      otherwise: (schema) => schema.notRequired()
+    })
+});
+
+// Multiple conditions
+const schema = yup.object({
+  country: yup.string(),
+  state: yup.string()
+    .when('country', {
+      is: 'US',
+      then: (schema) => schema.required('State required for US'),
+      otherwise: (schema) => schema.notRequired()
+    }),
+  zipCode: yup.string()
+    .when('country', {
+      is: 'US',
+      then: (schema) => schema.matches(/^\d{5}$/, 'US zip code format'),
+      otherwise: (schema) => schema.notRequired()
+    })
+});
+
+// Function-based conditions
+const schema = yup.object({
+  age: yup.number(),
+  parentsConsent: yup.boolean()
+    .when('age', (age, schema) => {
+      return age < 18 ? schema.required() : schema.notRequired();
+    })
+});
+```
+
+#### Async Validation
+
+```javascript
+const usernameSchema = yup.string()
+  .min(3)
+  .test('check-username', 'Username already taken', async (username) => {
+    const response = await fetch(`/api/check-username/${username}`);
+    return response.ok;
+  });
+
+// Use with validate or validateAsync
+const result = await usernameSchema.validate('johndoe');
+```
+
+### Validation and Parsing
+
+```javascript
+const userSchema = yup.object({
+  name: yup.string().required(),
+  age: yup.number().required()
+});
+
+// validate - throws error on failure
+try {
+  const user = await userSchema.validate({ name: 'John', age: 30 });
+  console.log(user);
+} catch (error) {
+  console.error(error.message);
+  console.error(error.errors); // Array of error messages
+}
+
+// validateSync - synchronous validation
+try {
+  const user = userSchema.validateSync({ name: 'John', age: 30 });
+} catch (error) {
+  console.error(error);
+}
+
+// validateAt - validate specific field
+await userSchema.validateAt('email', { email: 'test@example.com' });
+
+// isValid - returns boolean
+const isValid = await userSchema.isValid({ name: 'John', age: 30 });
+
+// Validation options
+await userSchema.validate(data, {
+  abortEarly: false,  // Collect all errors
+  strict: true,       // Skip type casting
+  stripUnknown: true, // Remove unknown keys
+  context: {}         // Pass context to tests
+});
+```
+
+### Error Handling
+
+```javascript
+const schema = yup.object({
+  email: yup.string().email().required(),
+  age: yup.number().min(18).required()
+});
+
+try {
+  await schema.validate({ email: 'invalid', age: 15 }, {
+    abortEarly: false  // Get all errors
+  });
+} catch (error) {
+  console.log(error.name); // 'ValidationError'
+  console.log(error.errors); // ['email must be valid', 'age must be at least 18']
+  console.log(error.inner); // Array of ValidationError objects
+  
+  // Format errors
+  error.inner.forEach((err) => {
+    console.log(err.path);  // Field name
+    console.log(err.message); // Error message
+    console.log(err.type);  // Error type
+  });
+}
+```
+
+### With React Hook Form
+
+```tsx
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+const registrationSchema = yup.object({
+  username: yup.string().min(3).max(20).required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(8).required(),
+  confirmPassword: yup.string()
+    .required()
+    .test('passwords-match', 'Passwords must match', function(value) {
+      return value === this.parent.password;
+    })
+});
+
+function RegistrationForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: yupResolver(registrationSchema)
+  });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('username')} />
+      {errors.username && <span>{errors.username.message}</span>}
+      
+      <input {...register('email')} />
+      {errors.email && <span>{errors.email.message}</span>}
+      
+      <input {...register('password')} type="password" />
+      {errors.password && <span>{errors.password.message}</span>}
+      
+      <input {...register('confirmPassword')} type="password" />
+      {errors.confirmPassword && <span>{errors.confirmPassword.message}</span>}
+      
+      <button type="submit">Register</button>
+    </form>
+  );
+}
+```
+
+### Custom Error Messages (Localization)
+
+```javascript
+import { setLocale } from 'yup';
+
+setLocale({
+  mixed: {
+    default: 'Invalid value',
+    required: 'This field is required',
+    notType: 'Invalid type'
+  },
+  string: {
+    min: 'Must be at least ${min} characters',
+    max: 'Must be at most ${max} characters',
+    email: 'Invalid email address',
+    url: 'Invalid URL'
+  },
+  number: {
+    min: 'Must be at least ${min}',
+    max: 'Must be at most ${max}',
+    positive: 'Must be positive',
+    integer: 'Must be an integer'
+  }
+});
+```
+
+---
+
+## Zod vs Yup Comparison
+
+| Feature | Zod | Yup |
+|---------|-----|-----|
+| **TypeScript Support** | Native, type-first | Good, requires manual types |
+| **Bundle Size** | ~8kB | ~15kB |
+| **Dependencies** | 0 | Several |
+| **API Style** | Chainable | Chainable |
+| **Type Inference** | Automatic | Manual with InferType |
+| **Maturity** | Growing (2020) | Very Mature (2015) |
+| **Performance** | Excellent | Good |
+| **Learning Curve** | Low | Low |
+| **Async Validation** | ✅ | ✅ |
+| **Transformations** | ✅ | ✅ |
+| **Custom Validation** | refine() | test() |
+| **Conditional Validation** | refine() | when() |
+| **i18n Support** | Manual | Built-in |
+| **Community** | Growing | Large |
+
+## When to Choose Which
+
+### Choose Zod When:
+- Building new TypeScript projects
+- You want automatic type inference
+- You prefer zero dependencies
+- You need modern, type-safe validation
+- Bundle size is a priority
+- You want the latest features
+
+### Choose Yup When:
+- Working with existing projects using Yup
+- You need proven stability
+- Team is familiar with Yup
+- You need built-in i18n support
+- You prefer a mature, battle-tested library
+- Complex validation scenarios are common
+
+## Best Practices
+
+### 1. Use TypeScript with Both Libraries
+
+```typescript
+// Zod - automatic inference
+const zodSchema = z.object({ name: z.string() });
+type ZodUser = z.infer<typeof zodSchema>;
+
+// Yup - manual inference
+const yupSchema = yup.object({ name: yup.string().required() });
+type YupUser = InferType<typeof yupSchema>;
+```
+
+### 2. Compose Complex Schemas
+
+```typescript
+// Zod
+const addressSchema = z.object({ street: z.string(), city: z.string() });
+const userSchema = z.object({ name: z.string(), address: addressSchema });
+
+// Yup
+const addressSchema = yup.object({ street: yup.string(), city: yup.string() });
+const userSchema = yup.object({ name: yup.string(), address: addressSchema });
+```
+
+### 3. Provide Clear Error Messages
+
+```typescript
+// Zod
+z.string().min(3, 'Username must be at least 3 characters');
+
+// Yup
+yup.string().min(3, 'Username must be at least 3 characters');
+```
+
+### 4. Reuse Schemas
+
+```typescript
+// Zod
+const emailSchema = z.string().email();
+const loginSchema = z.object({ email: emailSchema, password: z.string() });
+const registrationSchema = z.object({ email: emailSchema, password: z.string(), name: z.string() });
+
+// Yup
+const emailSchema = yup.string().email().required();
+const loginSchema = yup.object({ email: emailSchema, password: yup.string().required() });
+const registrationSchema = yup.object({ email: emailSchema, password: yup.string().required(), name: yup.string().required() });
+```
+
+## Conclusion
+
+Both Zod and Yup are excellent schema validation libraries with their own strengths. **Zod** offers a modern, TypeScript-first approach with automatic type inference and zero dependencies, making it ideal for new projects. **Yup** provides a mature, battle-tested solution with rich features and extensive community support, making it great for complex applications and teams familiar with its API.
+
+When combined with **React Hook Form**, either library provides a powerful foundation for building robust, type-safe forms in Next.js applications. Choose the one that best fits your project's needs, team expertise, and preference for type safety versus maturity.
