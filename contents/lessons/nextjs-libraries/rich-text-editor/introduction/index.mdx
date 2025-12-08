@@ -1,0 +1,403 @@
+---
+title: Introduction to Rich Text Editors
+description: Understanding rich text editing in web applications and the role of modern editor libraries.
+---
+
+## What is a Rich Text Editor?
+
+A rich text editor (RTE) is a user interface component that allows users to create and edit content with formatting capabilities beyond plain text. These editors provide a "What You See Is What You Get" (WYSIWYG) experience, enabling users to format text, insert media, create tables, and structure documents without writing HTML or Markdown directly.
+
+<img src="https://raw.githubusercontent.com/ueberdosis/tiptap/refs/heads/main/apps/tiptap-docs/public/tiptap-logo.svg" alt="Tiptap Logo" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+Rich text editors are essential for:
+- **Content Management Systems** - Creating articles, blog posts, and documentation
+- **Collaboration Tools** - Real-time document editing and team collaboration
+- **Communication Platforms** - Composing formatted messages and emails
+- **Note-Taking Applications** - Organizing information with structure and styling
+- **Form Builders** - Allowing users to input formatted content
+
+## The Evolution of Rich Text Editors
+
+### Early Solutions (2000s-2010s)
+Traditional rich text editors like TinyMCE and CKEditor dominated the landscape. These editors provided monolithic solutions with pre-built UI components and limited customization options.
+
+**Characteristics:**
+- Opinionated UI and styling
+- Difficult to customize appearance
+- Heavy bundle sizes
+- Limited framework integration
+- Complex configuration
+
+### Modern Headless Editors (2015-Present)
+The rise of modern JavaScript frameworks led to a new generation of headless editors that separate the core editing logic from the presentation layer.
+
+**Key Features:**
+- **Framework Agnostic** - Work with React, Vue, Svelte, or vanilla JavaScript
+- **Headless Architecture** - No default UI, complete control over appearance
+- **Modular Design** - Use only the features you need
+- **Extensible** - Build custom functionality with plugins/extensions
+- **TypeScript Support** - Full type safety and better developer experience
+- **Collaborative Editing** - Built-in support for real-time collaboration
+
+## Common Use Cases
+
+### Content Creation Platforms
+Rich text editors power modern content management systems, allowing authors to create engaging articles with formatted text, images, videos, and embedded content.
+
+```jsx
+// Example: Blog post editor
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+
+export default function BlogEditor() {
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '<p>Start writing your blog post...</p>',
+  })
+
+  return <EditorContent editor={editor} />
+}
+```
+
+### Collaborative Documentation
+Modern editors enable real-time collaboration, allowing multiple users to edit documents simultaneously with conflict resolution and presence awareness.
+
+### Note-Taking Applications
+Rich text editors provide the foundation for sophisticated note-taking apps with features like:
+- Hierarchical document structure
+- Task lists with checkboxes
+- Code syntax highlighting
+- Markdown shortcuts
+- Tag systems
+
+### Communication Tools
+Email clients, messaging apps, and social platforms use rich text editors for composing formatted messages with mentions, emojis, and inline media.
+
+## Architecture of Modern Rich Text Editors
+
+### Document Model
+Modern editors represent content as a structured document tree rather than raw HTML. This approach provides:
+
+**Benefits:**
+- **Consistency** - Enforce document structure and prevent invalid HTML
+- **Transformation** - Easily convert between formats (HTML, Markdown, JSON)
+- **Collaboration** - Efficient operational transformation for real-time editing
+- **Validation** - Ensure content meets schema requirements
+
+### Schema Definition
+Editors use schemas to define valid document structures, specifying which nodes and marks can exist and how they can be nested.
+
+```typescript
+// Example: Document schema concept
+{
+  doc: {
+    content: 'block+',
+  },
+  paragraph: {
+    content: 'inline*',
+    group: 'block',
+  },
+  heading: {
+    content: 'inline*',
+    group: 'block',
+    attrs: { level: { default: 1 } },
+  },
+  text: {
+    group: 'inline',
+  },
+}
+```
+
+### Transaction System
+Editors use immutable transactions to update the document state, providing:
+- **Undo/Redo** - Built-in history management
+- **Change Tracking** - Record and replay document changes
+- **Plugins** - Hook into the transaction pipeline to add custom behavior
+
+## Key Concepts
+
+### Nodes vs Marks
+
+**Nodes** are block or inline content elements that form the document structure:
+- Paragraphs, headings, lists
+- Images, tables, code blocks
+- Custom block components
+
+**Marks** are formatting attributes applied to text ranges:
+- Bold, italic, underline
+- Text color and highlighting
+- Links and annotations
+- Custom text styling
+
+### Extensions and Plugins
+Modern editors use extension systems to add functionality:
+
+**Core Extensions:**
+- Text formatting (bold, italic, underline)
+- Document structure (headings, lists, tables)
+- Media embedding (images, videos, files)
+
+**Advanced Extensions:**
+- Collaboration and comments
+- AI-powered writing assistance
+- Custom content blocks
+- Keyboard shortcuts and commands
+
+### Commands API
+Editors provide command APIs for programmatic content manipulation:
+
+```javascript
+// Example: Editor commands
+editor.commands.toggleBold()
+editor.commands.setHeading({ level: 2 })
+editor.commands.insertContent('<p>New paragraph</p>')
+editor.chain()
+  .focus()
+  .toggleBold()
+  .insertContent('Bold text')
+  .run()
+```
+
+## Choosing a Rich Text Editor
+
+### Evaluation Criteria
+
+**1. Framework Integration**
+- Does it work with your JavaScript framework?
+- Is there official support or just community adapters?
+- How well does it integrate with framework features (state management, routing)?
+
+**2. Customization Requirements**
+- Do you need complete control over UI and styling?
+- Is a headless approach necessary, or is a pre-built UI acceptable?
+- Can you extend functionality with custom features?
+
+**3. Feature Set**
+- What formatting options are required?
+- Do you need collaboration features?
+- Is mobile editing important?
+- Are specialized features (tables, code blocks, embeds) needed?
+
+**4. Performance**
+- How does it handle large documents?
+- What is the bundle size impact?
+- Does it support lazy loading and code splitting?
+
+**5. Developer Experience**
+- Is there comprehensive documentation?
+- Are TypeScript types available?
+- How active is the community and ecosystem?
+- What is the plugin/extension availability?
+
+**6. Maintenance and Support**
+- Is the project actively maintained?
+- What is the release cadence?
+- Is commercial support available?
+- How large is the community?
+
+### Popular Options Comparison
+
+| Editor | Type | Best For | Bundle Size | Learning Curve |
+|--------|------|----------|-------------|----------------|
+| **Tiptap** | Headless | Modern apps, full control | Small (modular) | Medium |
+| **Draft.js** | Headless | React apps, custom UI | Medium | Steep |
+| **Slate** | Headless | Complex documents, custom behavior | Small | Steep |
+| **Quill** | Semi-opinionated | Quick setup, standard features | Medium | Easy |
+| **Lexical** | Headless | Facebook-scale apps, collaboration | Small | Medium |
+| **TinyMCE** | Opinionated | Traditional CMS, full-featured | Large | Easy |
+| **CKEditor** | Opinionated | Enterprise apps, rich features | Large | Easy |
+
+## Next.js Integration Considerations
+
+### Client-Side Rendering
+Rich text editors manipulate the DOM extensively and must run in the browser:
+
+```jsx
+'use client'
+
+import dynamic from 'next/dynamic'
+
+// Load editor only on client side
+const Editor = dynamic(() => import('./Editor'), {
+  ssr: false,
+  loading: () => <p>Loading editor...</p>,
+})
+```
+
+### State Management
+Editor state should be managed carefully to avoid hydration issues:
+
+```jsx
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+
+export default function EditorWrapper() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '<p>Hello World!</p>',
+    immediatelyRender: false, // Prevent SSR issues
+  })
+
+  if (!mounted) return null
+
+  return <EditorContent editor={editor} />
+}
+```
+
+### Performance Optimization
+Large editors can impact page performance:
+
+**Strategies:**
+- Lazy load editor components
+- Debounce autosave operations
+- Use virtual scrolling for large documents
+- Implement code splitting for extensions
+
+## Security Considerations
+
+### Content Sanitization
+Always sanitize user-generated content to prevent XSS attacks:
+
+```javascript
+import DOMPurify from 'isomorphic-dompurify'
+
+// Sanitize HTML before rendering
+const sanitizedContent = DOMPurify.sanitize(userContent, {
+  ALLOWED_TAGS: ['p', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'ul', 'ol', 'li'],
+  ALLOWED_ATTR: ['href', 'class', 'id'],
+})
+```
+
+### Schema Validation
+Use editor schemas to enforce valid document structures:
+
+```typescript
+// Example: Restrict allowed content
+const schema = {
+  nodes: {
+    doc: { content: 'paragraph+' },
+    paragraph: { content: 'text*' },
+    text: {},
+  },
+  marks: {
+    bold: {},
+    italic: {},
+    // No link mark = no links allowed
+  },
+}
+```
+
+### File Upload Security
+When handling file uploads in editors:
+- Validate file types and sizes
+- Scan files for malware
+- Store files securely (CDN, cloud storage)
+- Generate safe, unique filenames
+- Implement access controls
+
+## Accessibility
+
+Modern rich text editors must be accessible to all users:
+
+**ARIA Support:**
+- Proper role attributes (textbox, button, menu)
+- Keyboard navigation for all features
+- Screen reader announcements for actions
+- Focus management and visual indicators
+
+**Keyboard Shortcuts:**
+- Standard formatting shortcuts (Ctrl+B, Ctrl+I)
+- Navigation (arrow keys, Home, End)
+- Custom command shortcuts
+- Help menu with shortcut documentation
+
+**Visual Considerations:**
+- Sufficient color contrast
+- Resizable text and UI elements
+- Focus indicators for keyboard users
+- Clear visual hierarchy
+
+## Performance Best Practices
+
+### Bundle Size Optimization
+```javascript
+// Import only needed extensions
+import { useEditor, EditorContent } from '@tiptap/react'
+import Document from '@tiptap/extension-document'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
+import Bold from '@tiptap/extension-bold'
+import Italic from '@tiptap/extension-italic'
+
+// Smaller bundle than StarterKit if you need few features
+const editor = useEditor({
+  extensions: [Document, Paragraph, Text, Bold, Italic],
+})
+```
+
+### Content Loading
+```javascript
+// Lazy load large content
+const [content, setContent] = useState(null)
+
+useEffect(() => {
+  async function loadContent() {
+    const data = await fetch('/api/document')
+    const json = await data.json()
+    setContent(json.content)
+  }
+  loadContent()
+}, [])
+
+if (!content) return <Skeleton />
+
+return <EditorContent editor={editor} content={content} />
+```
+
+### Autosave Debouncing
+```javascript
+import { useDebounce } from 'use-debounce'
+
+function AutosaveEditor() {
+  const [content, setContent] = useState('')
+  const [debouncedContent] = useDebounce(content, 1000)
+
+  useEffect(() => {
+    // Only save after user stops typing for 1 second
+    if (debouncedContent) {
+      saveContent(debouncedContent)
+    }
+  }, [debouncedContent])
+
+  const editor = useEditor({
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML())
+    },
+  })
+}
+```
+
+## Getting Started
+
+In the following lessons, you'll learn about:
+
+1. **Tiptap** - A powerful headless editor built on ProseMirror with extensive customization options and a rich extension ecosystem
+2. **Alternative Libraries** - Exploring other rich text editor options like Draft.js, Slate, Quill, and Lexical
+
+Each lesson will cover installation, configuration, common use cases, and best practices for building rich text editing experiences in your Next.js applications.
+
+## Additional Resources
+
+- **ProseMirror** - The foundation of many modern editors: [https://prosemirror.net/](https://prosemirror.net/)
+- **ContentEditable** - MDN documentation on contenteditable: [https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/contenteditable)
+- **Operational Transformation** - Understanding real-time collaboration: [https://en.wikipedia.org/wiki/Operational_transformation](https://en.wikipedia.org/wiki/Operational_transformation)
+- **Accessibility in Rich Text Editors** - W3C guidelines: [https://www.w3.org/WAI/tutorials/forms/](https://www.w3.org/WAI/tutorials/forms/)

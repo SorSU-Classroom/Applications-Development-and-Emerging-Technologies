@@ -1,0 +1,1048 @@
+---
+title: More Rich Text Editor Libraries
+description: Exploring alternative rich text editor libraries for different use cases and requirements.
+---
+
+## Alternative Rich Text Editors
+
+While Tiptap is an excellent choice for modern applications, there are several other rich text editor libraries available, each with unique features and design philosophies. This lesson explores popular alternatives to help you choose the right editor for your specific needs.
+
+## Draft.js
+
+Draft.js is a rich text editor framework developed by Facebook (Meta) for React applications. It provides a foundation for building custom editors with complete control over content representation and manipulation.
+
+<img src="https://draftjs.org/img/draftjs-logo.svg" alt="Draft.js Logo" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+### Key Features
+
+- **React-First** - Built specifically for React applications
+- **Immutable Data** - Uses immutable data structures for predictable state management
+- **Content State** - Represents content as structured data, not HTML
+- **Flexible** - Complete control over rendering and behavior
+- **Extensible** - Plugin system for custom functionality
+
+### Installation
+
+```bash
+yarn add draft-js react draft-js
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { useState } from 'react'
+import { Editor, EditorState, RichUtils } from 'draft-js'
+import 'draft-js/dist/Draft.css'
+
+export default function DraftEditor() {
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  )
+
+  const handleKeyCommand = (command: string) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command)
+
+    if (newState) {
+      setEditorState(newState)
+      return 'handled'
+    }
+
+    return 'not-handled'
+  }
+
+  const toggleBold = () => {
+    setEditorState(RichUtils.toggleInlineStyle(editorState, 'BOLD'))
+  }
+
+  const toggleItalic = () => {
+    setEditorState(RichUtils.toggleInlineStyle(editorState, 'ITALIC'))
+  }
+
+  return (
+    <div className="border border-gray-300 rounded p-4">
+      <div className="mb-2 flex gap-2">
+        <button
+          onClick={toggleBold}
+          className="px-3 py-1 border rounded hover:bg-gray-100"
+        >
+          Bold
+        </button>
+        <button
+          onClick={toggleItalic}
+          className="px-3 py-1 border rounded hover:bg-gray-100"
+        >
+          Italic
+        </button>
+      </div>
+
+      <Editor
+        editorState={editorState}
+        onChange={setEditorState}
+        handleKeyCommand={handleKeyCommand}
+      />
+    </div>
+  )
+}
+```
+
+### Custom Block Rendering
+
+```tsx
+import { Editor, EditorState, RichUtils, ContentBlock } from 'draft-js'
+
+function MyEditor() {
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  )
+
+  const blockStyleFn = (block: ContentBlock) => {
+    switch (block.getType()) {
+      case 'blockquote':
+        return 'border-l-4 border-blue-500 pl-4 italic'
+      case 'code-block':
+        return 'bg-gray-900 text-white p-4 rounded font-mono'
+      default:
+        return ''
+    }
+  }
+
+  return (
+    <Editor
+      editorState={editorState}
+      onChange={setEditorState}
+      blockStyleFn={blockStyleFn}
+    />
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Deep React integration
+- ✅ Immutable data structures prevent bugs
+- ✅ Battle-tested at Facebook scale
+- ✅ Excellent for custom implementations
+
+**Cons:**
+- ❌ Steep learning curve
+- ❌ Requires more boilerplate code
+- ❌ Smaller ecosystem compared to others
+- ❌ Less active development recently
+
+### Best For
+
+- React applications requiring deep customization
+- Projects with complex content models
+- Teams familiar with immutable data patterns
+- Applications needing custom block types
+
+## Slate
+
+Slate is a completely customizable framework for building rich text editors in React. It's designed to be more intuitive than Draft.js while maintaining flexibility.
+
+### Key Features
+
+- **Fully Customizable** - Complete control over data model and rendering
+- **Plugin Architecture** - Modular design with composable plugins
+- **Schema-less** - No predefined document structure
+- **Nested Documents** - Support for complex nested content
+- **Collaborative** - Built with collaboration in mind
+
+### Installation
+
+```bash
+yarn add slate slate-react slate-history
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { useState, useCallback, useMemo } from 'react'
+import { createEditor, Descendant } from 'slate'
+import { Slate, Editable, withReact } from 'slate-react'
+import { withHistory } from 'slate-history'
+
+const initialValue: Descendant[] = [
+  {
+    type: 'paragraph',
+    children: [{ text: 'Start typing...' }],
+  },
+]
+
+export default function SlateEditor() {
+  const [value, setValue] = useState<Descendant[]>(initialValue)
+  const editor = useMemo(() => withHistory(withReact(createEditor())), [])
+
+  return (
+    <div className="border border-gray-300 rounded p-4">
+      <Slate editor={editor} initialValue={value} onChange={setValue}>
+        <Editable
+          placeholder="Enter some text..."
+          className="focus:outline-none min-h-[200px]"
+        />
+      </Slate>
+    </div>
+  )
+}
+```
+
+### Custom Formatting
+
+```tsx
+import { useCallback } from 'react'
+import { createEditor, Editor, Transforms, Text } from 'slate'
+import { Slate, Editable, withReact, RenderLeafProps } from 'slate-react'
+
+function SlateWithFormatting() {
+  const editor = useMemo(() => withReact(createEditor()), [])
+
+  const renderLeaf = useCallback((props: RenderLeafProps) => {
+    return <Leaf {...props} />
+  }, [])
+
+  const toggleBold = () => {
+    const isActive = isMarkActive(editor, 'bold')
+    if (isActive) {
+      Editor.removeMark(editor, 'bold')
+    } else {
+      Editor.addMark(editor, 'bold', true)
+    }
+  }
+
+  return (
+    <div>
+      <button onClick={toggleBold}>Bold</button>
+      <Slate editor={editor} initialValue={initialValue}>
+        <Editable renderLeaf={renderLeaf} />
+      </Slate>
+    </div>
+  )
+}
+
+function Leaf({ attributes, children, leaf }: RenderLeafProps) {
+  if (leaf.bold) {
+    children = <strong>{children}</strong>
+  }
+
+  if (leaf.italic) {
+    children = <em>{children}</em>
+  }
+
+  return <span {...attributes}>{children}</span>
+}
+
+function isMarkActive(editor: Editor, format: string) {
+  const marks = Editor.marks(editor)
+  return marks ? marks[format] === true : false
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Highly flexible and customizable
+- ✅ Clean, intuitive API
+- ✅ Active development and community
+- ✅ Excellent TypeScript support
+
+**Cons:**
+- ❌ Requires more initial setup
+- ❌ Steeper learning curve
+- ❌ Fewer pre-built plugins
+- ❌ More code required for basic features
+
+### Best For
+
+- Highly customized editing experiences
+- Complex document structures
+- Projects requiring unique editor behavior
+- Teams with strong React expertise
+
+## Quill
+
+Quill is a powerful, API-driven rich text editor with a beautiful default UI. It's less focused on React specifically and works across frameworks.
+
+### Key Features
+
+- **WYSIWYG** - Beautiful default interface
+- **Cross-Browser** - Consistent behavior across browsers
+- **Themes** - Multiple built-in themes
+- **Modules** - Extensible through modules
+- **Delta Format** - Custom JSON-based format
+
+### Installation
+
+```bash
+yarn add quill react-quill
+yarn add -D @types/quill
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { useState } from 'react'
+import dynamic from 'next/dynamic'
+
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+import 'react-quill/dist/quill.snow.css'
+
+export default function QuillEditor() {
+  const [value, setValue] = useState('')
+
+  return (
+    <div className="bg-white">
+      <ReactQuill
+        theme="snow"
+        value={value}
+        onChange={setValue}
+        placeholder="Write something..."
+      />
+    </div>
+  )
+}
+```
+
+### Custom Toolbar
+
+```tsx
+import ReactQuill, { Quill } from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ color: [] }, { background: [] }],
+    ['link', 'image'],
+    ['clean'],
+  ],
+}
+
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'list',
+  'bullet',
+  'color',
+  'background',
+  'link',
+  'image',
+]
+
+export default function QuillWithToolbar() {
+  const [value, setValue] = useState('')
+
+  return (
+    <ReactQuill
+      theme="snow"
+      value={value}
+      onChange={setValue}
+      modules={modules}
+      formats={formats}
+    />
+  )
+}
+```
+
+### Custom Formats
+
+```tsx
+const Size = Quill.import('formats/size')
+Size.whitelist = ['small', 'medium', 'large', 'huge']
+Quill.register(Size, true)
+
+const Font = Quill.import('formats/font')
+Font.whitelist = ['arial', 'comic-sans', 'courier', 'georgia', 'times']
+Quill.register(Font, true)
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Beautiful default UI
+- ✅ Easy to get started
+- ✅ Extensive documentation
+- ✅ Framework agnostic
+- ✅ Rich module ecosystem
+
+**Cons:**
+- ❌ Less flexible than headless options
+- ❌ Customizing UI can be challenging
+- ❌ Delta format requires learning
+- ❌ Heavier bundle size
+
+### Best For
+
+- Quick implementations needing default UI
+- Content management systems
+- Comment sections and forums
+- Projects not requiring heavy customization
+
+## Lexical
+
+Lexical is Meta's latest rich text editor framework, designed as a modern successor to Draft.js with improved performance and developer experience.
+
+### Key Features
+
+- **High Performance** - Optimized for speed and efficiency
+- **Extensible** - Plugin-based architecture
+- **Accessible** - Built-in accessibility features
+- **Collaborative** - First-class collaboration support
+- **Framework Agnostic** - Works with React, Vue, vanilla JS
+
+### Installation
+
+```bash
+yarn add lexical @lexical/react
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { $getRoot, $getSelection } from 'lexical'
+import { LexicalComposer } from '@lexical/react/LexicalComposer'
+import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+
+const theme = {
+  paragraph: 'mb-2',
+  text: {
+    bold: 'font-bold',
+    italic: 'italic',
+    underline: 'underline',
+  },
+}
+
+function onError(error: Error) {
+  console.error(error)
+}
+
+export default function LexicalEditor() {
+  const initialConfig = {
+    namespace: 'MyEditor',
+    theme,
+    onError,
+  }
+
+  return (
+    <LexicalComposer initialConfig={initialConfig}>
+      <div className="border border-gray-300 rounded p-4">
+        <PlainTextPlugin
+          contentEditable={
+            <ContentEditable className="focus:outline-none min-h-[200px]" />
+          }
+          placeholder={
+            <div className="text-gray-400 absolute top-4 left-4 pointer-events-none">
+              Enter some text...
+            </div>
+          }
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <HistoryPlugin />
+        <OnChangePlugin
+          onChange={(editorState) => {
+            editorState.read(() => {
+              const root = $getRoot()
+              const selection = $getSelection()
+              console.log(root, selection)
+            })
+          }}
+        />
+      </div>
+    </LexicalComposer>
+  )
+}
+```
+
+### Rich Text Features
+
+```tsx
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+import { HeadingNode, QuoteNode } from '@lexical/rich-text'
+import { ListNode, ListItemNode } from '@lexical/list'
+import { CodeNode } from '@lexical/code'
+import { LinkNode } from '@lexical/link'
+
+const initialConfig = {
+  namespace: 'MyEditor',
+  nodes: [HeadingNode, QuoteNode, ListNode, ListItemNode, CodeNode, LinkNode],
+  theme,
+  onError,
+}
+
+export default function RichTextEditor() {
+  return (
+    <LexicalComposer initialConfig={initialConfig}>
+      <div className="border border-gray-300 rounded">
+        <Toolbar />
+        <div className="p-4">
+          <RichTextPlugin
+            contentEditable={
+              <ContentEditable className="focus:outline-none min-h-[300px]" />
+            }
+            placeholder={<div>Start typing...</div>}
+            ErrorBoundary={LexicalErrorBoundary}
+          />
+        </div>
+        <HistoryPlugin />
+      </div>
+    </LexicalComposer>
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Excellent performance
+- ✅ Modern architecture
+- ✅ Active development by Meta
+- ✅ Built-in accessibility
+- ✅ Strong TypeScript support
+
+**Cons:**
+- ❌ Newer, less mature ecosystem
+- ❌ Fewer third-party plugins
+- ❌ Learning curve for concepts
+- ❌ Breaking changes still possible
+
+### Best For
+
+- Performance-critical applications
+- Large-scale applications
+- Real-time collaboration features
+- Projects willing to adopt newer technology
+
+## ProseMirror (Direct)
+
+ProseMirror is the foundation that powers Tiptap. While most developers prefer Tiptap's higher-level API, using ProseMirror directly gives you maximum control.
+
+### Key Features
+
+- **Maximum Flexibility** - Complete control over editor behavior
+- **Document Model** - Structured document representation
+- **Plugins** - Powerful plugin system
+- **Schema-Driven** - Define document structure with schemas
+- **Collaboration** - Built-in collaboration primitives
+
+### Installation
+
+```bash
+yarn add prosemirror-state prosemirror-view prosemirror-model prosemirror-schema-basic prosemirror-commands
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { useEffect, useRef } from 'react'
+import { EditorState } from 'prosemirror-state'
+import { EditorView } from 'prosemirror-view'
+import { Schema, DOMParser } from 'prosemirror-model'
+import { schema } from 'prosemirror-schema-basic'
+import { exampleSetup } from 'prosemirror-example-setup'
+
+import 'prosemirror-view/style/prosemirror.css'
+import 'prosemirror-menu/style/menu.css'
+
+export default function ProseMirrorEditor() {
+  const editorRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!editorRef.current) return
+
+    const state = EditorState.create({
+      doc: DOMParser.fromSchema(schema).parse(
+        document.createElement('div')
+      ),
+      plugins: exampleSetup({ schema }),
+    })
+
+    const view = new EditorView(editorRef.current, {
+      state,
+    })
+
+    return () => {
+      view.destroy()
+    }
+  }, [])
+
+  return <div ref={editorRef} className="border border-gray-300 rounded p-4" />
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Maximum control and flexibility
+- ✅ Powerful plugin system
+- ✅ Solid foundation for custom editors
+- ✅ Excellent documentation
+
+**Cons:**
+- ❌ Very steep learning curve
+- ❌ Requires deep understanding of concepts
+- ❌ More code for basic features
+- ❌ No default UI components
+
+### Best For
+
+- Highly specialized editing needs
+- Building your own editor framework
+- Projects requiring maximum control
+- Teams with advanced editor expertise
+
+## TinyMCE
+
+TinyMCE is a mature, feature-rich WYSIWYG editor with an opinionated UI. It's been around since 2004 and powers many content management systems.
+
+### Key Features
+
+- **Full-Featured** - Comprehensive out-of-the-box functionality
+- **Plugins** - Hundreds of plugins available
+- **Customizable** - Extensive configuration options
+- **Cloud/Self-Hosted** - Flexible deployment options
+- **Commercial Support** - Professional support available
+
+### Installation
+
+```bash
+yarn add @tinymce/tinymce-react
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { Editor } from '@tinymce/tinymce-react'
+import { useState } from 'react'
+
+export default function TinyEditor() {
+  const [content, setContent] = useState('')
+
+  return (
+    <Editor
+      apiKey="your-api-key-here" // Get free key from tiny.cloud
+      init={{
+        height: 500,
+        menubar: false,
+        plugins: [
+          'advlist',
+          'autolink',
+          'lists',
+          'link',
+          'image',
+          'charmap',
+          'preview',
+          'anchor',
+          'searchreplace',
+          'visualblocks',
+          'code',
+          'fullscreen',
+          'insertdatetime',
+          'media',
+          'table',
+          'code',
+          'help',
+          'wordcount',
+        ],
+        toolbar:
+          'undo redo | blocks | ' +
+          'bold italic forecolor | alignleft aligncenter ' +
+          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'removeformat | help',
+      }}
+      value={content}
+      onEditorChange={setContent}
+    />
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Comprehensive feature set
+- ✅ Mature and stable
+- ✅ Extensive plugin ecosystem
+- ✅ Professional support available
+- ✅ Easy to implement
+
+**Cons:**
+- ❌ Large bundle size
+- ❌ Requires API key (free tier available)
+- ❌ Less flexible UI customization
+- ❌ Opinionated design
+
+### Best For
+
+- Traditional CMS applications
+- Enterprise applications
+- Projects needing comprehensive features
+- Teams wanting professional support
+
+## CKEditor
+
+CKEditor is another mature, full-featured WYSIWYG editor popular in enterprise applications. Like TinyMCE, it provides an opinionated, complete solution.
+
+### Key Features
+
+- **Feature-Rich** - Comprehensive editing capabilities
+- **Modular** - Choose only needed features
+- **Collaboration** - Real-time collaboration features
+- **Accessibility** - WCAG compliant
+- **Commercial** - Professional support and plugins
+
+### Installation
+
+```bash
+yarn add @ckeditor/ckeditor5-react @ckeditor/ckeditor5-build-classic
+```
+
+### Basic Usage
+
+```tsx
+'use client'
+
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
+import { useState } from 'react'
+
+export default function CKEditorComponent() {
+  const [content, setContent] = useState('')
+
+  return (
+    <div className="ck-editor-wrapper">
+      <CKEditor
+        editor={ClassicEditor}
+        data={content}
+        onChange={(event, editor) => {
+          const data = editor.getData()
+          setContent(data)
+        }}
+        config={{
+          toolbar: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            '|',
+            'blockQuote',
+            'insertTable',
+            '|',
+            'undo',
+            'redo',
+          ],
+        }}
+      />
+    </div>
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- ✅ Comprehensive features
+- ✅ Excellent accessibility
+- ✅ Strong collaboration support
+- ✅ Active development
+- ✅ Modular architecture
+
+**Cons:**
+- ❌ Large bundle size
+- ❌ Commercial license for advanced features
+- ❌ Complex customization
+- ❌ Opinionated UI
+
+### Best For
+
+- Enterprise applications
+- Collaborative editing platforms
+- Projects requiring accessibility compliance
+- Traditional content management systems
+
+## Comparison Table
+
+| Feature | Tiptap | Draft.js | Slate | Quill | Lexical | ProseMirror |
+|---------|--------|----------|-------|-------|---------|-------------|
+| **Type** | Headless | Headless | Headless | WYSIWYG | Headless | Headless |
+| **Framework** | Agnostic | React | React | Agnostic | Agnostic | Agnostic |
+| **Bundle Size** | Small | Medium | Small | Medium | Small | Small |
+| **Learning Curve** | Medium | Steep | Steep | Easy | Medium | Very Steep |
+| **Customization** | High | High | Very High | Medium | High | Maximum |
+| **TypeScript** | ✅ Excellent | ⚠️ Basic | ✅ Excellent | ⚠️ Basic | ✅ Excellent | ✅ Excellent |
+| **Community** | Large | Medium | Large | Large | Growing | Medium |
+| **Collaboration** | ✅ Yes | ❌ No | ⚠️ Plugin | ⚠️ Plugin | ✅ Yes | ✅ Yes |
+| **Maturity** | Mature | Very Mature | Mature | Very Mature | New | Very Mature |
+
+## Choosing the Right Editor
+
+### Decision Flowchart
+
+**Need a quick solution with UI?**
+- Yes → Use **Quill** or **TinyMCE**
+- No → Continue
+
+**Using React exclusively?**
+- Yes → Continue
+- No → Consider **Tiptap** or **ProseMirror**
+
+**Need maximum customization?**
+- Yes → Use **Slate** or **ProseMirror directly**
+- No → Continue
+
+**Want modern, well-maintained?**
+- Yes → Use **Tiptap** or **Lexical**
+- No → Continue
+
+**Familiar with immutable data?**
+- Yes → Consider **Draft.js**
+- No → Use **Tiptap**
+
+### By Use Case
+
+**Blog/CMS Platform**
+- Primary: Tiptap
+- Alternative: Quill, TinyMCE
+
+**Note-Taking App**
+- Primary: Tiptap
+- Alternative: Lexical, Slate
+
+**Collaborative Editor**
+- Primary: Lexical
+- Alternative: Tiptap, ProseMirror
+
+**Comment System**
+- Primary: Quill
+- Alternative: Tiptap
+
+**Enterprise CMS**
+- Primary: CKEditor
+- Alternative: TinyMCE
+
+**Custom Document Editor**
+- Primary: Slate
+- Alternative: ProseMirror, Lexical
+
+## Integration Patterns
+
+### With Form Libraries
+
+```tsx
+import { useForm, Controller } from 'react-hook-form'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+
+interface FormData {
+  title: string
+  content: string
+}
+
+export default function FormWithEditor() {
+  const { control, handleSubmit } = useForm<FormData>()
+
+  const onSubmit = (data: FormData) => {
+    console.log(data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="content"
+        control={control}
+        render={({ field }) => {
+          const editor = useEditor({
+            extensions: [StarterKit],
+            content: field.value,
+            onUpdate: ({ editor }) => {
+              field.onChange(editor.getHTML())
+            },
+            immediatelyRender: false,
+          })
+
+          return <EditorContent editor={editor} />
+        }}
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+```
+
+### With State Management
+
+```tsx
+import { create } from 'zustand'
+
+interface EditorStore {
+  content: string
+  setContent: (content: string) => void
+}
+
+const useEditorStore = create<EditorStore>((set) => ({
+  content: '',
+  setContent: (content) => set({ content }),
+}))
+
+export default function EditorWithZustand() {
+  const { content, setContent } = useEditorStore()
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content,
+    onUpdate: ({ editor }) => {
+      setContent(editor.getHTML())
+    },
+  })
+
+  return <EditorContent editor={editor} />
+}
+```
+
+## Performance Considerations
+
+### Virtual Scrolling for Large Documents
+
+For very large documents, consider implementing virtual scrolling:
+
+```tsx
+import { VariableSizeList } from 'react-window'
+
+function VirtualizedEditor() {
+  // Implement virtual scrolling for paragraphs/blocks
+  // This is advanced and typically not needed for most use cases
+}
+```
+
+### Code Splitting
+
+Split editor code to reduce initial bundle:
+
+```tsx
+const Editor = dynamic(() => import('./Editor'), {
+  ssr: false,
+  loading: () => <EditorSkeleton />,
+})
+```
+
+### Lazy Loading Extensions
+
+Load extensions on-demand:
+
+```tsx
+const loadTableExtension = async () => {
+  const Table = await import('@tiptap/extension-table')
+  editor?.registerPlugin(Table.default)
+}
+```
+
+## Accessibility Best Practices
+
+All editors should implement:
+
+- **Keyboard Navigation** - Full keyboard support
+- **ARIA Labels** - Proper ARIA attributes
+- **Focus Management** - Clear focus indicators
+- **Screen Reader Support** - Meaningful announcements
+- **High Contrast** - Support for high contrast modes
+
+```tsx
+const editor = useEditor({
+  editorProps: {
+    attributes: {
+      role: 'textbox',
+      'aria-label': 'Rich text editor',
+      'aria-multiline': 'true',
+    },
+  },
+})
+```
+
+## Migration Strategies
+
+### From Draft.js to Tiptap
+
+```typescript
+import { convertFromRaw } from 'draft-js'
+import { generateHTML } from '@tiptap/html'
+import StarterKit from '@tiptap/starter-kit'
+
+function migrateDraftToTiptap(draftContent: any) {
+  const contentState = convertFromRaw(draftContent)
+  // Convert to HTML first
+  const html = stateToHTML(contentState)
+  // Then use in Tiptap
+  return html
+}
+```
+
+### From Quill to Tiptap
+
+```typescript
+function migrateQuillToTiptap(quillDelta: any) {
+  const QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter
+  const converter = new QuillDeltaToHtmlConverter(quillDelta.ops)
+  return converter.convert()
+}
+```
+
+## Additional Resources
+
+### Tiptap
+- Documentation: [https://tiptap.dev/](https://tiptap.dev/)
+- GitHub: [https://github.com/ueberdosis/tiptap](https://github.com/ueberdosis/tiptap)
+
+### Draft.js
+- Documentation: [https://draftjs.org/](https://draftjs.org/)
+- GitHub: [https://github.com/facebook/draft-js](https://github.com/facebook/draft-js)
+
+### Slate
+- Documentation: [https://docs.slatejs.org/](https://docs.slatejs.org/)
+- GitHub: [https://github.com/ianstormtaylor/slate](https://github.com/ianstormtaylor/slate)
+
+### Quill
+- Documentation: [https://quilljs.com/](https://quilljs.com/)
+- GitHub: [https://github.com/quilljs/quill](https://github.com/quilljs/quill)
+
+### Lexical
+- Documentation: [https://lexical.dev/](https://lexical.dev/)
+- GitHub: [https://github.com/facebook/lexical](https://github.com/facebook/lexical)
+
+### ProseMirror
+- Documentation: [https://prosemirror.net/](https://prosemirror.net/)
+- GitHub: [https://github.com/ProseMirror/prosemirror](https://github.com/ProseMirror/prosemirror)
+
+### TinyMCE
+- Documentation: [https://www.tiny.cloud/docs/](https://www.tiny.cloud/docs/)
+- GitHub: [https://github.com/tinymce/tinymce](https://github.com/tinymce/tinymce)
+
+### CKEditor
+- Documentation: [https://ckeditor.com/docs/](https://ckeditor.com/docs/)
+- GitHub: [https://github.com/ckeditor/ckeditor5](https://github.com/ckeditor/ckeditor5)

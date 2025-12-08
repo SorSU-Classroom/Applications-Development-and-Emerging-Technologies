@@ -502,6 +502,25 @@ export const ROUTES: EachRoute[] = [
             href: "/more-forms-and-validation-libraries",
           }
         ]
+      },
+      {
+        title: "Rich Text Editor",
+        href: "/rich-text-editor",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "Tiptap",
+            href: "/tiptap",
+          },
+          {
+            title: "More Rich Text Editor Libraries",
+            href: "/more-rich-text-editor-libraries",
+          }
+        ]
       }
     ],
   }
