@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 // custom components imports
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { CheckIcon, WarningIcon, XIcon } from "@/components/icons";
+import { CheckIcon, StarIcon, WarningIcon, XIcon } from "@/components/icons";
 import { page_routes, ROUTES } from "./routes-config";
 
 function sluggify(text: string) {
@@ -78,8 +78,9 @@ const lessonComponents = {
   Outlet: OutletLesson,
   Icon: Icon,
   CheckIcon: CheckIcon,
-  XIcon: XIcon,
+  StarIcon: StarIcon,
   WarningIcon: WarningIcon,
+  XIcon: XIcon,
   div: (
     props: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
   ) => <div {...props} />,

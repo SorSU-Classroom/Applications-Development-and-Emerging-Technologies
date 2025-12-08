@@ -1,0 +1,1382 @@
+---
+title: More File Upload and Management Libraries
+description: Exploring popular file upload libraries and services for different use cases and requirements.
+---
+
+## File Upload Libraries Landscape
+
+While implementing file uploads from scratch gives you full control, using established libraries can save significant development time and provide better user experiences. This lesson explores popular file upload solutions for Next.js applications.
+
+### Popular Libraries Covered
+
+This lesson explores the following file upload libraries:
+
+- **UploadThing** - Modern Next.js-focused upload service with type safety
+- **React Dropzone** - Flexible drag-and-drop library with full customization
+- **Uppy** - Modular uploader with multiple sources and resumable uploads
+- **FilePond** - Beautiful UI with built-in image transformations
+- **Cloudinary** - Complete media management platform with CDN
+- **AWS S3 Direct Upload** - Enterprise-grade scalable storage solution
+
+## UploadThing
+
+UploadThing is a modern file upload service built specifically for the Next.js ecosystem. It provides a type-safe, serverless-friendly solution with minimal configuration.
+
+<img src="https://storage.googleapis.com/incident-io-status-page-logos/01J5P5HW3ZC2E73RX9NAX863NZ/uploadthing/epwhr6bz.png" alt="UploadThing" className="p-4 mx-auto" loading="lazy" style={{ background: "white" }} />
+
+### Key Features
+
+- **Type-Safe** - Full TypeScript support with automatic type inference
+- **Serverless-Friendly** - Works perfectly with Vercel and other serverless platforms
+- **Built-in Dashboard** - File management UI included
+- **Next.js Integration** - First-class Next.js support
+- **Free Tier** - Generous free plan for getting started
+- **Presigned URLs** - Secure direct-to-storage uploads
+- **Automatic Optimization** - Image processing included
+
+### Installation
+
+```bash
+yarn add uploadthing @uploadthing/react
+```
+
+### Setup
+
+**1. Get API Keys:**
+
+Sign up at [uploadthing.com](https://uploadthing.com) and get your API keys.
+
+**2. Environment Variables:**
+
+```bash
+# .env.local
+UPLOADTHING_SECRET=sk_live_...
+UPLOADTHING_APP_ID=your_app_id
+```
+
+**3. Create Upload Router:**
+
+```typescript
+// app/api/uploadthing/core.ts
+import { createUploadthing, type FileRouter } from "uploadthing/next"
+ 
+const f = createUploadthing()
+ 
+export const ourFileRouter = {
+  imageUploader: f({ image: { maxFileSize: "4MB" } })
+    .middleware(async ({ req }) => {
+      // Authentication
+      const user = await auth(req)
+      if (!user) throw new Error("Unauthorized")
+      
+      return { userId: user.id }
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("Upload complete for userId:", metadata.userId)
+      console.log("file url", file.url)
+      
+      // Save to database
+      await db.file.create({
+        data: {
+          url: file.url,
+          userId: metadata.userId,
+        }
+      })
+      
+      return { uploadedBy: metadata.userId }
+    }),
+    
+  pdfUploader: f({ pdf: { maxFileSize: "16MB" } })
+    .middleware(async ({ req }) => {
+      const user = await auth(req)
+      if (!user) throw new Error("Unauthorized")
+      return { userId: user.id }
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("PDF uploaded:", file.url)
+    }),
+} satisfies FileRouter
+ 
+export type OurFileRouter = typeof ourFileRouter
+```
+
+**4. Create API Route:**
+
+```typescript
+// app/api/uploadthing/route.ts
+import { createRouteHandler } from "uploadthing/next"
+import { ourFileRouter } from "./core"
+ 
+export const { GET, POST } = createRouteHandler({
+  router: ourFileRouter,
+})
+```
+
+**5. Configure UploadThing:**
+
+```typescript
+// lib/uploadthing.ts
+import { generateReactHelpers } from "@uploadthing/react"
+import type { OurFileRouter } from "@/app/api/uploadthing/core"
+ 
+export const { useUploadThing, uploadFiles } =
+  generateReactHelpers<OurFileRouter>()
+```
+
+### Basic Usage
+
+```tsx
+"use client"
+
+import { UploadButton, UploadDropzone } from "@uploadthing/react"
+import type { OurFileRouter } from "@/app/api/uploadthing/core"
+ 
+export default function UploadExample() {
+  return (
+    <div>
+      <UploadButton<OurFileRouter>
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          console.log("Files: ", res)
+          alert("Upload Completed")
+        }}
+        onUploadError={(error: Error) => {
+          alert(`ERROR! ${error.message}`)
+        }}
+      />
+      
+      <UploadDropzone<OurFileRouter>
+        endpoint="imageUploader"
+        onClientUploadComplete={(res) => {
+          console.log("Files: ", res)
+        }}
+        onUploadError={(error: Error) => {
+          alert(`ERROR! ${error.message}`)
+        }}
+      />
+    </div>
+  )
+}
+```
+
+### Custom Component
+
+```tsx
+"use client"
+
+import { useUploadThing } from "@/lib/uploadthing"
+import { useState } from "react"
+
+export default function CustomUploader() {
+  const [files, setFiles] = useState<File[]>([])
+  const { startUpload, isUploading } = useUploadThing("imageUploader", {
+    onClientUploadComplete: () => {
+      alert("uploaded successfully!")
+    },
+    onUploadError: () => {
+      alert("error occurred while uploading")
+    },
+  })
+
+  return (
+    <div>
+      <input
+        type="file"
+        multiple
+        onChange={(e) => {
+          const files = Array.from(e.target.files || [])
+          setFiles(files)
+        }}
+      />
+      
+      <button
+        onClick={() => startUpload(files)}
+        disabled={!files.length || isUploading}
+      >
+        {isUploading ? "Uploading..." : "Upload"}
+      </button>
+    </div>
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- <CheckIcon /> Excellent Next.js integration
+- <CheckIcon /> Type-safe API
+- <CheckIcon /> Generous free tier
+- <CheckIcon /> Minimal setup required
+- <CheckIcon /> Built-in file management
+- <CheckIcon /> Automatic image optimization
+
+**Cons:**
+- <XIcon /> Vendor lock-in
+- <XIcon /> Limited customization of storage
+- <XIcon /> Newer service (less battle-tested)
+- <XIcon /> Pricing can scale with usage
+
+### Best For
+
+- Next.js applications
+- Rapid prototyping
+- Serverless deployments
+- Projects needing quick file upload setup
+- Teams wanting managed solution
+
+## React Dropzone
+
+React Dropzone is a flexible, framework-agnostic library that provides drag-and-drop file upload functionality with extensive customization options.
+
+### Key Features
+
+- **Drag and Drop** - Intuitive drag-and-drop interface
+- **File Validation** - Built-in type and size validation
+- **Highly Customizable** - Complete control over UI
+- **Accessibility** - Keyboard navigation support
+- **Zero Dependencies** - Lightweight library
+- **Framework Agnostic** - Works anywhere React works
+
+### Installation
+
+```bash
+yarn add react-dropzone
+```
+
+### Basic Usage
+
+```tsx
+"use client"
+
+import { useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
+
+export default function MyDropzone() {
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    // Handle files
+    console.log(acceptedFiles)
+  }, [])
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop
+  })
+
+  return (
+    <div
+      {...getRootProps()}
+      className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+        isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'
+      }`}
+    >
+      <input {...getInputProps()} />
+      {isDragActive ? (
+        <p>Drop the files here...</p>
+      ) : (
+        <p>Drag and drop files here, or click to select files</p>
+      )}
+    </div>
+  )
+}
+```
+
+### With File Validation
+
+```tsx
+"use client"
+
+import { useDropzone } from 'react-dropzone'
+import { useState } from 'react'
+
+export default function ValidatedDropzone() {
+  const [errors, setErrors] = useState<string[]>([])
+
+  const { getRootProps, getInputProps, fileRejections } = useDropzone({
+    accept: {
+      'image/*': ['.png', '.jpg', '.jpeg', '.gif']
+    },
+    maxSize: 5 * 1024 * 1024, // 5MB
+    maxFiles: 3,
+    onDropRejected: (fileRejections) => {
+      const messages = fileRejections.map(({ file, errors }) => 
+        `${file.name}: ${errors.map(e => e.message).join(', ')}`
+      )
+      setErrors(messages)
+    },
+    onDropAccepted: () => {
+      setErrors([])
+    }
+  })
+
+  return (
+    <div>
+      <div {...getRootProps()} className="border-2 border-dashed p-8">
+        <input {...getInputProps()} />
+        <p>Drop images here (max 5MB, up to 3 files)</p>
+      </div>
+      
+      {errors.length > 0 && (
+        <div className="mt-4 text-red-600">
+          {errors.map((error, i) => (
+            <p key={i}>{error}</p>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### With Preview
+
+```tsx
+"use client"
+
+import { useDropzone } from 'react-dropzone'
+import { useState, useEffect } from 'react'
+
+interface PreviewFile extends File {
+  preview: string
+}
+
+export default function DropzoneWithPreview() {
+  const [files, setFiles] = useState<PreviewFile[]>([])
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: { 'image/*': [] },
+    onDrop: (acceptedFiles) => {
+      setFiles(
+        acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file)
+          })
+        )
+      )
+    }
+  })
+
+  useEffect(() => {
+    // Revoke object URLs to avoid memory leaks
+    return () => {
+      files.forEach(file => URL.revokeObjectURL(file.preview))
+    }
+  }, [files])
+
+  const thumbs = files.map((file) => (
+    <div key={file.name} className="inline-block w-32 h-32 p-1">
+      <img
+        src={file.preview}
+        alt={file.name}
+        className="w-full h-full object-cover rounded"
+        onLoad={() => URL.revokeObjectURL(file.preview)}
+      />
+    </div>
+  ))
+
+  return (
+    <div>
+      <div {...getRootProps()} className="border-2 border-dashed p-8">
+        <input {...getInputProps()} />
+        <p>Drag and drop images here</p>
+      </div>
+      
+      <div className="mt-4 flex flex-wrap">{thumbs}</div>
+    </div>
+  )
+}
+```
+
+### Complete Upload Example
+
+```tsx
+"use client"
+
+import { useDropzone } from 'react-dropzone'
+import { useState } from 'react'
+
+export default function CompleteUploader() {
+  const [uploading, setUploading] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [uploadedUrl, setUploadedUrl] = useState<string>()
+
+  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+    accept: { 'image/*': [] },
+    maxFiles: 1,
+  })
+
+  const handleUpload = async () => {
+    if (!acceptedFiles[0]) return
+
+    setUploading(true)
+    setProgress(0)
+
+    const formData = new FormData()
+    formData.append('file', acceptedFiles[0])
+
+    try {
+      const xhr = new XMLHttpRequest()
+
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+          const percent = (e.loaded / e.total) * 100
+          setProgress(percent)
+        }
+      })
+
+      xhr.addEventListener('load', () => {
+        const response = JSON.parse(xhr.responseText)
+        setUploadedUrl(response.url)
+        setUploading(false)
+      })
+
+      xhr.open('POST', '/api/upload')
+      xhr.send(formData)
+    } catch (error) {
+      console.error('Upload failed:', error)
+      setUploading(false)
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div {...getRootProps()} className="border-2 border-dashed p-8">
+        <input {...getInputProps()} />
+        <p>Drag and drop an image, or click to select</p>
+      </div>
+
+      {acceptedFiles.length > 0 && (
+        <div>
+          <p>Selected: {acceptedFiles[0].name}</p>
+          <button
+            onClick={handleUpload}
+            disabled={uploading}
+            className="px-4 py-2 bg-blue-500 text-white rounded disabled:bg-gray-400"
+          >
+            {uploading ? 'Uploading...' : 'Upload'}
+          </button>
+        </div>
+      )}
+
+      {uploading && (
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div
+            className="bg-blue-500 h-2 rounded-full transition-all"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      )}
+
+      {uploadedUrl && (
+        <div>
+          <p className="text-green-600">Upload successful!</p>
+          <img src={uploadedUrl} alt="Uploaded" className="max-w-xs mt-2" />
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- <CheckIcon /> Highly customizable
+- <CheckIcon /> Excellent drag-and-drop UX
+- <CheckIcon /> Built-in validation
+- <CheckIcon /> Lightweight
+- <CheckIcon /> Active maintenance
+- <CheckIcon /> Framework agnostic
+
+**Cons:**
+- <XIcon /> No built-in upload logic
+- <XIcon /> No storage solution
+- <XIcon /> Requires backend implementation
+- <XIcon /> Manual progress tracking
+
+### Best For
+
+- Projects needing custom file upload UI
+- Applications requiring specific validation rules
+- Teams wanting full control over storage
+- Projects with existing backend infrastructure
+
+## Uppy
+
+Uppy is a modular file uploader with support for multiple sources (local files, URLs, webcam, cloud storage) and advanced features like resumable uploads.
+
+### Key Features
+
+- **Modular** - Use only the features you need
+- **Multiple Sources** - Local, URL, Dropbox, Google Drive, Instagram
+- **Resumable Uploads** - Continue interrupted uploads
+- **Progress Tracking** - Detailed upload progress
+- **Image Editing** - Built-in image cropping
+- **Webcam Support** - Capture photos/videos directly
+- **Localization** - Multi-language support
+
+### Installation
+
+```bash
+yarn add @uppy/core @uppy/react @uppy/dashboard @uppy/xhr-upload
+```
+
+### Basic Usage
+
+```tsx
+"use client"
+
+import Uppy from '@uppy/core'
+import { Dashboard } from '@uppy/react'
+import XHRUpload from '@uppy/xhr-upload'
+
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
+
+export default function UppyUploader() {
+  const uppy = new Uppy({
+    restrictions: {
+      maxNumberOfFiles: 5,
+      maxFileSize: 10 * 1024 * 1024, // 10MB
+      allowedFileTypes: ['image/*', 'video/*']
+    }
+  }).use(XHRUpload, {
+    endpoint: '/api/upload',
+    fieldName: 'file',
+  })
+
+  uppy.on('complete', (result) => {
+    console.log('Upload complete:', result.successful)
+  })
+
+  return (
+    <Dashboard
+      uppy={uppy}
+      plugins={['Webcam']}
+      proudlyDisplayPoweredByUppy={false}
+    />
+  )
+}
+```
+
+### With Image Editor
+
+```bash
+yarn add @uppy/image-editor
+```
+
+```tsx
+"use client"
+
+import Uppy from '@uppy/core'
+import { Dashboard } from '@uppy/react'
+import ImageEditor from '@uppy/image-editor'
+import XHRUpload from '@uppy/xhr-upload'
+
+import '@uppy/core/dist/style.css'
+import '@uppy/dashboard/dist/style.css'
+import '@uppy/image-editor/dist/style.css'
+
+export default function UppyWithEditor() {
+  const uppy = new Uppy({
+    restrictions: {
+      maxNumberOfFiles: 1,
+      allowedFileTypes: ['image/*']
+    }
+  })
+    .use(ImageEditor, {
+      quality: 0.8
+    })
+    .use(XHRUpload, {
+      endpoint: '/api/upload'
+    })
+
+  return (
+    <Dashboard
+      uppy={uppy}
+      plugins={['ImageEditor']}
+      height={550}
+    />
+  )
+}
+```
+
+### With Cloud Sources
+
+```bash
+yarn add @uppy/google-drive @uppy/dropbox @uppy/url
+```
+
+```tsx
+"use client"
+
+import Uppy from '@uppy/core'
+import { Dashboard } from '@uppy/react'
+import GoogleDrive from '@uppy/google-drive'
+import Dropbox from '@uppy/dropbox'
+import Url from '@uppy/url'
+
+const uppy = new Uppy()
+  .use(GoogleDrive, {
+    companionUrl: 'https://companion.uppy.io'
+  })
+  .use(Dropbox, {
+    companionUrl: 'https://companion.uppy.io'
+  })
+  .use(Url, {
+    companionUrl: 'https://companion.uppy.io'
+  })
+
+export default function UppyWithSources() {
+  return (
+    <Dashboard
+      uppy={uppy}
+      plugins={['GoogleDrive', 'Dropbox', 'Url']}
+    />
+  )
+}
+```
+
+### Resumable Uploads (Tus)
+
+```bash
+yarn add @uppy/tus
+```
+
+```tsx
+import Uppy from '@uppy/core'
+import Tus from '@uppy/tus'
+import { Dashboard } from '@uppy/react'
+
+const uppy = new Uppy()
+  .use(Tus, {
+    endpoint: 'https://tusd.tusdemo.net/files/',
+    resume: true,
+    autoRetry: true,
+    retryDelays: [0, 1000, 3000, 5000]
+  })
+
+export default function ResumableUploader() {
+  return <Dashboard uppy={uppy} />
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- <CheckIcon /> Feature-rich
+- <CheckIcon /> Modular architecture
+- <CheckIcon /> Multiple upload sources
+- <CheckIcon /> Resumable uploads
+- <CheckIcon /> Beautiful default UI
+- <CheckIcon /> Active development
+
+**Cons:**
+- <XIcon /> Larger bundle size
+- <XIcon /> Complex setup for advanced features
+- <XIcon /> May need Companion server for cloud sources
+- <XIcon /> Steeper learning curve
+
+### Best For
+
+- Applications needing multiple upload sources
+- Large file uploads requiring resumability
+- Projects wanting built-in image editing
+- Applications with diverse file types
+
+## FilePond
+
+FilePond is a JavaScript file upload library with a focus on providing a beautiful, user-friendly interface with minimal configuration.
+
+### Key Features
+
+- **Beautiful UI** - Modern, polished interface
+- **Image Preview** - Automatic image previews
+- **Progress Indicators** - Visual upload progress
+- **File Validation** - Built-in validation
+- **Image Transform** - Resize, crop, optimize
+- **Drag and Drop** - Intuitive interaction
+- **Async Uploads** - Non-blocking uploads
+
+### Installation
+
+```bash
+yarn add react-filepond filepond
+```
+
+### Basic Usage
+
+```tsx
+"use client"
+
+import { useState } from 'react'
+import { FilePond, registerPlugin } from 'react-filepond'
+import 'filepond/dist/filepond.min.css'
+
+export default function FilePondUploader() {
+  const [files, setFiles] = useState([])
+
+  return (
+    <FilePond
+      files={files}
+      onupdatefiles={setFiles}
+      allowMultiple={true}
+      maxFiles={3}
+      server="/api/upload"
+      name="files"
+      labelIdle='Drag & Drop your files or <span class="filepond--label-action">Browse</span>'
+    />
+  )
+}
+```
+
+### With Image Preview
+
+```bash
+yarn add filepond-plugin-image-preview
+```
+
+```tsx
+"use client"
+
+import { FilePond, registerPlugin } from 'react-filepond'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+
+import 'filepond/dist/filepond.min.css'
+import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
+
+registerPlugin(FilePondPluginImagePreview)
+
+export default function FilePondWithPreview() {
+  return (
+    <FilePond
+      allowMultiple={true}
+      server="/api/upload"
+      acceptedFileTypes={['image/*']}
+    />
+  )
+}
+```
+
+### With Image Transform
+
+```bash
+yarn add filepond-plugin-image-transform filepond-plugin-image-resize
+```
+
+```tsx
+"use client"
+
+import { FilePond, registerPlugin } from 'react-filepond'
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
+import FilePondPluginImageResize from 'filepond-plugin-image-resize'
+import FilePondPluginImageTransform from 'filepond-plugin-image-transform'
+
+registerPlugin(
+  FilePondPluginImagePreview,
+  FilePondPluginImageResize,
+  FilePondPluginImageTransform
+)
+
+export default function FilePondWithTransform() {
+  return (
+    <FilePond
+      server="/api/upload"
+      acceptedFileTypes={['image/*']}
+      imageResizeTargetWidth={1920}
+      imageResizeTargetHeight={1080}
+      imageResizeMode="contain"
+      imageTransformOutputQuality={85}
+    />
+  )
+}
+```
+
+### Advanced Configuration
+
+```tsx
+"use client"
+
+import { FilePond, registerPlugin } from 'react-filepond'
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+
+registerPlugin(
+  FilePondPluginFileValidateSize,
+  FilePondPluginFileValidateType
+)
+
+export default function AdvancedFilePond() {
+  return (
+    <FilePond
+      server={{
+        process: {
+          url: '/api/upload',
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer token'
+          },
+          onload: (response) => JSON.parse(response).id,
+          onerror: (response) => response.data,
+        },
+        revert: '/api/upload',
+        restore: '/api/upload/',
+        load: '/api/upload/',
+        fetch: '/api/upload/',
+      }}
+      maxFileSize="5MB"
+      acceptedFileTypes={['image/png', 'image/jpeg']}
+      labelMaxFileSizeExceeded="File is too large"
+      labelMaxFileSize="Maximum file size is 5MB"
+    />
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- <CheckIcon /> Beautiful default UI
+- <CheckIcon /> Easy to implement
+- <CheckIcon /> Built-in image processing
+- <CheckIcon /> Excellent documentation
+- <CheckIcon /> Many plugins available
+- <CheckIcon /> Good accessibility
+
+**Cons:**
+- <XIcon /> Opinionated UI (less customizable)
+- <XIcon /> Requires specific server response format
+- <XIcon /> Plugin-heavy for advanced features
+- <XIcon /> Can be challenging to style deeply
+
+### Best For
+
+- Projects wanting beautiful default UI
+- Applications needing image transformations
+- Rapid prototyping
+- Teams preferring minimal configuration
+
+## Cloudinary
+
+Cloudinary is a complete media management platform offering upload, storage, transformation, optimization, and delivery through CDN.
+
+### Key Features
+
+- **Complete Solution** - Upload, store, transform, deliver
+- **Automatic Optimization** - Smart image/video optimization
+- **Transformations** - On-the-fly media transformations
+- **AI Features** - Auto-tagging, background removal
+- **Global CDN** - Fast content delivery worldwide
+- **Video Support** - Full video handling
+- **Generous Free Tier** - Good for getting started
+
+### Installation
+
+```bash
+yarn add next-cloudinary
+```
+
+### Setup
+
+```bash
+# .env.local
+NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+### Upload Widget
+
+```tsx
+"use client"
+
+import { CldUploadWidget } from 'next-cloudinary'
+
+export default function CloudinaryUpload() {
+  return (
+    <CldUploadWidget
+      uploadPreset="your_upload_preset"
+      onSuccess={(result, { widget }) => {
+        console.log('Uploaded:', result?.info)
+        widget.close()
+      }}
+    >
+      {({ open }) => (
+        <button onClick={() => open()}>
+          Upload an Image
+        </button>
+      )}
+    </CldUploadWidget>
+  )
+}
+```
+
+### With Custom UI
+
+```tsx
+"use client"
+
+import { CldUploadButton } from 'next-cloudinary'
+
+export default function CloudinaryButton() {
+  return (
+    <CldUploadButton
+      uploadPreset="your_upload_preset"
+      onUpload={(result) => {
+        console.log('Upload complete:', result)
+      }}
+      className="px-4 py-2 bg-blue-500 text-white rounded"
+    >
+      Upload Image
+    </CldUploadButton>
+  )
+}
+```
+
+### Display Uploaded Images
+
+```tsx
+import { CldImage } from 'next-cloudinary'
+
+export default function DisplayImage() {
+  return (
+    <CldImage
+      src="your-public-id"
+      width="800"
+      height="600"
+      alt="Uploaded image"
+      crop="fill"
+      gravity="auto"
+    />
+  )
+}
+```
+
+### Server-Side Upload
+
+```typescript
+// app/api/upload/route.ts
+import { v2 as cloudinary } from 'cloudinary'
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
+export async function POST(request: Request) {
+  const formData = await request.formData()
+  const file = formData.get('file') as File
+  
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+  
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader.upload_stream(
+      {
+        folder: 'uploads',
+        resource_type: 'auto',
+      },
+      (error, result) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(Response.json(result))
+        }
+      }
+    ).end(buffer)
+  })
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- <CheckIcon /> Complete media solution
+- <CheckIcon /> Powerful transformations
+- <CheckIcon /> Global CDN included
+- <CheckIcon /> Automatic optimization
+- <CheckIcon /> AI-powered features
+- <CheckIcon /> Generous free tier
+
+**Cons:**
+- <XIcon /> Vendor lock-in
+- <XIcon /> Pricing scales with usage
+- <XIcon /> Overkill for simple use cases
+- <XIcon /> Learning curve for advanced features
+
+### Best For
+
+- Media-heavy applications
+- Projects needing image transformations
+- Applications requiring video support
+- Global applications needing CDN
+
+## AWS S3 Direct Upload
+
+For projects already using AWS, implementing direct-to-S3 uploads with presigned URLs provides control and scalability.
+
+### Installation
+
+```bash
+yarn add @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
+```
+
+### Server-Side (Generate Presigned URL)
+
+```typescript
+// app/api/presigned-url/route.ts
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
+import { NextResponse } from 'next/server'
+
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION!,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+  },
+})
+
+export async function POST(request: Request) {
+  const { filename, contentType } = await request.json()
+  
+  const key = `uploads/${Date.now()}-${filename}`
+  
+  const command = new PutObjectCommand({
+    Bucket: process.env.AWS_BUCKET_NAME!,
+    Key: key,
+    ContentType: contentType,
+  })
+  
+  const presignedUrl = await getSignedUrl(s3Client, command, {
+    expiresIn: 3600, // 1 hour
+  })
+  
+  return NextResponse.json({
+    presignedUrl,
+    key,
+    url: `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`
+  })
+}
+```
+
+### Client-Side (Upload to S3)
+
+```tsx
+"use client"
+
+import { useState } from 'react'
+
+export default function S3DirectUpload() {
+  const [uploading, setUploading] = useState(false)
+  const [uploadedUrl, setUploadedUrl] = useState<string>()
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    setUploading(true)
+
+    try {
+      // Get presigned URL
+      const response = await fetch('/api/presigned-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          filename: file.name,
+          contentType: file.type,
+        }),
+      })
+
+      const { presignedUrl, url } = await response.json()
+
+      // Upload directly to S3
+      await fetch(presignedUrl, {
+        method: 'PUT',
+        body: file,
+        headers: {
+          'Content-Type': file.type,
+        },
+      })
+
+      setUploadedUrl(url)
+      alert('Upload successful!')
+    } catch (error) {
+      console.error('Upload failed:', error)
+      alert('Upload failed')
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  return (
+    <div>
+      <input
+        type="file"
+        onChange={handleFileChange}
+        disabled={uploading}
+      />
+      
+      {uploading && <p>Uploading...</p>}
+      
+      {uploadedUrl && (
+        <div>
+          <p>Uploaded successfully!</p>
+          <img src={uploadedUrl} alt="Uploaded" className="max-w-xs" />
+        </div>
+      )}
+    </div>
+  )
+}
+```
+
+### Pros and Cons
+
+**Pros:**
+- <CheckIcon /> Full control over storage
+- <CheckIcon /> Highly scalable
+- <CheckIcon /> Cost-effective at scale
+- <CheckIcon /> No file size through your server
+- <CheckIcon /> Integrates with AWS ecosystem
+
+**Cons:**
+- <XIcon /> More complex setup
+- <XIcon /> Requires AWS knowledge
+- <XIcon /> Manual CDN configuration
+- <XIcon /> More code to maintain
+
+### Best For
+
+- AWS-based infrastructure
+- Large file uploads
+- Cost-conscious projects at scale
+- Teams with AWS expertise
+
+## Comparison Table
+
+| Feature | UploadThing | React Dropzone | Uppy | FilePond | Cloudinary | S3 Direct |
+|---------|-------------|----------------|------|----------|------------|-----------|
+| **Ease of Setup** | <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /> |
+| **Customization** | <StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /> |
+| **Built-in UI** | <CheckIcon /> Yes | <XIcon /> No | <CheckIcon /> Yes | <CheckIcon /> Yes | <CheckIcon /> Yes | <XIcon /> No |
+| **Storage** | <CheckIcon /> Included | <XIcon /> DIY | <XIcon /> DIY | <XIcon /> DIY | <CheckIcon /> Included | <CheckIcon /> S3 |
+| **Transformations** | <CheckIcon /> Basic | <XIcon /> No | <WarningIcon /> Limited | <CheckIcon /> Yes | <CheckIcon /> Advanced | <XIcon /> No |
+| **Free Tier** | <CheckIcon /> Generous | <CheckIcon /> Free | <CheckIcon /> Free | <CheckIcon /> Free | <CheckIcon /> Good | <WarningIcon /> AWS Costs |
+| **TypeScript** | <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /> | <StarIcon /><StarIcon /><StarIcon /><StarIcon /><StarIcon /> |
+| **Bundle Size** | Small | Tiny | Large | Medium | Medium | Small |
+
+## Choosing the Right Solution
+
+### Decision Flowchart
+
+**Need a complete managed solution?**
+- Yes → **UploadThing** or **Cloudinary**
+- No → Continue
+
+**Already using AWS?**
+- Yes → **S3 Direct Upload**
+- No → Continue
+
+**Need advanced features (resumable, multiple sources)?**
+- Yes → **Uppy**
+- No → Continue
+
+**Want beautiful default UI with minimal config?**
+- Yes → **FilePond**
+- No → Continue
+
+**Need maximum customization?**
+- Yes → **React Dropzone**
+- No → **UploadThing** (easiest overall)
+
+### By Use Case
+
+**Profile Picture Upload**
+- Primary: UploadThing
+- Alternative: Cloudinary, FilePond
+
+**Document Management System**
+- Primary: Uppy
+- Alternative: S3 Direct Upload
+
+**Media Gallery**
+- Primary: Cloudinary
+- Alternative: UploadThing
+
+**Large File Uploads**
+- Primary: Uppy (with Tus)
+- Alternative: S3 Direct Upload
+
+**Custom UI Requirements**
+- Primary: React Dropzone
+- Alternative: S3 Direct Upload
+
+**Quick Prototyping**
+- Primary: UploadThing
+- Alternative: FilePond
+
+## Integration Examples
+
+### With Form Libraries
+
+```tsx
+import { useForm, Controller } from 'react-hook-form'
+import { CldUploadWidget } from 'next-cloudinary'
+
+interface FormData {
+  name: string
+  avatar: string
+}
+
+export default function FormWithUpload() {
+  const { control, handleSubmit } = useForm<FormData>()
+
+  const onSubmit = (data: FormData) => {
+    console.log(data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...control.register('name')} />
+      
+      <Controller
+        name="avatar"
+        control={control}
+        render={({ field }) => (
+          <CldUploadWidget
+            uploadPreset="preset"
+            onSuccess={(result) => {
+              field.onChange(result?.info?.secure_url)
+            }}
+          >
+            {({ open }) => (
+              <button type="button" onClick={() => open()}>
+                Upload Avatar
+              </button>
+            )}
+          </CldUploadWidget>
+        )}
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  )
+}
+```
+
+### With Database Storage
+
+```typescript
+// After successful upload, save to database
+import { prisma } from '@/lib/prisma'
+
+async function saveFileMetadata(fileData: {
+  url: string
+  filename: string
+  size: number
+  type: string
+  userId: string
+}) {
+  const file = await prisma.file.create({
+    data: {
+      url: fileData.url,
+      filename: fileData.filename,
+      size: fileData.size,
+      mimeType: fileData.type,
+      userId: fileData.userId,
+      uploadedAt: new Date(),
+    }
+  })
+
+  return file
+}
+```
+
+### Multiple Upload Strategies
+
+```tsx
+"use client"
+
+import { useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+
+type Strategy = 'direct' | 'presigned' | 'api'
+
+export default function MultiStrategyUpload() {
+  const [strategy, setStrategy] = useState<Strategy>('api')
+
+  const uploadViaApi = async (file: File) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    })
+    return response.json()
+  }
+
+  const uploadViaPresigned = async (file: File) => {
+    const { presignedUrl } = await fetch('/api/presigned-url', {
+      method: 'POST',
+      body: JSON.stringify({ filename: file.name, contentType: file.type }),
+    }).then(r => r.json())
+
+    await fetch(presignedUrl, {
+      method: 'PUT',
+      body: file,
+      headers: { 'Content-Type': file.type },
+    })
+  }
+
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop: async (files) => {
+      for (const file of files) {
+        if (strategy === 'api') {
+          await uploadViaApi(file)
+        } else if (strategy === 'presigned') {
+          await uploadViaPresigned(file)
+        }
+      }
+    }
+  })
+
+  return (
+    <div>
+      <select value={strategy} onChange={(e) => setStrategy(e.target.value as Strategy)}>
+        <option value="api">Via API Route</option>
+        <option value="presigned">Via Presigned URL</option>
+      </select>
+
+      <div {...getRootProps()} className="border-2 border-dashed p-8 mt-4">
+        <input {...getInputProps()} />
+        <p>Drop files here</p>
+      </div>
+    </div>
+  )
+}
+```
+
+## Additional Resources
+
+### UploadThing
+- Documentation: [https://uploadthing.com/docs](https://uploadthing.com/docs)
+- GitHub: [https://github.com/pingdotgg/uploadthing](https://github.com/pingdotgg/uploadthing)
+
+### React Dropzone
+- Documentation: [https://react-dropzone.js.org/](https://react-dropzone.js.org/)
+- GitHub: [https://github.com/react-dropzone/react-dropzone](https://github.com/react-dropzone/react-dropzone)
+
+### Uppy
+- Documentation: [https://uppy.io/docs/](https://uppy.io/docs/)
+- GitHub: [https://github.com/transloadit/uppy](https://github.com/transloadit/uppy)
+
+### FilePond
+- Documentation: [https://pqina.nl/filepond/](https://pqina.nl/filepond/)
+- GitHub: [https://github.com/pqina/filepond](https://github.com/pqina/filepond)
+
+### Cloudinary
+- Documentation: [https://cloudinary.com/documentation](https://cloudinary.com/documentation)
+- Next.js Integration: [https://next.cloudinary.dev/](https://next.cloudinary.dev/)
+
+### AWS S3
+- Documentation: [https://docs.aws.amazon.com/s3/](https://docs.aws.amazon.com/s3/)
+- SDK v3: [https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/)

@@ -521,6 +521,21 @@ export const ROUTES: EachRoute[] = [
             href: "/more-rich-text-editor-libraries",
           }
         ]
+      },
+      {
+        title: "File Upload and Management",
+        href: "/file-upload-and-management",
+        noLink: true,
+        items: [
+          {
+            title: "Introduction",
+            href: "/introduction",
+          },
+          {
+            title: "More File Upload and Management Libraries",
+            href: "/more-file-upload-and-management-libraries",
+          }
+        ]
       }
     ],
   }
