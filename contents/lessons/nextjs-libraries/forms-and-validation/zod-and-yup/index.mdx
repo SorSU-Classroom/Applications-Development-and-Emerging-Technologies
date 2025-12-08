@@ -942,9 +942,3 @@ const emailSchema = yup.string().email().required();
 const loginSchema = yup.object({ email: emailSchema, password: yup.string().required() });
 const registrationSchema = yup.object({ email: emailSchema, password: yup.string().required(), name: yup.string().required() });
 ```
-
-## Conclusion
-
-Both Zod and Yup are excellent schema validation libraries with their own strengths. **Zod** offers a modern, TypeScript-first approach with automatic type inference and zero dependencies, making it ideal for new projects. **Yup** provides a mature, battle-tested solution with rich features and extensive community support, making it great for complex applications and teams familiar with its API.
-
-When combined with **React Hook Form**, either library provides a powerful foundation for building robust, type-safe forms in Next.js applications. Choose the one that best fits your project's needs, team expertise, and preference for type safety versus maturity.
